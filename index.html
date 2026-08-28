@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการเจ้าหน้าที่ในหน่วยงาน</title>
-    <!-- เชื่อมโยงไฟล์ CSS ภายนอกของคุณ -->
     <link rel="stylesheet" href="StaffManagement.css">
-    <!-- Google Material Icons & Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fa; padding: 20px; }
@@ -84,8 +81,6 @@
             </div>
             <div style="padding: 24px; box-sizing: border-box;">
                 <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; display: flex; flex-direction: column; gap: 20px; align-items: center; box-sizing: border-box;">
-                    
-                    <!-- ส่วนข้อความและลิงก์ -->
                     <div style="width: 100%; box-sizing: border-box;">
                         <p style="font-size: 14px; font-weight: 600; color: #4b5563; margin: 0 0 12px 0;">QR ประชาสัมพันธ์เพื่อขอเป็นเจ้าหน้าที่</p>
                         <div class="orgBadge" style="background: white; margin-bottom: 12px; width: 100%; box-sizing: border-box;">
@@ -97,16 +92,12 @@
                             <i data-lucide="copy" style="cursor: pointer; flex-shrink: 0; margin-left: 8px; width: 16px;" onclick="copyText('https://traffy.in.th/join/lab2')"></i>
                         </div>
                     </div>
-
-                    <!-- ส่วนรูป QR Code จัดให้อยู่ตรงกลางพอดี ไม่ล้น -->
                     <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; text-align: center; width: 100%; max-width: 220px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center;">
                         <div style="color: #10b981; font-weight: 700; font-size: 15px; margin-bottom: 2px;">QR Code</div>
                         <div style="color: #6b7280; font-size: 12px; margin-bottom: 12px;">เพิ่มเจ้าหน้าที่</div>
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://traffy.in.th/join/lab2" alt="QR Code" style="width: 100%; max-width: 150px; height: auto; display: block; margin: 0 auto;">
                     </div>
-
                 </div>
-                
                 <button class="btnPrimary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 20px; display: flex; align-items: center; gap: 8px; box-sizing: border-box;" onclick="copyText('https://traffy.in.th/join/lab2')">
                     <span class="material-icons" style="font-size: 18px;">share</span> แชร์ QR
                 </button>
@@ -117,13 +108,10 @@
     <!-- Add Staff Modal -->
     <div id="addModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 420px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; box-sizing: border-box;">
-            <!-- Header -->
             <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
                 <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">เพิ่มบุคลากรใหม่</h3>
                 <button onclick="closeModal('addModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
             </div>
-            
-            <!-- Body Content -->
             <div style="padding: 24px; box-sizing: border-box; width: 100%;">
                 <div class="formGroup">
                     <label class="label">ชื่อ - นามสกุล <span class="labelRequired">*</span></label>
@@ -137,7 +125,6 @@
                     <label class="label">อีเมล (Email)</label>
                     <input type="email" class="input" placeholder="example@email.com">
                 </div>
-                
                 <div class="formGroup" style="margin-top: 20px;">
                     <label class="label">กำหนดบทบาท <span class="labelRequired">*</span></label>
                     <div class="roleOptions">
@@ -149,10 +136,39 @@
                         </label>
                     </div>
                 </div>
-                
                 <div class="modalFooter">
                     <button class="btnSecondary" style="justify-content: center; background: white;" onclick="closeModal('addModal')">ยกเลิก</button>
                     <button class="btnPrimary" style="justify-content: center;" onclick="addNewStaff()">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Info Modal (Modal ดูข้อมูลคำขอ) -->
+    <div id="pendingInfoModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 400px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
+            <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: center; position: relative;">
+                <h3 style="font-size: 16px; font-weight: 700; margin: 0; color: #1f2937;">รายละเอียดคำขอ</h3>
+                <button onclick="closeModal('pendingInfoModal')" style="position: absolute; right: 20px; background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
+            </div>
+            <div style="padding: 24px; box-sizing: border-box;">
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 16px; border: 1px solid #e5e7eb; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <i data-lucide="user" style="width: 16px; color: #4b5563;"></i>
+                        <span style="color: #6b7280; font-size: 14px; width: 60px;">ชื่อ-สกุล</span>
+                        <span style="color: #1f2937; font-weight: 600; font-size: 14px;" id="infoName">-</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <i data-lucide="phone" style="width: 16px; color: #4b5563;"></i>
+                        <span style="color: #6b7280; font-size: 14px; width: 60px;">โทรศัพท์</span>
+                        <span style="color: #1f2937; font-weight: 600; font-size: 14px;" id="infoPhone">-</span>
+                    </div>
+                </div>
+                <div style="text-align: center; font-weight: 600; font-size: 14px; color: #4b5563; margin-bottom: 12px;">
+                    ภาพบัตรยืนยันตัวตน
+                </div>
+                <div style="width: 100%; height: 180px; background: #e2e8f0; border-radius: 12px; border: 2px solid #e5e7eb; display: flex; align-items: center; justify-content: center; color: #475569; font-size: 18px; font-weight: 600; box-sizing: border-box;">
+                    ID Card Photo
                 </div>
             </div>
         </div>
@@ -241,6 +257,12 @@
         function handleReject(id) {
             pendingList = pendingList.filter(p => p.id !== id);
             render();
+        }
+
+        function showPendingInfo(name, phone) {
+            document.getElementById('infoName').innerText = name;
+            document.getElementById('infoPhone').innerText = phone;
+            openModal('pendingInfoModal');
         }
 
         function copyText(text) {
@@ -385,7 +407,7 @@
                 staffContainer.innerHTML = html;
             }
 
-            // Render Pending Tab
+            // Render Pending Tab (เพิ่มปุ่ม "ข้อมูล" กลับมาแล้ว)
             const pendingContainer = document.getElementById('pendingDisplayContainer');
             let pendingHtml = '';
             pendingList.forEach(pending => {
@@ -407,8 +429,9 @@
                             </div>
                             <i data-lucide="copy" class="copyBtn" style="width: 14px; cursor: pointer;" onclick="copyText('${pending.phone}')"></i>
                         </div>
-                        <div class="pendingActions" style="width: 100%;">
+                        <div class="pendingActions" style="width: 100%; display: flex; gap: 8px;">
                             <button class="btnApprove" onclick="handleApprove(${pending.id})"><i data-lucide="check" style="width: 16px;"></i> อนุมัติ</button>
+                            <button class="btnSecondary" style="flex: 1; justify-content: center; padding: 8px; background: white; font-weight: 600;" onclick="showPendingInfo('${pending.name}', '${pending.phone}')">ข้อมูล</button>
                             <button class="btnReject" onclick="handleReject(${pending.id})"><i data-lucide="x" style="width: 16px;"></i> ปฏิเสธ</button>
                         </div>
                     </div>
@@ -420,7 +443,6 @@
             lucide.createIcons();
         }
 
-        // Close dropdown when clicking outside
         window.onclick = function() {
             if(activeDropdown !== null) {
                 activeDropdown = null;
@@ -428,7 +450,6 @@
             }
         }
 
-        // Initial Render
         render();
     </script>
 </body>
