@@ -41,7 +41,7 @@
             <div class="toolbar">
                 <div class="toolbarLeft">
                     <div class="searchBox">
-                        <i data-lucide="search" style="width: 16px; color: #9ca3af;"></i>
+                        <i data-lucide="search" style="width: 16px; color: #9ca3af; flex-shrink: 0;"></i>
                         <input type="text" placeholder="ค้นหาชื่อ หรือ เบอร์โทร..." class="searchInput" id="searchInput" oninput="handleSearch(this.value)">
                     </div>
                     <div class="filterGroup">
@@ -77,14 +77,14 @@
 
     <!-- QR Code Modal -->
     <div id="qrModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
-        <div style="background: white; border-radius: 16px; width: 100%; max-width: 600px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
-            <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 600px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
+            <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
                 <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">QR Code เชิญเจ้าหน้าที่</h3>
-                <button onclick="closeModal('qrModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer;"><i data-lucide="x" style="width: 20px;"></i></button>
+                <button onclick="closeModal('qrModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
             </div>
-            <div style="padding: 24px;">
-                <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; display: flex; gap: 24px; align-items: center;">
-                    <div style="flex: 1;">
+            <div style="padding: 24px; box-sizing: border-box;">
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; display: flex; gap: 24px; align-items: center; box-sizing: border-box;">
+                    <div style="flex: 1; min-width: 0;">
                         <p style="font-size: 14px; font-weight: 600; color: #4b5563; margin: 0 0 16px 0;">QR ประชาสัมพันธ์เพื่อขอเป็นเจ้าหน้าที่</p>
                         <div class="orgBadge" style="background: white; margin-bottom: 0;">
                             <div class="orgLogo">T</div>
@@ -101,21 +101,24 @@
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://traffy.in.th/join/lab2" alt="QR Code" class="qrImage">
                     </div>
                 </div>
-                <button class="btnPrimary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 24px; display: flex; align-items: center; gap: 8px;" onclick="copyText('https://traffy.in.th/join/lab2')">
+                <button class="btnPrimary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 24px; display: flex; align-items: center; gap: 8px; box-sizing: border-box;" onclick="copyText('https://traffy.in.th/join/lab2')">
                     <span class="material-icons" style="font-size: 18px;">share</span> แชร์ QR
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Add Staff Modal -->
+    <!-- Add Staff Modal (Fixed width and box-sizing) -->
     <div id="addModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
-        <div style="background: white; border-radius: 16px; width: 100%; max-width: 450px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
-            <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 420px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; box-sizing: border-box;">
+            <!-- Header -->
+            <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
                 <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">เพิ่มบุคลากรใหม่</h3>
-                <button onclick="closeModal('addModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer;"><i data-lucide="x" style="width: 20px;"></i></button>
+                <button onclick="closeModal('addModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
             </div>
-            <div style="padding: 24px;">
+            
+            <!-- Body Content -->
+            <div style="padding: 24px; box-sizing: border-box; width: 100%;">
                 <div class="formGroup">
                     <label class="label">ชื่อ - นามสกุล <span class="labelRequired">*</span></label>
                     <input type="text" class="input" id="addName" placeholder="ระบุชื่อและนามสกุล">
@@ -128,17 +131,19 @@
                     <label class="label">อีเมล (Email)</label>
                     <input type="email" class="input" placeholder="example@email.com">
                 </div>
-                <div class="formGroup" style="margin-top: 24px;">
+                
+                <div class="formGroup" style="margin-top: 20px;">
                     <label class="label">กำหนดบทบาท <span class="labelRequired">*</span></label>
                     <div class="roleOptions">
                         <label class="roleRadio" id="radioAdmin" onclick="setNewRole('admin')">
-                            <input type="radio" name="role" value="admin"> <span style="font-weight: 600; color: #374151;">ผู้ดูแลระบบ</span>
+                            <input type="radio" name="role" value="admin"> <span style="font-weight: 600; color: #374151; font-size: 14px;">ผู้ดูแลระบบ</span>
                         </label>
                         <label class="roleRadio roleRadioActive" id="radioStaff" onclick="setNewRole('staff')">
-                            <input type="radio" name="role" value="staff" checked> <span style="font-weight: 600; color: #374151;">เจ้าหน้าที่</span>
+                            <input type="radio" name="role" value="staff" checked> <span style="font-weight: 600; color: #374151; font-size: 14px;">เจ้าหน้าที่</span>
                         </label>
                     </div>
                 </div>
+                
                 <div class="modalFooter">
                     <button class="btnSecondary" style="justify-content: center; background: white;" onclick="closeModal('addModal')">ยกเลิก</button>
                     <button class="btnPrimary" style="justify-content: center;" onclick="addNewStaff()">บันทึกข้อมูล</button>
