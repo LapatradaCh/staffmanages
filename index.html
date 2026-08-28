@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการเจ้าหน้าที่ในหน่วยงาน</title>
-    <!-- เชื่อมโยงไฟล์ CSS ภายนอกของคุณ -->
+    <!-- เชื่อมโยงไฟล์ CSS ภายนอก -->
     <link rel="stylesheet" href="StaffManagement.css">
     <!-- Google Material Icons & Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -211,10 +211,10 @@
                 </div>
                 <button onclick="closeModal('responsibilitiesModal')" style="position: absolute; right: 20px; top: 24px; background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 18px;"></i></button>
             </div>
-            <div style="padding: 0 24px 16px 24px; display: flex; justifyContent: flex-end; border-bottom: 1px solid #f3f4f6;">
+            <div style="padding: 0 24px 16px 24px; display: flex; justify-content: flex-end; border-bottom: 1px solid #f3f4f6;">
                 <button onclick="selectAllResp()" style="background: none; border: none; color: #10b981; font-weight: 600; font-size: 14px; cursor: pointer; padding: 0;">เลือกทั้งหมด</button>
             </div>
-            <div style="display: flex; flexDirection: column;" id="respListContainer">
+            <div style="display: flex; flex-direction: column;" id="respListContainer">
                 <!-- Javascript will render checkboxes here -->
             </div>
             <div style="display: flex; border-top: 1px solid #f3f4f6;">
@@ -445,10 +445,10 @@
                                 ${activeDropdown === staff.id ? `
                                     <div class="dropdownMenu">
                                         <button class="dropdownItem" onclick="openEditModal(${staff.id})">
-                                            <i data-lucide="edit-2" style="width: 16px;"></i> แก้ไขข้อมูล
+                                            <i data-lucide="edit-3" style="width: 16px;"></i> แก้ไขข้อมูล
                                         </button>
                                         <button class="dropdownItem" onclick="openResponsibilitiesModal(${staff.id})">
-                                            <i data-lucide="list-checks" style="width: 16px;"></i> ด้านความรับผิดชอบ
+                                            <i data-lucide="list-collapse" style="width: 16px;"></i> ด้านความรับผิดชอบ
                                         </button>
                                         <button class="dropdownItem" onclick="handleToggleRole(${staff.id})">
                                             <i data-lucide="${staff.role === 'admin' ? 'arrow-down' : 'arrow-up'}" style="width: 16px;"></i> ${staff.role === 'admin' ? 'ลดสถานะเป็นเจ้าหน้าที่' : 'เพิ่มสถานะเป็นผู้ดูแล'}
@@ -513,10 +513,10 @@
                                     ${activeDropdown === staff.id ? `
                                         <div class="dropdownMenu" style="right: 0;">
                                             <button class="dropdownItem" onclick="openEditModal(${staff.id})">
-                                                <i data-lucide="edit-2" style="width: 16px;"></i> แก้ไขข้อมูล
+                                                <i data-lucide="edit-3" style="width: 16px;"></i> แก้ไขข้อมูล
                                             </button>
                                             <button class="dropdownItem" onclick="openResponsibilitiesModal(${staff.id})">
-                                                <i data-lucide="list-checks" style="width: 16px;"></i> ด้านความรับผิดชอบ
+                                                <i data-lucide="list-collapse" style="width: 16px;"></i> ด้านความรับผิดชอบ
                                             </button>
                                             <button class="dropdownItem" onclick="handleToggleRole(${staff.id})">
                                                 <i data-lucide="${staff.role === 'admin' ? 'arrow-down' : 'arrow-up'}" style="width: 16px;"></i> ${staff.role === 'admin' ? 'ลดสถานะเป็นเจ้าหน้าที่' : 'เพิ่มสถานะเป็นผู้ดูแล'}
