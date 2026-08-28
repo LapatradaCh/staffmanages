@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการเจ้าหน้าที่ในหน่วยงาน</title>
-    <!-- เชื่อมโยงไฟล์ CSS ภายนอกของคุณ -->
+    <!-- เชื่อมโยงไฟล์ CSS ภายนอก -->
     <link rel="stylesheet" href="StaffManagement.css">
     <!-- Google Material Icons & Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -177,7 +177,7 @@
         </div>
     </div>
 
-    <!-- Edit Staff Modal (ตรงกับรูปที่ 1 เป๊ะ) -->
+    <!-- Edit Staff Modal -->
     <div id="editModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 450px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
             <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
@@ -201,7 +201,7 @@
         </div>
     </div>
 
-    <!-- Responsibilities Modal (ตรงกับรูปที่ 2 เป๊ะ) -->
+    <!-- Responsibilities Modal -->
     <div id="responsibilitiesModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 420px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
             <div style="padding: 20px 24px 12px 24px; display: flex; align-items: flex-start; justify-content: center; position: relative;">
@@ -485,10 +485,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ผู้ใช้งาน</th>
-                                    <th>บทบาท</th>
-                                    <th>เบอร์ติดต่อ</th>
-                                    <th style="text-align: right;">จัดการ</th>
+                                    <th style="width: 35%;">ผู้ใช้งาน</th>
+                                    <th style="width: 25%;">บทบาท</th>
+                                    <th style="width: 25%;">เบอร์ติดต่อ</th>
+                                    <th style="width: 15%; text-align: right;">จัดการ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -507,7 +507,7 @@
                                     <i data-lucide="${staff.role === 'admin' ? 'shield' : 'user'}" style="width: 12px;"></i> ${staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่'}
                                 </div>
                             </td>
-                            <td>${staff.phone}</td>
+                            <td style="white-space: nowrap;">${staff.phone}</td>
                             <td style="text-align: right;">
                                 <div style="position: relative; display: inline-block;">
                                     <button class="moreBtn" style="position: relative; display: inline-flex;" onclick="toggleDropdown(${staff.id}, event)">
