@@ -327,6 +327,12 @@
                                 </button>
                                 ${activeDropdown === staff.id ? `
                                     <div class="dropdownMenu">
+                                        <button class="dropdownItem" onclick="alert('ฟังก์ชันแก้ไขข้อมูล'); activeDropdown = null; render();">
+                                            <i data-lucide="edit-2" style="width: 16px;"></i> แก้ไขข้อมูล
+                                        </button>
+                                        <button class="dropdownItem" onclick="alert('ฟังก์ชันด้านความรับผิดชอบ'); activeDropdown = null; render();">
+                                            <i data-lucide="list-checks" style="width: 16px;"></i> ด้านความรับผิดชอบ
+                                        </button>
                                         <button class="dropdownItem" onclick="handleToggleRole(${staff.id})">
                                             <i data-lucide="${staff.role === 'admin' ? 'arrow-down' : 'arrow-up'}" style="width: 16px;"></i> ${staff.role === 'admin' ? 'ลดสถานะเป็นเจ้าหน้าที่' : 'เพิ่มสถานะเป็นผู้ดูแล'}
                                         </button>
@@ -389,6 +395,12 @@
                                     </button>
                                     ${activeDropdown === staff.id ? `
                                         <div class="dropdownMenu" style="right: 0;">
+                                            <button class="dropdownItem" onclick="alert('ฟังก์ชันแก้ไขข้อมูล'); activeDropdown = null; render();">
+                                                <i data-lucide="edit-2" style="width: 16px;"></i> แก้ไขข้อมูล
+                                            </button>
+                                            <button class="dropdownItem" onclick="alert('ฟังก์ชันด้านความรับผิดชอบ'); activeDropdown = null; render();">
+                                                <i data-lucide="list-checks" style="width: 16px;"></i> ด้านความรับผิดชอบ
+                                            </button>
                                             <button class="dropdownItem" onclick="handleToggleRole(${staff.id})">
                                                 <i data-lucide="${staff.role === 'admin' ? 'arrow-down' : 'arrow-up'}" style="width: 16px;"></i> ${staff.role === 'admin' ? 'ลดสถานะเป็นเจ้าหน้าที่' : 'เพิ่มสถานะเป็นผู้ดูแล'}
                                             </button>
@@ -407,7 +419,7 @@
                 staffContainer.innerHTML = html;
             }
 
-            // Render Pending Tab (เพิ่มปุ่ม "ข้อมูล" กลับมาแล้ว)
+            // Render Pending Tab
             const pendingContainer = document.getElementById('pendingDisplayContainer');
             let pendingHtml = '';
             pendingList.forEach(pending => {
