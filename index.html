@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการเจ้าหน้าที่ในหน่วยงาน</title>
-    <!-- เชื่อมโยงไฟล์ CSS ภายนอก -->
+    <!-- เชื่อมโยงไฟล์ CSS ภายนอกของคุณ -->
     <link rel="stylesheet" href="StaffManagement.css">
     <!-- Google Material Icons & Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -177,48 +177,51 @@
         </div>
     </div>
 
-    <!-- Edit Staff Modal -->
+    <!-- Edit Staff Modal (ตรงกับรูปที่ 1 เป๊ะ) -->
     <div id="editModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
-        <div style="background: white; border-radius: 16px; width: 100%; max-width: 420px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; box-sizing: border-box;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 450px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
             <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-                <h3 style="font-size: 16px; font-weight: 700; margin: 0; color: #1f2937;">แก้ไขข้อมูล</h3>
+                <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">แก้ไขข้อมูล</h3>
                 <button onclick="closeModal('editModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
             </div>
             <div style="padding: 24px; box-sizing: border-box; width: 100%;">
                 <div class="formGroup">
-                    <label class="label" style="color: #6b7280;">ชื่อ - นามสกุล</label>
+                    <label class="label" style="color: #4b5563;">ชื่อ - นามสกุล</label>
                     <input type="text" class="input" id="editNameInput">
                 </div>
-                <div class="formGroup">
-                    <label class="label" style="color: #6b7280;">เบอร์โทรศัพท์</label>
+                <div class="formGroup" style="margin-top: 16px;">
+                    <label class="label" style="color: #4b5563;">เบอร์โทรศัพท์</label>
                     <input type="text" class="input" id="editPhoneInput">
                 </div>
-                <div class="modalFooter">
-                    <button class="btnSecondary" style="justify-content: center; background: white; border-radius: 999px; flex: 0.6;" onclick="closeModal('editModal')">ยกเลิก</button>
-                    <button style="flex: 1; padding: 12px; border-radius: 999px; font-weight: 600; background: #2563eb; color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="saveEditStaff()">บันทึก</button>
+                <div style="display: flex; gap: 12px; margin-top: 24px; align-items: center;">
+                    <button onclick="closeModal('editModal')" style="flex: 0.8; height: 48px; border-radius: 999px; background: white; border: 1px solid #d1d5db; font-weight: 600; color: #374151; cursor: pointer;">ยกเลิก</button>
+                    <button onclick="saveEditStaff()" style="flex: 1.2; height: 48px; border-radius: 999px; background: #2563eb; border: none; font-weight: 600; color: white; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);">บันทึก</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Responsibilities Modal -->
+    <!-- Responsibilities Modal (ตรงกับรูปที่ 2 เป๊ะ) -->
     <div id="responsibilitiesModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
-        <div style="background: white; border-radius: 16px; width: 100%; max-width: 400px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
-            <div style="padding: 24px 24px 16px 24px; display: flex; align-items: flex-start; justify-content: center; position: relative;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 420px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
+            <div style="padding: 20px 24px 12px 24px; display: flex; align-items: flex-start; justify-content: center; position: relative;">
                 <div style="text-align: center;">
-                    <h3 style="font-size: 16px; font-weight: 700; margin: 0 0 4px 0; color: #1f2937;">ตั้งค่าการแจ้งเตือน</h3>
+                    <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 4px 0; color: #1f2937;">ตั้งค่าการแจ้งเตือน</h3>
                     <div style="font-size: 13px; color: #6b7280;">หน่วยงาน Traffy @ ITS Lab2</div>
                 </div>
-                <button onclick="closeModal('responsibilitiesModal')" style="position: absolute; right: 20px; top: 24px; background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 18px;"></i></button>
+                <button onclick="closeModal('responsibilitiesModal')" style="position: absolute; right: 20px; top: 20px; background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
             </div>
-            <div style="padding: 0 24px 16px 24px; display: flex; justify-content: flex-end; border-bottom: 1px solid #f3f4f6;">
+            
+            <div style="padding: 0 24px 12px 24px; display: flex; justify-content: flex-end; border-bottom: 1px solid #f3f4f6;">
                 <button onclick="selectAllResp()" style="background: none; border: none; color: #10b981; font-weight: 600; font-size: 14px; cursor: pointer; padding: 0;">เลือกทั้งหมด</button>
             </div>
+            
             <div style="display: flex; flex-direction: column;" id="respListContainer">
                 <!-- Javascript will render checkboxes here -->
             </div>
-            <div style="display: flex; border-top: 1px solid #f3f4f6;">
-                <button style="flex: 1; padding: 16px; background: none; border: none; border-right: 1px solid #f3f4f6; font-weight: 600; color: #4b5563; cursor: pointer;" onclick="closeModal('responsibilitiesModal')">ยกเลิก</button>
+            
+            <div style="display: flex; border-top: 1px solid #e5e7eb;">
+                <button style="flex: 1; padding: 16px; background: none; border: none; border-right: 1px solid #e5e7eb; font-weight: 600; color: #374151; cursor: pointer;" onclick="closeModal('responsibilitiesModal')">ยกเลิก</button>
                 <button style="flex: 1; padding: 16px; background: none; border: none; font-weight: 600; color: #10b981; cursor: pointer;" onclick="closeModal('responsibilitiesModal')">ยืนยัน</button>
             </div>
         </div>
@@ -366,16 +369,16 @@
                 const isSelected = selectedResp.includes(resp);
                 const isLast = index === items.length - 1;
                 html += `
-                    <label style="display: flex; align-items: center; gap: 16px; padding: 16px 24px; cursor: pointer; border-bottom: ${isLast ? 'none' : '1px solid #f3f4f6'};" onclick="toggleResp('${resp}')">
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; cursor: pointer; border-bottom: ${isLast ? 'none' : '1px solid #f3f4f6'};" onclick="toggleResp('${resp}')">
+                        <span style="font-size: 15px; color: #374151; font-weight: 500;">${resp}</span>
                         ${isSelected ? `
-                            <div style="width: 22px; height: 22px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                 <i data-lucide="check" style="width: 14px; color: white; stroke-width: 3;"></i>
                             </div>
                         ` : `
-                            <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid #cbd5e1; flex-shrink: 0; box-sizing: border-box;"></div>
+                            <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid #cbd5e1; flex-shrink: 0; box-sizing: border-box;"></div>
                         `}
-                        <span style="font-size: 15px; color: #4b5563;">${resp}</span>
-                    </label>
+                    </div>
                 `;
             });
             container.innerHTML = html;
