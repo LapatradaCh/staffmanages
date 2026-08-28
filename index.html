@@ -9,6 +9,7 @@
     <!-- Google Material Icons & Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fa; padding: 20px; }
@@ -89,7 +90,7 @@
                             <div class="orgLogo">T</div>
                             <span style="font-weight: 600; font-size: 15px;">Traffy @ ITS Lab2</span>
                         </div>
-                        <div class="copyInput" style="margin-top: 20px; marginBottom: 0;">
+                        <div class="copyInput" style="margin-top: 20px; margin-bottom: 0;">
                             <span style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="qrLinkText">https://traffy.in.th/join/lab2</span>
                             <i data-lucide="copy" style="cursor: pointer; flex-shrink: 0; margin-left: 8px; width: 16px;" onclick="copyText('https://traffy.in.th/join/lab2')"></i>
                         </div>
@@ -100,7 +101,7 @@
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://traffy.in.th/join/lab2" alt="QR Code" class="qrImage">
                     </div>
                 </div>
-                <button class="btnPrimary" style="width: 100%; justifyContent: center; padding: 12px; margin-top: 24px; display: flex; align-items: center; gap: 8px;">
+                <button class="btnPrimary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 24px; display: flex; align-items: center; gap: 8px;" onclick="copyText('https://traffy.in.th/join/lab2')">
                     <span class="material-icons" style="font-size: 18px;">share</span> แชร์ QR
                 </button>
             </div>
@@ -146,7 +147,7 @@
         </div>
     </div>
 
-    <!-- Script ควบคุมการทำงานทั้งหมด (Logic แปลงจาก React) -->
+    <!-- Script ควบคุมการทำงานทั้งหมด -->
     <script>
         let activeTab = 'all';
         let viewMode = 'grid';
@@ -233,7 +234,7 @@
 
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert('คัดลอกเบอร์โทรสำเร็จ: ' + text);
+                alert('คัดลอกข้อมูลสำเร็จ: ' + text);
             });
         }
 
