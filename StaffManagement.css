@@ -515,6 +515,7 @@
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
 
 .input:focus {
@@ -524,6 +525,8 @@
 .roleOptions {
   display: flex;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .roleRadio {
@@ -535,6 +538,7 @@
   border: 1px solid #d1d5db;
   border-radius: 8px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .roleRadioActive {
@@ -546,6 +550,8 @@
   display: flex;
   gap: 12px;
   margin-top: 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .modalFooter button {
@@ -553,6 +559,10 @@
   padding: 12px;
   border-radius: 8px;
   font-weight: 600;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Pending Tab Specifics */
