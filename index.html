@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการเจ้าหน้าที่ในหน่วยงาน</title>
+    <!-- เชื่อมโยงไฟล์ CSS ภายนอกของคุณ -->
     <link rel="stylesheet" href="StaffManagement.css">
+    <!-- Google Material Icons & Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fa; padding: 20px; }
@@ -129,10 +132,10 @@
                     <label class="label">กำหนดบทบาท <span class="labelRequired">*</span></label>
                     <div class="roleOptions">
                         <label class="roleRadio" id="radioAdmin" onclick="setNewRole('admin')">
-                            <input type="radio" name="role" value="admin"> <span style="font-weight: 600; color: #374151; font-size: 14px;">ผู้ดูแลระบบ</span>
+                            <input type="radio" name="role" value="admin" style="accent-color: #10b981;"> <span style="font-weight: 600; color: #374151; font-size: 14px;">ผู้ดูแลระบบ</span>
                         </label>
                         <label class="roleRadio roleRadioActive" id="radioStaff" onclick="setNewRole('staff')">
-                            <input type="radio" name="role" value="staff" checked> <span style="font-weight: 600; color: #374151; font-size: 14px;">เจ้าหน้าที่</span>
+                            <input type="radio" name="role" value="staff" checked style="accent-color: #10b981;"> <span style="font-weight: 600; color: #374151; font-size: 14px;">เจ้าหน้าที่</span>
                         </label>
                     </div>
                 </div>
@@ -144,7 +147,7 @@
         </div>
     </div>
 
-    <!-- Pending Info Modal (Modal ดูข้อมูลคำขอ) -->
+    <!-- Pending Info Modal -->
     <div id="pendingInfoModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 400px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
             <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: center; position: relative;">
@@ -174,6 +177,53 @@
         </div>
     </div>
 
+    <!-- Edit Staff Modal -->
+    <div id="editModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 420px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; box-sizing: border-box;">
+            <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+                <h3 style="font-size: 16px; font-weight: 700; margin: 0; color: #1f2937;">แก้ไขข้อมูล</h3>
+                <button onclick="closeModal('editModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
+            </div>
+            <div style="padding: 24px; box-sizing: border-box; width: 100%;">
+                <div class="formGroup">
+                    <label class="label" style="color: #6b7280;">ชื่อ - นามสกุล</label>
+                    <input type="text" class="input" id="editNameInput">
+                </div>
+                <div class="formGroup">
+                    <label class="label" style="color: #6b7280;">เบอร์โทรศัพท์</label>
+                    <input type="text" class="input" id="editPhoneInput">
+                </div>
+                <div class="modalFooter">
+                    <button class="btnSecondary" style="justify-content: center; background: white; border-radius: 999px; flex: 0.6;" onclick="closeModal('editModal')">ยกเลิก</button>
+                    <button style="flex: 1; padding: 12px; border-radius: 999px; font-weight: 600; background: #2563eb; color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="saveEditStaff()">บันทึก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Responsibilities Modal -->
+    <div id="responsibilitiesModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 400px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
+            <div style="padding: 24px 24px 16px 24px; display: flex; align-items: flex-start; justify-content: center; position: relative;">
+                <div style="text-align: center;">
+                    <h3 style="font-size: 16px; font-weight: 700; margin: 0 0 4px 0; color: #1f2937;">ตั้งค่าการแจ้งเตือน</h3>
+                    <div style="font-size: 13px; color: #6b7280;">หน่วยงาน Traffy @ ITS Lab2</div>
+                </div>
+                <button onclick="closeModal('responsibilitiesModal')" style="position: absolute; right: 20px; top: 24px; background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 18px;"></i></button>
+            </div>
+            <div style="padding: 0 24px 16px 24px; display: flex; justifyContent: flex-end; border-bottom: 1px solid #f3f4f6;">
+                <button onclick="selectAllResp()" style="background: none; border: none; color: #10b981; font-weight: 600; font-size: 14px; cursor: pointer; padding: 0;">เลือกทั้งหมด</button>
+            </div>
+            <div style="display: flex; flexDirection: column;" id="respListContainer">
+                <!-- Javascript will render checkboxes here -->
+            </div>
+            <div style="display: flex; border-top: 1px solid #f3f4f6;">
+                <button style="flex: 1; padding: 16px; background: none; border: none; border-right: 1px solid #f3f4f6; font-weight: 600; color: #4b5563; cursor: pointer;" onclick="closeModal('responsibilitiesModal')">ยกเลิก</button>
+                <button style="flex: 1; padding: 16px; background: none; border: none; font-weight: 600; color: #10b981; cursor: pointer;" onclick="closeModal('responsibilitiesModal')">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Script ควบคุมการทำงานทั้งหมด -->
     <script>
         let activeTab = 'all';
@@ -182,6 +232,8 @@
         let searchTerm = '';
         let activeDropdown = null;
         let newRoleSelection = 'staff';
+        let editingStaffId = null;
+        let selectedResp = ['น้ำท่วม', 'ไฟฟ้า'];
 
         let staffList = [
             { id: 1, name: 'สมชาย ใจดี', role: 'admin', phone: '080-000-0001', initial: 'ส' },
@@ -265,6 +317,71 @@
             openModal('pendingInfoModal');
         }
 
+        function openEditModal(id) {
+            editingStaffId = id;
+            const staff = staffList.find(s => s.id === id);
+            if (staff) {
+                document.getElementById('editNameInput').value = staff.name;
+                document.getElementById('editPhoneInput').value = staff.phone;
+                openModal('editModal');
+            }
+            activeDropdown = null;
+        }
+
+        function saveEditStaff() {
+            const name = document.getElementById('editNameInput').value;
+            const phone = document.getElementById('editPhoneInput').value;
+            if (editingStaffId !== null) {
+                staffList = staffList.map(s => s.id === editingStaffId ? { ...s, name: name, phone: phone, initial: name.charAt(0) } : s);
+            }
+            closeModal('editModal');
+            render();
+        }
+
+        function openResponsibilitiesModal(id) {
+            activeDropdown = null;
+            renderRespList();
+            openModal('responsibilitiesModal');
+        }
+
+        function toggleResp(resp) {
+            selectedResp = selectedResp.includes(resp) ? selectedResp.filter(r => r !== resp) : [...selectedResp, resp];
+            renderRespList();
+        }
+
+        function selectAllResp() {
+            if (selectedResp.length === 3) {
+                selectedResp = [];
+            } else {
+                selectedResp = ['น้ำท่วม', 'ความสะอาด', 'ไฟฟ้า'];
+            }
+            renderRespList();
+        }
+
+        function renderRespList() {
+            const container = document.getElementById('respListContainer');
+            const items = ['น้ำท่วม', 'ความสะอาด', 'ไฟฟ้า'];
+            let html = '';
+            items.forEach((resp, index) => {
+                const isSelected = selectedResp.includes(resp);
+                const isLast = index === items.length - 1;
+                html += `
+                    <label style="display: flex; align-items: center; gap: 16px; padding: 16px 24px; cursor: pointer; border-bottom: ${isLast ? 'none' : '1px solid #f3f4f6'};" onclick="toggleResp('${resp}')">
+                        ${isSelected ? `
+                            <div style="width: 22px; height: 22px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i data-lucide="check" style="width: 14px; color: white; stroke-width: 3;"></i>
+                            </div>
+                        ` : `
+                            <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid #cbd5e1; flex-shrink: 0; box-sizing: border-box;"></div>
+                        `}
+                        <span style="font-size: 15px; color: #4b5563;">${resp}</span>
+                    </label>
+                `;
+            });
+            container.innerHTML = html;
+            lucide.createIcons();
+        }
+
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
                 alert('คัดลอกข้อมูลสำเร็จ: ' + text);
@@ -327,10 +444,10 @@
                                 </button>
                                 ${activeDropdown === staff.id ? `
                                     <div class="dropdownMenu">
-                                        <button class="dropdownItem" onclick="alert('ฟังก์ชันแก้ไขข้อมูล'); activeDropdown = null; render();">
+                                        <button class="dropdownItem" onclick="openEditModal(${staff.id})">
                                             <i data-lucide="edit-2" style="width: 16px;"></i> แก้ไขข้อมูล
                                         </button>
-                                        <button class="dropdownItem" onclick="alert('ฟังก์ชันด้านความรับผิดชอบ'); activeDropdown = null; render();">
+                                        <button class="dropdownItem" onclick="openResponsibilitiesModal(${staff.id})">
                                             <i data-lucide="list-checks" style="width: 16px;"></i> ด้านความรับผิดชอบ
                                         </button>
                                         <button class="dropdownItem" onclick="handleToggleRole(${staff.id})">
@@ -395,10 +512,10 @@
                                     </button>
                                     ${activeDropdown === staff.id ? `
                                         <div class="dropdownMenu" style="right: 0;">
-                                            <button class="dropdownItem" onclick="alert('ฟังก์ชันแก้ไขข้อมูล'); activeDropdown = null; render();">
+                                            <button class="dropdownItem" onclick="openEditModal(${staff.id})">
                                                 <i data-lucide="edit-2" style="width: 16px;"></i> แก้ไขข้อมูล
                                             </button>
-                                            <button class="dropdownItem" onclick="alert('ฟังก์ชันด้านความรับผิดชอบ'); activeDropdown = null; render();">
+                                            <button class="dropdownItem" onclick="openResponsibilitiesModal(${staff.id})">
                                                 <i data-lucide="list-checks" style="width: 16px;"></i> ด้านความรับผิดชอบ
                                             </button>
                                             <button class="dropdownItem" onclick="handleToggleRole(${staff.id})">
