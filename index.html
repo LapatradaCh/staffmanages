@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการเจ้าหน้าที่ในหน่วยงาน</title>
-    <!-- เชื่อมโยงไฟล์ CSS ภายนอกตามที่คุณกำหนด -->
+    <!-- เชื่อมโยงไฟล์ CSS ภายนอกของคุณ -->
     <link rel="stylesheet" href="StaffManagement.css">
     <!-- Google Material Icons & Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fa; padding: 20px; }
     </style>
@@ -24,119 +25,399 @@
 
         <!-- Tabs Container -->
         <div class="tabsContainer">
-            <button class="tab tabActive">
+            <button class="tab tabActive" onclick="switchTab('all')" id="tabAll">
                 <span class="material-icons tabIcon">people</span>
                 เจ้าหน้าที่ทั้งหมด
             </button>
-            <button class="tab">
+            <button class="tab" onclick="switchTab('pending')" id="tabPending">
                 <span class="material-icons tabIcon">pending_actions</span>
-                รอการพิจารณา <span class="badge">3</span>
+                รอการพิจารณา <span class="badge" id="pendingBadge">3</span>
             </button>
         </div>
 
-        <!-- Toolbar -->
-        <div class="toolbar">
-            <div class="toolbarLeft">
-                <div class="searchBox">
-                    <span class="material-icons" style="font-size: 16px; color: #9ca3af;">search</span>
-                    <input type="text" placeholder="ค้นหาชื่อ หรือ เบอร์โทร..." class="searchInput">
-                </div>
-                <div class="filterGroup">
-                    <button class="filterBtn filterBtnActive">ทั้งหมด</button>
-                    <button class="filterBtn">ผู้ดูแล</button>
-                    <button class="filterBtn">เจ้าหน้าที่</button>
-                </div>
-            </div>
-
-            <div class="actions">
-                <div class="viewToggle">
-                    <button class="viewBtn viewBtnActive"><span class="material-icons" style="font-size: 16px;">grid_view</span></button>
-                    <button class="viewBtn"><span class="material-icons" style="font-size: 16px;">list</span></button>
-                </div>
-                <button class="btnSecondary">
-                    <span class="material-icons" style="font-size: 16px;">qr_code</span> QR Code เชิญ
-                </button>
-                <button class="btnPrimary">
-                    <span class="material-icons" style="font-size: 16px;">person_add</span> เพิ่มเจ้าหน้าที่
-                </button>
-            </div>
-        </div>
-
-        <!-- Grid View -->
-        <div class="grid">
-            <!-- Card 1 -->
-            <div class="card">
-                <button class="moreBtn">
-                    <span class="material-icons" style="font-size: 16px;">more_vert</span>
-                </button>
-                <div class="avatar">ส</div>
-                <div class="name">สมชาย ใจดี</div>
-                <div class="roleBadge">
-                    <span class="material-icons" style="font-size: 12px;">shield</span> ผู้ดูแลระบบ
-                </div>
-                <div class="contact">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span class="material-icons" style="font-size: 16px; color: #9ca3af;">phone</span> 080-000-0001
+        <!-- Tab Content: All Staff -->
+        <div id="contentAll">
+            <div class="toolbar">
+                <div class="toolbarLeft">
+                    <div class="searchBox">
+                        <i data-lucide="search" style="width: 16px; color: #9ca3af;"></i>
+                        <input type="text" placeholder="ค้นหาชื่อ หรือ เบอร์โทร..." class="searchInput" id="searchInput" oninput="handleSearch(this.value)">
                     </div>
-                    <span class="material-icons copyBtn" style="font-size: 14px;">content_copy</span>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="card">
-                <button class="moreBtn">
-                    <span class="material-icons" style="font-size: 16px;">more_vert</span>
-                </button>
-                <div class="avatar avatarStaff">ม</div>
-                <div class="name">มานะ ขยันเรียน</div>
-                <div class="roleBadge roleBadgeStaff">
-                    <span class="material-icons" style="font-size: 12px;">person</span> เจ้าหน้าที่
-                </div>
-                <div class="contact">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span class="material-icons" style="font-size: 16px; color: #9ca3af;">phone</span> 080-000-0003
+                    <div class="filterGroup">
+                        <button class="filterBtn filterBtnActive" onclick="setRoleFilter('all', this)">ทั้งหมด</button>
+                        <button class="filterBtn" onclick="setRoleFilter('admin', this)">ผู้ดูแล</button>
+                        <button class="filterBtn" onclick="setRoleFilter('staff', this)">เจ้าหน้าที่</button>
                     </div>
-                    <span class="material-icons copyBtn" style="font-size: 14px;">content_copy</span>
+                </div>
+
+                <div class="actions">
+                    <div class="viewToggle">
+                        <button class="viewBtn viewBtnActive" onclick="setViewMode('grid', this)"><i data-lucide="grid" style="width: 16px;"></i></button>
+                        <button class="viewBtn" onclick="setViewMode('list', this)"><i data-lucide="list" style="width: 16px;"></i></button>
+                    </div>
+                    <button class="btnSecondary" onclick="openModal('qrModal')">
+                        <i data-lucide="qr-code" style="width: 16px;"></i> QR Code เชิญ
+                    </button>
+                    <button class="btnPrimary" onclick="openModal('addModal')">
+                        <i data-lucide="user-plus" style="width: 16px;"></i> เพิ่มเจ้าหน้าที่
+                    </button>
                 </div>
             </div>
+
+            <!-- Dynamic Staff List Container -->
+            <div id="staffDisplayContainer"></div>
         </div>
 
-        <!-- ตัวอย่าง Table Container (สำหรับสลับโหมด List View) -->
-        <!-- 
-        <div class="tableContainer" style="margin-top: 24px;">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ผู้ใช้งาน</th>
-                        <th>บทบาท</th>
-                        <th>เบอร์ติดต่อ</th>
-                        <th style="text-align: right;">จัดการ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="userCell">
-                                <div class="avatarSmall">ส</div>
-                                <span style="font-weight: 600; color: #1f2937;">สมชาย ใจดี</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="roleBadge" style="margin-bottom: 0;">ผู้ดูแลระบบ</div>
-                        </td>
-                        <td>080-000-0001</td>
-                        <td style="text-align: right;">
-                            <button class="moreBtn" style="position: relative; display: inline-flex; top: 0; right: 0;">
-                                <span class="material-icons" style="font-size: 16px;">more_vert</span>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Tab Content: Pending Staff -->
+        <div id="contentPending" style="display: none;">
+            <div class="grid" id="pendingDisplayContainer"></div>
         </div>
-        -->
-
     </div>
 
+    <!-- QR Code Modal -->
+    <div id="qrModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 600px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+            <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
+                <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">QR Code เชิญเจ้าหน้าที่</h3>
+                <button onclick="closeModal('qrModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer;"><i data-lucide="x" style="width: 20px;"></i></button>
+            </div>
+            <div style="padding: 24px;">
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; display: flex; gap: 24px; align-items: center;">
+                    <div style="flex: 1;">
+                        <p style="font-size: 14px; font-weight: 600; color: #4b5563; margin: 0 0 16px 0;">QR ประชาสัมพันธ์เพื่อขอเป็นเจ้าหน้าที่</p>
+                        <div class="orgBadge" style="background: white; margin-bottom: 0;">
+                            <div class="orgLogo">T</div>
+                            <span style="font-weight: 600; font-size: 15px;">Traffy @ ITS Lab2</span>
+                        </div>
+                        <div class="copyInput" style="margin-top: 20px; marginBottom: 0;">
+                            <span style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="qrLinkText">https://traffy.in.th/join/lab2</span>
+                            <i data-lucide="copy" style="cursor: pointer; flex-shrink: 0; margin-left: 8px; width: 16px;" onclick="copyText('https://traffy.in.th/join/lab2')"></i>
+                        </div>
+                    </div>
+                    <div class="qrContainer" style="flex: 0 0 200px; margin: 0; padding: 16px;">
+                        <div style="color: #10b981; font-weight: 700; font-size: 16px; margin-bottom: 4px;">QR Code</div>
+                        <div style="color: #6b7280; font-size: 13px; margin-bottom: 16px;">เพิ่มเจ้าหน้าที่</div>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://traffy.in.th/join/lab2" alt="QR Code" class="qrImage">
+                    </div>
+                </div>
+                <button class="btnPrimary" style="width: 100%; justifyContent: center; padding: 12px; margin-top: 24px; display: flex; align-items: center; gap: 8px;">
+                    <span class="material-icons" style="font-size: 18px;">share</span> แชร์ QR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Staff Modal -->
+    <div id="addModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 450px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+            <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
+                <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">เพิ่มบุคลากรใหม่</h3>
+                <button onclick="closeModal('addModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer;"><i data-lucide="x" style="width: 20px;"></i></button>
+            </div>
+            <div style="padding: 24px;">
+                <div class="formGroup">
+                    <label class="label">ชื่อ - นามสกุล <span class="labelRequired">*</span></label>
+                    <input type="text" class="input" id="addName" placeholder="ระบุชื่อและนามสกุล">
+                </div>
+                <div class="formGroup">
+                    <label class="label">เบอร์โทรศัพท์ <span class="labelRequired">*</span></label>
+                    <input type="text" class="input" id="addPhone" placeholder="0xxxxxxxxx">
+                </div>
+                <div class="formGroup">
+                    <label class="label">อีเมล (Email)</label>
+                    <input type="email" class="input" placeholder="example@email.com">
+                </div>
+                <div class="formGroup" style="margin-top: 24px;">
+                    <label class="label">กำหนดบทบาท <span class="labelRequired">*</span></label>
+                    <div class="roleOptions">
+                        <label class="roleRadio" id="radioAdmin" onclick="setNewRole('admin')">
+                            <input type="radio" name="role" value="admin"> <span style="font-weight: 600; color: #374151;">ผู้ดูแลระบบ</span>
+                        </label>
+                        <label class="roleRadio roleRadioActive" id="radioStaff" onclick="setNewRole('staff')">
+                            <input type="radio" name="role" value="staff" checked> <span style="font-weight: 600; color: #374151;">เจ้าหน้าที่</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="modalFooter">
+                    <button class="btnSecondary" style="justify-content: center; background: white;" onclick="closeModal('addModal')">ยกเลิก</button>
+                    <button class="btnPrimary" style="justify-content: center;" onclick="addNewStaff()">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script ควบคุมการทำงานทั้งหมด (Logic แปลงจาก React) -->
+    <script>
+        let activeTab = 'all';
+        let viewMode = 'grid';
+        let roleFilter = 'all';
+        let searchTerm = '';
+        let activeDropdown = null;
+        let newRoleSelection = 'staff';
+
+        let staffList = [
+            { id: 1, name: 'สมชาย ใจดี', role: 'admin', phone: '080-000-0001', initial: 'ส' },
+            { id: 2, name: 'สมหญิง รักสงบ', role: 'admin', phone: '080-000-0002', initial: 'ส' },
+            { id: 3, name: 'มานะ ขยันเรียน', role: 'staff', phone: '080-000-0003', initial: 'ม' },
+            { id: 4, name: 'ปิติ รักไทย', role: 'staff', phone: '080-000-0004', initial: 'ป' },
+            { id: 6, name: 'วารี สายน้ำ', role: 'staff', phone: '081-234-5678', initial: 'ว' },
+            { id: 7, name: 'อาทิตย์ รุ่งเรือง', role: 'staff', phone: '089-876-5432', initial: 'อ' },
+            { id: 8, name: 'นภา เมฆสี', role: 'admin', phone: '086-111-2222', initial: 'น' }
+        ];
+
+        let pendingList = [
+            { id: 5, name: 'มิว ทดสอบ', phone: '080-999-9999', initial: 'ม', requestDate: '27 ส.ค. 09:15' },
+            { id: 9, name: 'ธนา พารวย', phone: '082-333-4444', initial: 'ธ', requestDate: '28 ส.ค. 10:30' },
+            { id: 10, name: 'ก้องเกียรติ ยิ่งใหญ่', phone: '083-555-6666', initial: 'ก', requestDate: '28 ส.ค. 11:45' }
+        ];
+
+        function switchTab(tab) {
+            activeTab = tab;
+            document.getElementById('tabAll').className = `tab ${tab === 'all' ? 'tabActive' : ''}`;
+            document.getElementById('tabPending').className = `tab ${tab === 'pending' ? 'tabActive' : ''}`;
+            document.getElementById('contentAll').style.display = tab === 'all' ? 'block' : 'none';
+            document.getElementById('contentPending').style.display = tab === 'pending' ? 'block' : 'none';
+            render();
+        }
+
+        function setViewMode(mode, btn) {
+            viewMode = mode;
+            document.querySelectorAll('.viewBtn').forEach(b => b.classList.remove('viewBtnActive'));
+            btn.classList.add('viewBtnActive');
+            render();
+        }
+
+        function setRoleFilter(filter, btn) {
+            roleFilter = filter;
+            document.querySelectorAll('.filterBtn').forEach(b => b.classList.remove('filterBtnActive'));
+            btn.classList.add('filterBtnActive');
+            render();
+        }
+
+        function handleSearch(val) {
+            searchTerm = val;
+            render();
+        }
+
+        function toggleDropdown(id, event) {
+            event.stopPropagation();
+            activeDropdown = activeDropdown === id ? null : id;
+            render();
+        }
+
+        function handleToggleRole(id) {
+            staffList = staffList.map(s => s.id === id ? { ...s, role: s.role === 'admin' ? 'staff' : 'admin' } : s);
+            activeDropdown = null;
+            render();
+        }
+
+        function handleRemoveStaff(id) {
+            staffList = staffList.filter(s => s.id !== id);
+            activeDropdown = null;
+            render();
+        }
+
+        function handleApprove(id) {
+            const item = pendingList.find(p => p.id === id);
+            if (item) {
+                pendingList = pendingList.filter(p => p.id !== id);
+                staffList.push({ ...item, role: 'staff' });
+                render();
+            }
+        }
+
+        function handleReject(id) {
+            pendingList = pendingList.filter(p => p.id !== id);
+            render();
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('คัดลอกเบอร์โทรสำเร็จ: ' + text);
+            });
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function setNewRole(role) {
+            newRoleSelection = role;
+            document.getElementById('radioAdmin').className = `roleRadio ${role === 'admin' ? 'roleRadioActive' : ''}`;
+            document.getElementById('radioStaff').className = `roleRadio ${role === 'staff' ? 'roleRadioActive' : ''}`;
+        }
+
+        function addNewStaff() {
+            const name = document.getElementById('addName').value;
+            const phone = document.getElementById('addPhone').value;
+            if(!name || !phone) {
+                alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+                return;
+            }
+            staffList.push({
+                id: Date.now(),
+                name: name,
+                role: newRoleSelection,
+                phone: phone,
+                initial: name.charAt(0)
+            });
+            document.getElementById('addName').value = '';
+            document.getElementById('addPhone').value = '';
+            closeModal('addModal');
+            render();
+        }
+
+        function render() {
+            document.getElementById('pendingBadge').innerText = pendingList.length;
+
+            // Render Staff All
+            const staffContainer = document.getElementById('staffDisplayContainer');
+            const filtered = staffList.filter(s => {
+                const matchesRole = roleFilter === 'all' || s.role === roleFilter;
+                const matchesSearch = s.name.toLowerCase().includes(searchTerm.toLowerCase()) || s.phone.includes(searchTerm);
+                return matchesRole && matchesSearch;
+            });
+
+            if (viewMode === 'grid') {
+                let html = '<div class="grid">';
+                filtered.forEach(staff => {
+                    html += `
+                        <div class="card">
+                            <div style="position: absolute; top: 16px; right: 16px; z-index: 40;">
+                                <button class="moreBtn" style="position: static;" onclick="toggleDropdown(${staff.id}, event)">
+                                    <i data-lucide="more-vertical" style="width: 16px;"></i>
+                                </button>
+                                ${activeDropdown === staff.id ? `
+                                    <div class="dropdownMenu">
+                                        <button class="dropdownItem" onclick="handleToggleRole(${staff.id})">
+                                            <i data-lucide="${staff.role === 'admin' ? 'arrow-down' : 'arrow-up'}" style="width: 16px;"></i> ${staff.role === 'admin' ? 'ลดสถานะเป็นเจ้าหน้าที่' : 'เพิ่มสถานะเป็นผู้ดูแล'}
+                                        </button>
+                                        <div class="dropdownDivider"></div>
+                                        <button class="dropdownItem dropdownItemDanger" onclick="handleRemoveStaff(${staff.id})">
+                                            <i data-lucide="user-x" style="width: 16px;"></i> ยกเลิกเป็นเจ้าหน้าที่
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <div class="avatar ${staff.role === 'staff' ? 'avatarStaff' : ''}">${staff.initial}</div>
+                            <div class="name">${staff.name}</div>
+                            <div class="roleBadge ${staff.role === 'staff' ? 'roleBadgeStaff' : ''}">
+                                <i data-lucide="${staff.role === 'admin' ? 'shield' : 'user'}" style="width: 12px;"></i> ${staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่'}
+                            </div>
+                            <div class="contact">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i data-lucide="phone" style="width: 16px; color: #9ca3af;"></i> ${staff.phone}
+                                </div>
+                                <i data-lucide="copy" class="copyBtn" style="width: 14px; cursor: pointer;" onclick="copyText('${staff.phone}')"></i>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                staffContainer.innerHTML = html;
+            } else {
+                let html = `
+                    <div class="tableContainer">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ผู้ใช้งาน</th>
+                                    <th>บทบาท</th>
+                                    <th>เบอร์ติดต่อ</th>
+                                    <th style="text-align: right;">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                filtered.forEach(staff => {
+                    html += `
+                        <tr>
+                            <td>
+                                <div class="userCell">
+                                    <div class="avatarSmall ${staff.role === 'staff' ? 'avatarStaffSmall' : ''}">${staff.initial}</div>
+                                    <span style="font-weight: 600; color: #1f2937;">${staff.name}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="roleBadge ${staff.role === 'staff' ? 'roleBadgeStaff' : ''}" style="margin-bottom: 0;">
+                                    <i data-lucide="${staff.role === 'admin' ? 'shield' : 'user'}" style="width: 12px;"></i> ${staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่'}
+                                </div>
+                            </td>
+                            <td>${staff.phone}</td>
+                            <td style="text-align: right;">
+                                <div style="position: relative; display: inline-block;">
+                                    <button class="moreBtn" style="position: relative; display: inline-flex;" onclick="toggleDropdown(${staff.id}, event)">
+                                        <i data-lucide="more-vertical" style="width: 16px;"></i>
+                                    </button>
+                                    ${activeDropdown === staff.id ? `
+                                        <div class="dropdownMenu" style="right: 0;">
+                                            <button class="dropdownItem" onclick="handleToggleRole(${staff.id})">
+                                                <i data-lucide="${staff.role === 'admin' ? 'arrow-down' : 'arrow-up'}" style="width: 16px;"></i> ${staff.role === 'admin' ? 'ลดสถานะเป็นเจ้าหน้าที่' : 'เพิ่มสถานะเป็นผู้ดูแล'}
+                                            </button>
+                                            <div class="dropdownDivider"></div>
+                                            <button class="dropdownItem dropdownItemDanger" onclick="handleRemoveStaff(${staff.id})">
+                                                <i data-lucide="user-x" style="width: 16px;"></i> ยกเลิกเป็นเจ้าหน้าที่
+                                            </button>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                html += '</tbody></table></div>';
+                staffContainer.innerHTML = html;
+            }
+
+            // Render Pending Tab
+            const pendingContainer = document.getElementById('pendingDisplayContainer');
+            let pendingHtml = '';
+            pendingList.forEach(pending => {
+                pendingHtml += `
+                    <div class="card" style="align-items: flex-start; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 4px; color: #9ca3af; font-size: 12px; margin-bottom: 12px;">
+                            <span class="material-icons" style="font-size: 14px;">schedule</span> ${pending.requestDate}
+                        </div>
+                        <div class="userCell" style="margin-bottom: 8px;">
+                            <div class="avatarSmall" style="background: #fef3c7; color: #d97706;">${pending.initial}</div>
+                            <div>
+                                <div style="font-weight: 700; color: #1f2937; font-size: 16px;">${pending.name}</div>
+                                <div class="pendingLabel">ขอเป็นเจ้าหน้าที่</div>
+                            </div>
+                        </div>
+                        <div class="contact" style="margin: 12px 0;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i data-lucide="phone" style="width: 16px; color: #9ca3af;"></i> ${pending.phone}
+                            </div>
+                            <i data-lucide="copy" class="copyBtn" style="width: 14px; cursor: pointer;" onclick="copyText('${pending.phone}')"></i>
+                        </div>
+                        <div class="pendingActions" style="width: 100%;">
+                            <button class="btnApprove" onclick="handleApprove(${pending.id})"><i data-lucide="check" style="width: 16px;"></i> อนุมัติ</button>
+                            <button class="btnReject" onclick="handleReject(${pending.id})"><i data-lucide="x" style="width: 16px;"></i> ปฏิเสธ</button>
+                        </div>
+                    </div>
+                `;
+            });
+            pendingContainer.innerHTML = pendingHtml;
+
+            // Render Lucide Icons
+            lucide.createIcons();
+        }
+
+        // Close dropdown when clicking outside
+        window.onclick = function() {
+            if(activeDropdown !== null) {
+                activeDropdown = null;
+                render();
+            }
+        }
+
+        // Initial Render
+        render();
+    </script>
 </body>
 </html>
