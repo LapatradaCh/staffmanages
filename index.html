@@ -77,38 +77,44 @@
 
     <!-- QR Code Modal -->
     <div id="qrModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
-        <div style="background: white; border-radius: 16px; width: 100%; max-width: 600px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
-            <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
+            <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
                 <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">QR Code เชิญเจ้าหน้าที่</h3>
                 <button onclick="closeModal('qrModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
             </div>
             <div style="padding: 24px; box-sizing: border-box;">
-                <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; display: flex; gap: 24px; align-items: center; box-sizing: border-box;">
-                    <div style="flex: 1; min-width: 0;">
-                        <p style="font-size: 14px; font-weight: 600; color: #4b5563; margin: 0 0 16px 0;">QR ประชาสัมพันธ์เพื่อขอเป็นเจ้าหน้าที่</p>
-                        <div class="orgBadge" style="background: white; margin-bottom: 0;">
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; display: flex; flex-direction: column; gap: 20px; align-items: center; box-sizing: border-box;">
+                    
+                    <!-- ส่วนข้อความและลิงก์ -->
+                    <div style="width: 100%; box-sizing: border-box;">
+                        <p style="font-size: 14px; font-weight: 600; color: #4b5563; margin: 0 0 12px 0;">QR ประชาสัมพันธ์เพื่อขอเป็นเจ้าหน้าที่</p>
+                        <div class="orgBadge" style="background: white; margin-bottom: 12px; width: 100%; box-sizing: border-box;">
                             <div class="orgLogo">T</div>
                             <span style="font-weight: 600; font-size: 15px;">Traffy @ ITS Lab2</span>
                         </div>
-                        <div class="copyInput" style="margin-top: 20px; margin-bottom: 0;">
+                        <div class="copyInput" style="margin-bottom: 0; width: 100%; box-sizing: border-box;">
                             <span style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="qrLinkText">https://traffy.in.th/join/lab2</span>
                             <i data-lucide="copy" style="cursor: pointer; flex-shrink: 0; margin-left: 8px; width: 16px;" onclick="copyText('https://traffy.in.th/join/lab2')"></i>
                         </div>
                     </div>
-                    <div class="qrContainer" style="flex: 0 0 200px; margin: 0; padding: 16px;">
-                        <div style="color: #10b981; font-weight: 700; font-size: 16px; margin-bottom: 4px;">QR Code</div>
-                        <div style="color: #6b7280; font-size: 13px; margin-bottom: 16px;">เพิ่มเจ้าหน้าที่</div>
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://traffy.in.th/join/lab2" alt="QR Code" class="qrImage">
+
+                    <!-- ส่วนรูป QR Code จัดให้อยู่ตรงกลางพอดี ไม่ล้น -->
+                    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; text-align: center; width: 100%; max-width: 220px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center;">
+                        <div style="color: #10b981; font-weight: 700; font-size: 15px; margin-bottom: 2px;">QR Code</div>
+                        <div style="color: #6b7280; font-size: 12px; margin-bottom: 12px;">เพิ่มเจ้าหน้าที่</div>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://traffy.in.th/join/lab2" alt="QR Code" style="width: 100%; max-width: 150px; height: auto; display: block; margin: 0 auto;">
                     </div>
+
                 </div>
-                <button class="btnPrimary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 24px; display: flex; align-items: center; gap: 8px; box-sizing: border-box;" onclick="copyText('https://traffy.in.th/join/lab2')">
+                
+                <button class="btnPrimary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 20px; display: flex; align-items: center; gap: 8px; box-sizing: border-box;" onclick="copyText('https://traffy.in.th/join/lab2')">
                     <span class="material-icons" style="font-size: 18px;">share</span> แชร์ QR
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Add Staff Modal (Fixed width and box-sizing) -->
+    <!-- Add Staff Modal -->
     <div id="addModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 420px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; box-sizing: border-box;">
             <!-- Header -->
