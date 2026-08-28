@@ -84,15 +84,19 @@
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
+  flex: 1;
 }
 
+/* ปรับความสูงมาตรฐานให้เท่ากัน (44px) */
 .searchBox {
   display: flex;
   align-items: center;
   background: #f3f4f6;
   border-radius: 8px;
-  padding: 8px 12px;
+  padding: 0 12px;
   width: 250px;
+  height: 44px;
+  box-sizing: border-box;
 }
 
 .searchInput {
@@ -102,6 +106,7 @@
   width: 100%;
   font-size: 14px;
   margin-left: 8px;
+  height: 100%;
 }
 
 .filterGroup {
@@ -110,16 +115,23 @@
   border-radius: 8px;
   padding: 4px;
   gap: 4px;
+  height: 44px;
+  box-sizing: border-box;
+  align-items: center;
 }
 
 .filterBtn {
-  padding: 6px 16px;
+  padding: 0 16px;
+  height: 36px;
   font-size: 14px;
   border: none;
   background: transparent;
   border-radius: 6px;
   color: #6b7280;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s;
 }
 
@@ -141,15 +153,22 @@
   background: #f3f4f6;
   border-radius: 8px;
   padding: 4px;
+  height: 44px;
+  box-sizing: border-box;
+  align-items: center;
 }
 
 .viewBtn {
-  padding: 6px 8px;
+  padding: 0 10px;
+  height: 36px;
   border: none;
   background: transparent;
   border-radius: 6px;
   color: #9ca3af;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .viewBtnActive {
@@ -161,8 +180,10 @@
 .btnSecondary {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 0 16px;
+  height: 44px;
   font-size: 14px;
   font-weight: 600;
   color: #4b5563;
@@ -170,6 +191,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   cursor: pointer;
+  box-sizing: border-box;
   transition: all 0.2s;
 }
 
@@ -180,8 +202,10 @@
 .btnPrimary {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 0 16px;
+  height: 44px;
   font-size: 14px;
   font-weight: 600;
   color: white;
@@ -189,6 +213,7 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  box-sizing: border-box;
   transition: all 0.2s;
 }
 
