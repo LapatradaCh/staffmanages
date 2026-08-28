@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการเจ้าหน้าที่ในหน่วยงาน</title>
+    <!-- เชื่อมโยงไฟล์ CSS ภายนอกตามที่คุณกำหนด -->
+    <link rel="stylesheet" href="StaffManagement.css">
+    <!-- Google Material Icons & Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fa; padding: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h2 class="title">จัดการเจ้าหน้าที่ในหน่วยงาน</h2>
+            <p class="subtitle">กำหนดสิทธิ์, จัดการข้อมูลติดต่อ และอนุมัติสมาชิกใหม่ในหน่วยงาน</p>
+        </div>
+
+        <!-- Tabs Container -->
+        <div class="tabsContainer">
+            <button class="tab tabActive">
+                <span class="material-icons tabIcon">people</span>
+                เจ้าหน้าที่ทั้งหมด
+            </button>
+            <button class="tab">
+                <span class="material-icons tabIcon">pending_actions</span>
+                รอการพิจารณา <span class="badge">3</span>
+            </button>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="toolbarLeft">
+                <div class="searchBox">
+                    <span class="material-icons" style="font-size: 16px; color: #9ca3af;">search</span>
+                    <input type="text" placeholder="ค้นหาชื่อ หรือ เบอร์โทร..." class="searchInput">
+                </div>
+                <div class="filterGroup">
+                    <button class="filterBtn filterBtnActive">ทั้งหมด</button>
+                    <button class="filterBtn">ผู้ดูแล</button>
+                    <button class="filterBtn">เจ้าหน้าที่</button>
+                </div>
+            </div>
+
+            <div class="actions">
+                <div class="viewToggle">
+                    <button class="viewBtn viewBtnActive"><span class="material-icons" style="font-size: 16px;">grid_view</span></button>
+                    <button class="viewBtn"><span class="material-icons" style="font-size: 16px;">list</span></button>
+                </div>
+                <button class="btnSecondary">
+                    <span class="material-icons" style="font-size: 16px;">qr_code</span> QR Code เชิญ
+                </button>
+                <button class="btnPrimary">
+                    <span class="material-icons" style="font-size: 16px;">person_add</span> เพิ่มเจ้าหน้าที่
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid View -->
+        <div class="grid">
+            <!-- Card 1 -->
+            <div class="card">
+                <button class="moreBtn">
+                    <span class="material-icons" style="font-size: 16px;">more_vert</span>
+                </button>
+                <div class="avatar">ส</div>
+                <div class="name">สมชาย ใจดี</div>
+                <div class="roleBadge">
+                    <span class="material-icons" style="font-size: 12px;">shield</span> ผู้ดูแลระบบ
+                </div>
+                <div class="contact">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="material-icons" style="font-size: 16px; color: #9ca3af;">phone</span> 080-000-0001
+                    </div>
+                    <span class="material-icons copyBtn" style="font-size: 14px;">content_copy</span>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <button class="moreBtn">
+                    <span class="material-icons" style="font-size: 16px;">more_vert</span>
+                </button>
+                <div class="avatar avatarStaff">ม</div>
+                <div class="name">มานะ ขยันเรียน</div>
+                <div class="roleBadge roleBadgeStaff">
+                    <span class="material-icons" style="font-size: 12px;">person</span> เจ้าหน้าที่
+                </div>
+                <div class="contact">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="material-icons" style="font-size: 16px; color: #9ca3af;">phone</span> 080-000-0003
+                    </div>
+                    <span class="material-icons copyBtn" style="font-size: 14px;">content_copy</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ตัวอย่าง Table Container (สำหรับสลับโหมด List View) -->
+        <!-- 
+        <div class="tableContainer" style="margin-top: 24px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ผู้ใช้งาน</th>
+                        <th>บทบาท</th>
+                        <th>เบอร์ติดต่อ</th>
+                        <th style="text-align: right;">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="userCell">
+                                <div class="avatarSmall">ส</div>
+                                <span style="font-weight: 600; color: #1f2937;">สมชาย ใจดี</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="roleBadge" style="margin-bottom: 0;">ผู้ดูแลระบบ</div>
+                        </td>
+                        <td>080-000-0001</td>
+                        <td style="text-align: right;">
+                            <button class="moreBtn" style="position: relative; display: inline-flex; top: 0; right: 0;">
+                                <span class="material-icons" style="font-size: 16px;">more_vert</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        -->
+
+    </div>
+
+</body>
+</html>
