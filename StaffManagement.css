@@ -322,7 +322,7 @@
   cursor: pointer;
 }
 
-/* List View (Table Styles) */
+/* List View (Table Styles - แก้ไขไม่ให้ข้อความทับซ้อนกัน) */
 .tableContainer {
   background: white;
   border-radius: 12px;
@@ -334,7 +334,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: fixed; /* บังคับสัดส่วนคอลัมน์ไม่ให้เบียดกัน */
 }
 
 .table th {
@@ -347,13 +347,20 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
+/* กำหนดความกว้างแต่ละคอลัมน์อย่างชัดเจน */
+.table th:nth-child(1), .table td:nth-child(1) { width: 35%; }
+.table th:nth-child(2), .table td:nth-child(2) { width: 25%; }
+.table th:nth-child(3), .table td:nth-child(3) { width: 25%; white-space: nowrap; }
+.table th:nth-child(4), .table td:nth-child(4) { width: 15%; text-align: right; }
+
 .table td {
   padding: 16px;
   border-bottom: 1px solid #e5e7eb;
   vertical-align: middle;
   font-size: 14px;
   color: #4b5563;
-  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .table tr:last-child td {
@@ -364,7 +371,14 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  white-space: normal;
+  width: 100%;
+  overflow: hidden;
+}
+
+.userCell span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .avatarSmall {
