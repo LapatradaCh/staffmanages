@@ -7,6 +7,7 @@
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .header {
@@ -77,6 +78,7 @@
   margin-bottom: 24px;
   flex-wrap: wrap;
   gap: 16px;
+  box-sizing: border-box;
 }
 
 .toolbarLeft {
@@ -106,6 +108,7 @@
   font-size: 14px;
   margin-left: 8px;
   height: 100%;
+  box-sizing: border-box;
 }
 
 .filterGroup {
@@ -238,6 +241,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  box-sizing: border-box;
 }
 
 .moreBtn {
@@ -310,6 +314,7 @@
   border-radius: 8px;
   font-size: 14px;
   color: #4b5563;
+  box-sizing: border-box;
 }
 
 .copyBtn {
@@ -400,6 +405,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   margin-bottom: 16px;
+  box-sizing: border-box;
 }
 
 .orgLogo {
@@ -425,6 +431,7 @@
   margin-bottom: 16px;
   color: #4b5563;
   font-size: 14px;
+  box-sizing: border-box;
 }
 
 .qrImage {
@@ -448,6 +455,7 @@
   z-index: 50;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .dropdownItem {
@@ -462,6 +470,7 @@
   border: none;
   text-align: left;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .dropdownItem:hover {
@@ -490,9 +499,17 @@
   background: #fef2f2;
 }
 
-/* Form Styles */
+/* Form & Modal Container Fixes */
+div[style*="position: fixed"] > div {
+  box-sizing: border-box;
+  max-width: 450px !important;
+  width: 100% !important;
+}
+
 .formGroup {
   margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .label {
@@ -539,6 +556,7 @@
   border-radius: 8px;
   cursor: pointer;
   box-sizing: border-box;
+  min-width: 0;
 }
 
 .roleRadioActive {
@@ -570,6 +588,7 @@
   display: flex;
   gap: 8px;
   margin-top: 16px;
+  box-sizing: border-box;
 }
 
 .btnApprove {
@@ -584,6 +603,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-sizing: border-box;
 }
 
 .btnReject {
@@ -598,6 +618,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-sizing: border-box;
 }
 
 .pendingLabel {
