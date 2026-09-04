@@ -1,20 +1,17 @@
 /* =========================================================
-   StaffManagement.css (Full Version + Responsive)
+   StaffManagement.css (Responsive & Anti-Wrapping Full Update)
 ========================================================= */
 
-/* --- 1. Global Box Sizing & Anti-Wrapping --- */
 * {
   box-sizing: border-box;
 }
 
-/* ป้องกันข้อความในปุ่มเด้งขึ้นบรรทัดใหม่ หรือทะลักกรอบ */
 button {
   white-space: nowrap !important;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
-/* --- 2. Container & Layout หลัก --- */
 .container {
   padding: 32px;
   background-color: #ffffff;
@@ -30,11 +27,12 @@ button {
   margin-bottom: 24px;
 }
 
+/* ปรับให้ขนาดตัวอักษรย่อ-ขยายอัตโนมัติ */
 .title {
-  font-size: 24px;
+  font-size: clamp(18px, 4vw, 24px);
   font-weight: 700;
   color: #1f2937;
-  margin-bottom: 8px;
+  margin: 0 0 4px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -43,12 +41,18 @@ button {
 .subtitle {
   font-size: 14px;
   color: #6b7280;
+  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* --- 3. Tabs --- */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .tabsContainer {
   display: flex;
   gap: 24px;
@@ -95,7 +99,6 @@ button {
   margin-left: 2px;
 }
 
-/* --- 4. Toolbar & Actions --- */
 .toolbar {
   display: flex;
   align-items: center;
@@ -245,7 +248,7 @@ button {
   background: #059669;
 }
 
-/* --- 5. Grid View & Cards --- */
+/* --- Grid View & Cards --- */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -357,7 +360,7 @@ button {
   flex-shrink: 0;
 }
 
-/* --- 6. Table View --- */
+/* --- Table View --- */
 .tableContainer {
   background: white;
   border-radius: 12px;
@@ -423,7 +426,7 @@ button {
   color: #4b5563;
 }
 
-/* --- 7. Pending Cards --- */
+/* --- Pending Cards --- */
 .pendingActions {
   display: flex;
   gap: 8px;
@@ -466,7 +469,7 @@ button {
   white-space: nowrap;
 }
 
-/* --- 8. Modals & Forms --- */
+/* --- Modals & Forms --- */
 .dropdownMenu {
   position: absolute;
   right: 0;
@@ -511,94 +514,23 @@ button {
   margin: 6px 0;
 }
 
-.formGroup {
-  margin-bottom: 16px;
-  width: 100%;
-}
-
-.label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.labelRequired {
-  color: #dc2626;
-}
-
-.input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-}
-
-.input:focus {
-  border-color: #10b981;
-}
-
-.roleOptions {
-  display: flex;
-  gap: 12px;
-  width: 100%;
-}
-
-.roleRadio {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.roleRadioActive {
-  border-color: #10b981;
-  background: #f0fdf4;
-}
-
-.modalFooter {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-  width: 100%;
-}
-
-.modalFooter button {
-  flex: 1;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* =========================================================
    MEDIA QUERIES (Mobile & Tablet Responsive)
 ========================================================= */
 
 @media (max-width: 768px) {
-  /* บีบหน้าจอระดับ Tablet/Mobile */
   .container {
     padding: 16px;
     border-radius: 12px;
   }
 
-  .title {
-    font-size: 18px;
+  .btn-shrink {
+    padding: 0 12px !important;
+    height: 36px !important;
+    font-size: 12px !important;
   }
 
-  .subtitle {
-    font-size: 12px;
-  }
-
-  /* Toolbar บีบให้เรียงลงมาและให้ปุ่มเต็มพื้นที่ */
+  /* Toolbar บีบให้เรียงลงมา */
   .toolbar {
     flex-direction: column;
     align-items: stretch;
@@ -631,26 +563,22 @@ button {
     flex: 1;
   }
 
-  /* Actions เลื่อนให้เป็น 1 แถวแต่ขนาดเล็กลง */
   .actions {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 8px;
   }
 
   .viewToggle {
     height: 40px;
+    width: 100%;
+  }
+  
+  .viewBtn {
+      flex: 1;
   }
 
-  .btnPrimary, .btnSecondary {
-    height: 40px;
-    font-size: 12px;
-    padding: 0 10px;
-    flex: 1;
-  }
-
-  /* Grid ให้เหลือคอลัมน์เดียว */
   .grid {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -684,18 +612,15 @@ button {
     font-size: 12px;
     padding: 8px 12px;
   }
-
-  .modalFooter button {
-    font-size: 12px;
-    padding: 10px;
-    height: 40px;
-  }
 }
 
 @media (max-width: 480px) {
-  /* สำหรับจอมือถือเล็กมากๆ (Small Mobile) */
-  .title {
-    font-size: 16px;
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .hide-mobile-text {
+    display: none !important;
   }
 
   .tab {
@@ -703,14 +628,9 @@ button {
     padding: 8px 0;
   }
 
-  /* ซ่อนข้อความยาวๆ เพื่อประหยัดพื้นที่ */
   .btnPrimary, .btnSecondary, .btnApprove, .btnReject {
     font-size: 11px;
     gap: 4px;
-    padding: 0 6px;
-  }
-
-  .btnSecondary .material-icons, .btnSecondary i {
-    display: none; 
+    padding: 0 8px;
   }
 }
