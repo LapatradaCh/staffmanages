@@ -322,7 +322,7 @@
   cursor: pointer;
 }
 
-/* List View */
+/* List View (Table Styles - เอา table-layout: fixed ออกเพื่อให้ตารางยืดหยุ่นตามเนื้อหา) */
 .tableContainer {
   background: white;
   border-radius: 12px;
