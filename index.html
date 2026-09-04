@@ -100,9 +100,7 @@
                         <button class="btnSecondary" onclick="openModal('qrModal')">
                             <i data-lucide="qr-code" style="width: 16px;"></i> QR Code เชิญ
                         </button>
-                        <button class="btnPrimary" onclick="openModal('addModal')">
-                            <i data-lucide="user-plus" style="width: 16px;"></i> เพิ่มเจ้าหน้าที่
-                        </button>
+                        <!-- ลบปุ่มเพิ่มเจ้าหน้าที่ออกแล้ว -->
                     </div>
                 </div>
 
@@ -251,45 +249,6 @@
                 <button class="btnPrimary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 20px; display: flex; align-items: center; gap: 8px; box-sizing: border-box;" onclick="copyText('https://traffy.in.th/join/lab2')">
                     <span class="material-icons" style="font-size: 18px;">share</span> แชร์ QR
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Staff Modal -->
-    <div id="addModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
-        <div style="background: white; border-radius: 16px; width: 100%; max-width: 420px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; box-sizing: border-box;">
-            <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-                <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">เพิ่มบุคลากรใหม่</h3>
-                <button onclick="closeModal('addModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
-            </div>
-            <div style="padding: 24px; box-sizing: border-box; width: 100%;">
-                <div class="formGroup">
-                    <label class="label">ชื่อ - นามสกุล <span class="labelRequired">*</span></label>
-                    <input type="text" class="input" id="addName" placeholder="ระบุชื่อและนามสกุล">
-                </div>
-                <div class="formGroup">
-                    <label class="label">เบอร์โทรศัพท์ <span class="labelRequired">*</span></label>
-                    <input type="text" class="input" id="addPhone" placeholder="0xxxxxxxxx">
-                </div>
-                <div class="formGroup">
-                    <label class="label">อีเมล (Email)</label>
-                    <input type="email" class="input" placeholder="example@email.com">
-                </div>
-                <div class="formGroup" style="margin-top: 20px;">
-                    <label class="label">กำหนดบทบาท <span class="labelRequired">*</span></label>
-                    <div class="roleOptions">
-                        <label class="roleRadio" id="radioAdmin" onclick="setNewRole('admin')">
-                            <input type="radio" name="role" value="admin" style="accent-color: #10b981;"> <span style="font-weight: 600; color: #374151; font-size: 14px;">ผู้ดูแลระบบ</span>
-                        </label>
-                        <label class="roleRadio roleRadioActive" id="radioStaff" onclick="setNewRole('staff')">
-                            <input type="radio" name="role" value="staff" checked style="accent-color: #10b981;"> <span style="font-weight: 600; color: #374151; font-size: 14px;">เจ้าหน้าที่</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="modalFooter">
-                    <button class="btnSecondary" style="justify-content: center; background: white;" onclick="closeModal('addModal')">ยกเลิก</button>
-                    <button class="btnPrimary" style="justify-content: center;" onclick="addNewStaff()">บันทึกข้อมูล</button>
-                </div>
             </div>
         </div>
     </div>
@@ -556,33 +515,6 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        function setNewRole(role) {
-            newRoleSelection = role;
-            document.getElementById('radioAdmin').className = `roleRadio ${role === 'admin' ? 'roleRadioActive' : ''}`;
-            document.getElementById('radioStaff').className = `roleRadio ${role === 'staff' ? 'roleRadioActive' : ''}`;
-        }
-
-        function addNewStaff() {
-            const name = document.getElementById('addName').value;
-            const phone = document.getElementById('addPhone').value;
-            if(!name || !phone) {
-                alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-                return;
-            }
-            staffList.push({
-                id: Date.now(),
-                name: name,
-                role: newRoleSelection,
-                phone: phone,
-                initial: name.charAt(0)
-            });
-            document.getElementById('addName').value = '';
-            document.getElementById('addPhone').value = '';
-            closeModal('addModal');
-            render();
-        }
-
-
         // ================= Functions สำหรับ Design 2, 3, 4 =================
         function toggleDesignMenu(e) {
             e.stopPropagation();
@@ -634,10 +566,11 @@
 
         // ================= Main Render Function =================
         function render() {
-            // Badges สำหรับทุกดีไซน์
+            // Badges สำหรับทุกดีไซน์ (รวมถึงการแก้ไขบั๊กจำนวนคำขอในดีไซน์ 4)
             document.getElementById('pendingBadge').innerText = pendingList.length;
             document.getElementById('d2PendingCount').innerText = pendingList.length;
             document.getElementById('d3PendingCount').innerText = pendingList.length;
+            document.getElementById('d4PendingCount').innerText = pendingList.length;
 
             const filtered = staffList.filter(s => {
                 const matchesRole = roleFilter === 'all' || s.role === roleFilter;
@@ -754,7 +687,7 @@
                     staffContainer.innerHTML = html;
                 }
 
-                // Render Pending Tab (ต้นฉบับ)
+                // Render Pending Tab (ต้นฉบับ 100%)
                 const pendingContainer = document.getElementById('pendingDisplayContainer');
                 let pendingHtml = '';
                 pendingList.forEach(pending => {
