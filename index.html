@@ -184,7 +184,6 @@
                 </div>
                 <button onclick="openModal('qrModal')" class="shrink-0 bg-white hover:bg-slate-50 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[10px] md:text-xs flex items-center gap-1.5 shadow-sm"><span class="material-icons text-sm">qr_code</span> <span class="hidden sm:inline">QR เชิญ</span></button>
             </div>
-            <!-- เปลี่ยนจาก Flex Row อย่างเดียวเป็น Flex-Col ในมือถือ แล้วเปลี่ยนเป็น Row ในจอใหญ่ -->
             <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-y-auto lg:overflow-x-auto lg:overflow-y-hidden pb-4 hide-scrollbar">
                 
                 <div class="flex flex-col bg-slate-200/50 rounded-2xl w-full lg:w-[320px] shrink-0 p-4 border border-slate-200 h-auto lg:h-full max-h-[500px] lg:max-h-full">
@@ -647,17 +646,20 @@
                     html += '</div>';
                     staffContainer.innerHTML = html;
                 } else {
+                    // **แก้ไข Table Dropdown ตรงนี้ให้ไม่โดนตัด**
                     let html = `<div class="tableContainer"><table class="table"><thead><tr><th style="width: 35%;">ผู้ใช้งาน</th><th style="width: 25%;">บทบาท</th><th style="width: 25%;">เบอร์ติดต่อ</th><th style="width: 15%; text-align: right;">จัดการ</th></tr></thead><tbody>`;
                     filtered.forEach(staff => {
                         html += `<tr>
                                 <td><div class="userCell"><div class="avatarSmall ${staff.role === 'staff' ? 'avatarStaffSmall' : ''}">${staff.initial}</div><span style="font-weight: 600; color: #1f2937;">${staff.name}</span></div></td>
                                 <td><div class="roleBadge ${staff.role === 'staff' ? 'roleBadgeStaff' : ''}" style="margin-bottom: 0;"><i data-lucide="${staff.role === 'admin' ? 'shield' : 'user'}" style="width: 12px;"></i> ${staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่'}</div></td>
                                 <td style="white-space: nowrap;">${staff.phone}</td>
-                                <td style="text-align: right;">
+                                <td style="text-align: right; overflow: visible;">
                                     <div style="position: relative; display: inline-block;">
-                                        <button class="moreBtn" style="position: relative; display: inline-flex;" onclick="toggleDropdown(${staff.id}, event)"><i data-lucide="more-vertical" style="width: 16px;"></i></button>
+                                        <button class="moreBtn" onclick="toggleDropdown(${staff.id}, event)">
+                                            <i data-lucide="more-vertical" style="width: 16px;"></i>
+                                        </button>
                                         ${activeDropdown === staff.id ? `
-                                            <div class="dropdownMenu" style="right: 0;">
+                                            <div class="dropdownMenu" style="right: 0; top: 100%; margin-top: 4px; z-index: 9999;">
                                                 <button class="dropdownItem" onclick="openEditModal(${staff.id})"><i data-lucide="edit-3" style="width: 16px;"></i> แก้ไขข้อมูล</button>
                                                 <button class="dropdownItem" onclick="openResponsibilitiesModal(${staff.id})"><i data-lucide="list-collapse" style="width: 16px;"></i> ด้านความรับผิดชอบ</button>
                                                 <button class="dropdownItem" onclick="handleToggleRole(${staff.id})"><i data-lucide="${staff.role === 'admin' ? 'arrow-down' : 'arrow-up'}" style="width: 16px;"></i> ${staff.role === 'admin' ? 'ลดสถานะ' : 'เพิ่มเป็นผู้ดูแล'}</button>
@@ -917,7 +919,7 @@
                             </div>
                             
                             <div class="bg-white/50 border border-white/60 p-3 rounded-2xl mb-5 text-center truncate">
-                                <span class="text-[10px] font-bold text-slate-600">เวลา: ${p.requestDate}</span>
+                                <span class="text-[10px] font-bold text-slate-600">ส่งคำขอเมื่อ: ${p.requestDate}</span>
                             </div>
                             
                             <div class="flex gap-2">

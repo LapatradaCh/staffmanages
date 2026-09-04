@@ -1,17 +1,20 @@
 /* =========================================================
-   StaffManagement.css (Responsive & Anti-Wrapping Full Update)
+   StaffManagement.css (Full Version + Fix Table Dropdown)
 ========================================================= */
 
+/* --- 1. Global Box Sizing & Anti-Wrapping --- */
 * {
   box-sizing: border-box;
 }
 
+/* ป้องกันข้อความในปุ่มเด้งขึ้นบรรทัดใหม่ หรือทะลักกรอบ */
 button {
   white-space: nowrap !important;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
+/* --- 2. Container & Layout หลัก --- */
 .container {
   padding: 32px;
   background-color: #ffffff;
@@ -27,7 +30,6 @@ button {
   margin-bottom: 24px;
 }
 
-/* ปรับให้ขนาดตัวอักษรย่อ-ขยายอัตโนมัติ */
 .title {
   font-size: clamp(18px, 4vw, 24px);
   font-weight: 700;
@@ -53,6 +55,7 @@ button {
   text-overflow: ellipsis;
 }
 
+/* --- 3. Tabs --- */
 .tabsContainer {
   display: flex;
   gap: 24px;
@@ -99,6 +102,7 @@ button {
   margin-left: 2px;
 }
 
+/* --- 4. Toolbar & Actions --- */
 .toolbar {
   display: flex;
   align-items: center;
@@ -248,7 +252,7 @@ button {
   background: #059669;
 }
 
-/* --- Grid View & Cards --- */
+/* --- 5. Grid View & Cards --- */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -360,13 +364,14 @@ button {
   flex-shrink: 0;
 }
 
-/* --- Table View --- */
+/* --- 6. Table View (แก้ไขบั๊ก Overflow & Alignment) --- */
 .tableContainer {
   background: white;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   overflow-x: auto;
+  min-height: 280px; /* เพิ่มพื้นที่เผื่อให้ Dropdown กางออกด้านล่างโดยไม่โดนตัด */
 }
 
 .table {
@@ -393,12 +398,20 @@ button {
   color: #4b5563;
   white-space: nowrap;
   max-width: 200px;
-  overflow: hidden;
   text-overflow: ellipsis;
+  overflow: visible !important; /* บังคับให้ทะลุกรอบ td เพื่อแสดง Dropdown ได้ */
 }
 
 .table tr:last-child td {
   border-bottom: none;
+}
+
+/* รีเซ็ตตำแหน่งของปุ่มในตารางให้จัดกึ่งกลางและไม่เด้งหลุดกรอบ */
+.table .moreBtn {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  display: inline-flex;
 }
 
 .userCell {
@@ -426,7 +439,7 @@ button {
   color: #4b5563;
 }
 
-/* --- Pending Cards --- */
+/* --- 7. Pending Cards --- */
 .pendingActions {
   display: flex;
   gap: 8px;
@@ -469,7 +482,7 @@ button {
   white-space: nowrap;
 }
 
-/* --- Modals & Forms --- */
+/* --- 8. Modals & Forms --- */
 .dropdownMenu {
   position: absolute;
   right: 0;
@@ -514,6 +527,74 @@ button {
   margin: 6px 0;
 }
 
+.formGroup {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.labelRequired {
+  color: #dc2626;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #10b981;
+}
+
+.roleOptions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.roleRadio {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.roleRadioActive {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.modalFooter {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  width: 100%;
+}
+
+.modalFooter button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* =========================================================
    MEDIA QUERIES (Mobile & Tablet Responsive)
 ========================================================= */
@@ -530,7 +611,6 @@ button {
     font-size: 12px !important;
   }
 
-  /* Toolbar บีบให้เรียงลงมา */
   .toolbar {
     flex-direction: column;
     align-items: stretch;
