@@ -50,13 +50,12 @@
                     <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">style</span> 4. Modern Floating Cards</span>
                     <span id="checkD4" class="material-icons text-sm text-emerald-600 hidden">check</span>
                 </button>
-                <!-- เพิ่มใหม่: ดีไซน์ 5 และ 6 -->
                 <button onclick="switchDesign(5)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50 transition-colors" id="btnD5">
                     <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">view_kanban</span> 5. Kanban Board Style</span>
                     <span id="checkD5" class="material-icons text-sm text-emerald-600 hidden">check</span>
                 </button>
                 <button onclick="switchDesign(6)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50 transition-colors" id="btnD6">
-                    <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">format_list_bulleted</span> 6. Minimalist Accordion</span>
+                    <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">blur_on</span> 6. Glassmorphism & Monochrome</span>
                     <span id="checkD6" class="material-icons text-sm text-emerald-600 hidden">check</span>
                 </button>
             </div>
@@ -218,9 +217,7 @@
                     <button onclick="openModal('qrModal')" class="bg-white hover:bg-slate-50 text-slate-800 px-4 py-2.5 rounded-full font-bold text-xs shadow-sm flex items-center gap-1.5"><span class="material-icons text-sm">qr_code</span> เชิญ</button>
                 </div>
             </div>
-            
             <div class="flex-1 flex gap-6 overflow-x-auto pb-4 hide-scrollbar">
-                <!-- Column 1: Admins -->
                 <div class="flex flex-col bg-slate-200/50 rounded-2xl w-[320px] shrink-0 p-4 border border-slate-200">
                     <div class="flex justify-between items-center mb-4 px-1">
                         <h3 class="font-bold text-slate-700 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-indigo-500"></span> ผู้ดูแลระบบ</h3>
@@ -228,8 +225,6 @@
                     </div>
                     <div class="flex flex-col gap-3 overflow-y-auto hide-scrollbar h-full" id="d5AdminCol"></div>
                 </div>
-
-                <!-- Column 2: Staff -->
                 <div class="flex flex-col bg-slate-200/50 rounded-2xl w-[320px] shrink-0 p-4 border border-slate-200">
                     <div class="flex justify-between items-center mb-4 px-1">
                         <h3 class="font-bold text-slate-700 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> เจ้าหน้าที่</h3>
@@ -237,8 +232,6 @@
                     </div>
                     <div class="flex flex-col gap-3 overflow-y-auto hide-scrollbar h-full" id="d5StaffCol"></div>
                 </div>
-
-                <!-- Column 3: Pending -->
                 <div class="flex flex-col bg-amber-100/30 rounded-2xl w-[320px] shrink-0 p-4 border border-amber-200/50">
                     <div class="flex justify-between items-center mb-4 px-1">
                         <h3 class="font-bold text-amber-700 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span> รอพิจารณา</h3>
@@ -251,32 +244,47 @@
     </div>
 
 
-    <!-- ================= DESIGN 6 (Minimalist Accordion) ================= -->
-    <div id="design6Container" class="design-view hidden">
-        <div class="bg-white p-6 md:p-10 max-w-4xl mx-auto space-y-8">
-            <div class="flex justify-between items-end border-b-2 border-slate-900 pb-4">
+    <!-- ================= DESIGN 6 (Glassmorphism & Monochrome) ================= -->
+    <div id="design6Container" class="design-view hidden relative">
+        <!-- Abstract Background for Glass effect -->
+        <div class="absolute inset-0 z-0 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 rounded-3xl overflow-hidden">
+            <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-white/60 blur-[80px] rounded-full"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-slate-400/30 blur-[60px] rounded-full"></div>
+        </div>
+
+        <div class="relative z-10 p-6 md:p-10 min-h-[80vh]">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 bg-white/40 backdrop-blur-md border border-white/60 p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                 <div>
-                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Directory.</h1>
-                    <p class="text-sm font-medium text-slate-500 mt-1">สมุดรายชื่อและสิทธิ์บุคลากร</p>
+                    <h1 class="text-3xl font-black text-slate-800 tracking-tight">Staff Management</h1>
+                    <p class="text-sm font-medium text-slate-500 mt-1">Glassmorphism & Monochrome UI</p>
                 </div>
                 <div class="flex items-center gap-4">
-                    <button onclick="setD6Tab('staff')" id="d6TabStaff" class="text-sm font-bold text-slate-900 border-b-2 border-slate-900 pb-1">บุคลากร</button>
-                    <button onclick="setD6Tab('pending')" id="d6TabPending" class="text-sm font-bold text-slate-400 pb-1 hover:text-slate-600">คำขอ <span id="d6PendingCount" class="text-xs bg-slate-900 text-white px-1.5 py-0.5 rounded-md">0</span></button>
-                    <button onclick="openModal('qrModal')" class="ml-4 bg-slate-900 text-white px-4 py-2 rounded-none font-bold text-xs hover:bg-slate-800">+ เชิญ</button>
+                    <!-- ปุ่ม QR Code แบบใหม่ (ไม่มีคำว่า + หรือเพิ่มสมาชิก) -->
+                    <button onclick="openModal('qrModal')" class="flex items-center gap-2 bg-slate-800 text-white px-5 py-3 rounded-2xl font-bold text-xs hover:bg-slate-900 transition-colors shadow-lg shadow-slate-900/20">
+                        <span class="material-icons text-sm">qr_code_2</span> QR Code เชิญ
+                    </button>
                 </div>
             </div>
 
-            <div class="relative">
-                <input type="text" placeholder="พิมพ์ชื่อเพื่อค้นหา..." oninput="handleSearch(this.value)" class="w-full bg-transparent border-b border-slate-200 py-3 text-lg font-medium focus:outline-none focus:border-emerald-500 transition-colors placeholder-slate-300">
+            <!-- Tabs & Search -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+                <div class="flex gap-2 p-1.5 bg-white/30 backdrop-blur-md border border-white/50 rounded-2xl">
+                    <button onclick="setD6Tab('staff')" id="d6TabStaff" class="px-6 py-2.5 rounded-xl text-xs font-bold bg-white/80 text-slate-900 shadow-sm transition-all">บุคลากรทั้งหมด</button>
+                    <button onclick="setD6Tab('pending')" id="d6TabPending" class="px-6 py-2.5 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-white/40 transition-all flex items-center gap-2">รออนุมัติ <span id="d6PendingCount" class="bg-slate-800 text-white px-2 py-0.5 rounded-full text-[10px]">0</span></button>
+                </div>
+                <div class="relative w-full md:w-80">
+                    <span class="material-icons absolute left-4 top-3 text-slate-400 text-sm">search</span>
+                    <input type="text" placeholder="ค้นหารายชื่อ..." oninput="handleSearch(this.value)" class="w-full bg-white/50 backdrop-blur-md border border-white/60 rounded-2xl pl-10 pr-4 py-2.5 text-xs font-medium focus:outline-none focus:bg-white/80 focus:ring-2 ring-slate-400/20 transition-all text-slate-800 placeholder-slate-400 shadow-sm">
+                </div>
             </div>
 
-            <div class="flex flex-col divide-y divide-slate-100" id="d6AccordionList"></div>
+            <!-- Grid Content -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="d6Grid"></div>
         </div>
     </div>
 
 
     <!-- ================= MODALS ดั้งเดิมทั้งหมด ================= -->
-    <!-- (QR Code, Edit, Responsibilities, PendingInfo คงไว้เหมือนเดิมทุกประการ) -->
     
     <!-- QR Code Modal -->
     <div id="qrModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
@@ -300,7 +308,7 @@
                     </div>
                     <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; text-align: center; width: 100%; max-width: 220px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center;">
                         <div style="color: #10b981; font-weight: 700; font-size: 15px; margin-bottom: 2px;">QR Code</div>
-                        <div style="color: #6b7280; font-size: 12px; margin-bottom: 12px;">เพิ่มเจ้าหน้าที่</div>
+                        <div style="color: #6b7280; font-size: 12px; margin-bottom: 12px;">เชิญเจ้าหน้าที่</div>
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://traffy.in.th/join/lab2" alt="QR Code" style="width: 100%; max-width: 150px; height: auto; display: block; margin: 0 auto;">
                     </div>
                 </div>
@@ -394,13 +402,13 @@
         let selectedResp = ['น้ำท่วม', 'ไฟฟ้า'];
 
         let staffList = [
-            { id: 1, name: 'สมชาย ใจดี', role: 'admin', phone: '080-000-0001', initial: 'ส' },
-            { id: 2, name: 'สมหญิง รักสงบ', role: 'admin', phone: '080-000-0002', initial: 'ส' },
-            { id: 3, name: 'มานะ ขยันเรียน', role: 'staff', phone: '080-000-0003', initial: 'ม' },
-            { id: 4, name: 'ปิติ รักไทย', role: 'staff', phone: '080-000-0004', initial: 'ป' },
-            { id: 6, name: 'วารี สายน้ำ', role: 'staff', phone: '081-234-5678', initial: 'ว' },
-            { id: 7, name: 'อาทิตย์ รุ่งเรือง', role: 'staff', phone: '089-876-5432', initial: 'อ' },
-            { id: 8, name: 'นภา เมฆสี', role: 'admin', phone: '086-111-2222', initial: 'น' }
+            { id: 1, name: 'สมชาย ใจดี', role: 'admin', phone: '080-000-0001', initial: 'ส', resp: ['น้ำท่วม', 'ไฟฟ้า'] },
+            { id: 2, name: 'สมหญิง รักสงบ', role: 'admin', phone: '080-000-0002', initial: 'ส', resp: ['ความสะอาด'] },
+            { id: 3, name: 'มานะ ขยันเรียน', role: 'staff', phone: '080-000-0003', initial: 'ม', resp: ['น้ำท่วม'] },
+            { id: 4, name: 'ปิติ รักไทย', role: 'staff', phone: '080-000-0004', initial: 'ป', resp: ['ไฟฟ้า'] },
+            { id: 6, name: 'วารี สายน้ำ', role: 'staff', phone: '081-234-5678', initial: 'ว', resp: ['ความสะอาด'] },
+            { id: 7, name: 'อาทิตย์ รุ่งเรือง', role: 'staff', phone: '089-876-5432', initial: 'อ', resp: ['น้ำท่วม'] },
+            { id: 8, name: 'นภา เมฆสี', role: 'admin', phone: '086-111-2222', initial: 'น', resp: ['ไฟฟ้า', 'ความสะอาด'] }
         ];
 
         let pendingList = [
@@ -417,7 +425,6 @@
         let d3Tab = 'all';
         let d4Tab = 'staff';
         let d6Tab = 'staff';
-        let expandedD6Id = null;
 
         // ================= Core Functions (ดั้งเดิม) =================
         function switchTab(tab) {
@@ -472,7 +479,7 @@
             const item = pendingList.find(p => p.id === id);
             if (item) {
                 pendingList = pendingList.filter(p => p.id !== id);
-                staffList.push({ ...item, role: 'staff' });
+                staffList.push({ ...item, role: 'staff', resp: ['น้ำท่วม'] });
                 render();
             }
         }
@@ -510,6 +517,9 @@
         }
 
         function openResponsibilitiesModal(id) {
+            editingStaffId = id;
+            const staff = staffList.find(s => s.id === id);
+            selectedResp = staff.resp ? [...staff.resp] : [];
             activeDropdown = null;
             renderRespList();
             openModal('responsibilitiesModal');
@@ -517,13 +527,21 @@
 
         function toggleResp(resp) {
             selectedResp = selectedResp.includes(resp) ? selectedResp.filter(r => r !== resp) : [...selectedResp, resp];
+            if(editingStaffId !== null) {
+                staffList = staffList.map(s => s.id === editingStaffId ? { ...s, resp: [...selectedResp] } : s);
+            }
             renderRespList();
+            render(); // อัปเดต UI หน้าจอหลักทันที
         }
 
         function selectAllResp() {
             if (selectedResp.length === 3) selectedResp = [];
             else selectedResp = ['น้ำท่วม', 'ความสะอาด', 'ไฟฟ้า'];
+            if(editingStaffId !== null) {
+                staffList = staffList.map(s => s.id === editingStaffId ? { ...s, resp: [...selectedResp] } : s);
+            }
             renderRespList();
+            render();
         }
 
         function renderRespList() {
@@ -583,7 +601,7 @@
                 3: 'ดีไซน์ที่ 3 (Enterprise Table)',
                 4: 'ดีไซน์ที่ 4 (Modern Cards)',
                 5: 'ดีไซน์ที่ 5 (Kanban Board)',
-                6: 'ดีไซน์ที่ 6 (Minimalist Accordion)'
+                6: 'ดีไซน์ที่ 6 (Glassmorphism & Monochrome)'
             };
             document.getElementById('currentDesignLabel').innerText = `เลือกดีไซน์: ${labels[num]}`;
             render();
@@ -614,16 +632,10 @@
 
         function setD6Tab(tab) {
             d6Tab = tab;
-            document.getElementById('d6TabStaff').className = `text-sm font-bold pb-1 transition-all ${tab === 'staff' ? 'text-slate-900 border-b-2 border-slate-900' : 'text-slate-400 hover:text-slate-600'}`;
-            document.getElementById('d6TabPending').className = `text-sm font-bold pb-1 transition-all flex items-center gap-1 ${tab === 'pending' ? 'text-slate-900 border-b-2 border-slate-900' : 'text-slate-400 hover:text-slate-600'}`;
+            document.getElementById('d6TabStaff').className = `px-6 py-2.5 rounded-xl text-xs font-bold shadow-sm transition-all ${tab === 'staff' ? 'bg-white/80 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-white/40'}`;
+            document.getElementById('d6TabPending').className = `px-6 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${tab === 'pending' ? 'bg-white/80 text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800 hover:bg-white/40'}`;
             render();
         }
-
-        function toggleExpandD6(id) {
-            expandedD6Id = expandedD6Id === id ? null : id;
-            render();
-        }
-
 
         // ================= Main Render =================
         function render() {
@@ -831,10 +843,9 @@
                             <div class="flex gap-2"><button onclick="handleReject(${p.id})" class="flex-1 bg-white border border-rose-200 text-rose-600 font-bold py-2 rounded-xl text-xs hover:bg-rose-50">ปฏิเสธ</button><button onclick="handleApprove(${p.id})" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs">อนุมัติ</button></div>
                         </div>`;
                     });
-                    gridEl.innerHTML = gHtml || '<p class="col-span-full text-center text-xs text-slate-500 py-10">ไม่มีคำขอ</p>';
+                    gridEl.innerHTML = gHtml || '<p class="col-span-full text-center text-xs text-slate-500 py-10">ไม่มีคำขอรออนุมัติ</p>';
                 }
             }
-
 
             // ----------- DESIGN 5 (Kanban Board) -----------
             if (currentDesign === 5) {
@@ -845,7 +856,6 @@
                 document.getElementById('d5StaffCount').innerText = staffs.length;
                 document.getElementById('d5PendingCount').innerText = pendingFiltered.length;
 
-                // Admin Column
                 let adminHtml = '';
                 admins.forEach(s => {
                     adminHtml += `<div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all group">
@@ -861,7 +871,6 @@
                 });
                 document.getElementById('d5AdminCol').innerHTML = adminHtml || '<div class="text-center text-xs text-slate-400 py-4 border-2 border-dashed border-slate-300 rounded-xl">ไม่มีข้อมูล</div>';
 
-                // Staff Column
                 let staffHtml = '';
                 staffs.forEach(s => {
                     staffHtml += `<div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all group">
@@ -878,7 +887,6 @@
                 });
                 document.getElementById('d5StaffCol').innerHTML = staffHtml || '<div class="text-center text-xs text-slate-400 py-4 border-2 border-dashed border-slate-300 rounded-xl">ไม่มีข้อมูล</div>';
 
-                // Pending Column
                 let penHtml = '';
                 pendingFiltered.forEach(p => {
                     penHtml += `<div class="bg-white p-3 rounded-xl shadow-sm border border-amber-200 hover:shadow-md transition-all">
@@ -894,64 +902,64 @@
                 document.getElementById('d5PendingCol').innerHTML = penHtml || '<div class="text-center text-xs text-slate-400 py-4 border-2 border-dashed border-amber-200 rounded-xl">ไม่มีคำขอ</div>';
             }
 
-            // ----------- DESIGN 6 (Minimalist Accordion) -----------
+            // ----------- DESIGN 6 (Glassmorphism & Monochrome) -----------
             if (currentDesign === 6) {
-                const listEl = document.getElementById('d6AccordionList');
+                const gridEl = document.getElementById('d6Grid');
                 if (d6Tab === 'staff') {
                     let html = '';
                     filtered.forEach(s => {
-                        const isExpanded = expandedD6Id === s.id;
                         html += `
-                            <div class="py-4">
-                                <div class="flex items-center justify-between cursor-pointer group" onclick="toggleExpandD6(${s.id})">
-                                    <div class="flex items-center gap-4">
-                                        <div class="text-2xl font-black text-slate-300 group-hover:text-emerald-500 transition-colors w-8">${s.initial}</div>
-                                        <div class="text-xl font-bold text-slate-900 group-hover:pl-2 transition-all">${s.name} <span class="text-[10px] align-middle px-2 py-0.5 bg-slate-100 text-slate-500 rounded-sm uppercase ml-2 tracking-widest">${s.role}</span></div>
+                        <div class="bg-white/40 backdrop-blur-xl border border-white/60 p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between hover:bg-white/50 transition-all">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-14 h-14 rounded-full bg-slate-800 text-white font-extrabold text-xl flex items-center justify-center shadow-md">${s.initial}</div>
+                                    <div>
+                                        <h3 class="text-sm font-black text-slate-800">${s.name}</h3>
+                                        <p class="text-[10px] text-slate-500 font-mono mt-0.5 tracking-wider">${s.phone}</p>
                                     </div>
-                                    <span class="material-icons text-slate-300 group-hover:text-slate-900 transition-colors transform ${isExpanded ? 'rotate-180' : ''}">expand_more</span>
                                 </div>
-                                
-                                ${isExpanded ? `
-                                    <div class="mt-6 pl-12 flex flex-col md:flex-row gap-8 animate-[fadeIn_0.2s_ease-out]">
-                                        <div class="space-y-1 border-l-2 border-slate-200 pl-4">
-                                            <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">ติดต่อ</p>
-                                            <p class="text-sm font-mono text-slate-800">${s.phone}</p>
-                                        </div>
-                                        
-                                        <div class="flex items-center gap-3">
-                                            <button onclick="openEditModal(${s.id})" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors">แก้ไข</button>
-                                            <button onclick="openResponsibilitiesModal(${s.id})" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors">หน้าที่</button>
-                                            <button onclick="handleToggleRole(${s.id})" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors">สลับสิทธิ์</button>
-                                            <button onclick="handleRemoveStaff(${s.id})" class="px-4 py-2 bg-rose-50 text-rose-600 text-xs font-bold hover:bg-rose-100 transition-colors">ลบ</button>
-                                        </div>
-                                    </div>
-                                ` : ''}
                             </div>
-                        `;
+                            
+                            <div class="flex justify-between items-center bg-white/50 border border-white/60 p-3 rounded-2xl mb-5">
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold ${s.role==='admin'?'bg-slate-800 text-white':'bg-slate-200 text-slate-700'}">${s.role==='admin'?'ผู้ดูแลระบบ':'เจ้าหน้าที่'}</span>
+                                <span class="text-[10px] font-bold text-slate-500 truncate max-w-[120px]">${s.resp?s.resp.join(', '):'ไม่มีข้อมูล'}</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="openEditModal(${s.id})" class="col-span-1 bg-white/60 hover:bg-white text-slate-700 py-2.5 rounded-xl font-bold text-[10px] transition-colors border border-white flex justify-center items-center" title="แก้ไข"><span class="material-icons text-[16px]">edit</span></button>
+                                <button onclick="openResponsibilitiesModal(${s.id})" class="col-span-1 bg-white/60 hover:bg-white text-slate-700 py-2.5 rounded-xl font-bold text-[10px] transition-colors border border-white flex justify-center items-center" title="ความรับผิดชอบ"><span class="material-icons text-[16px]">task</span></button>
+                                <button onclick="handleToggleRole(${s.id})" class="col-span-1 bg-white/60 hover:bg-white text-slate-700 py-2.5 rounded-xl font-bold text-[10px] transition-colors border border-white flex justify-center items-center" title="สลับสิทธิ์"><span class="material-icons text-[16px]">swap_vert</span></button>
+                                <button onclick="handleRemoveStaff(${s.id})" class="col-span-1 bg-white/60 hover:bg-rose-50 text-rose-600 py-2.5 rounded-xl font-bold text-[10px] transition-colors border border-white flex justify-center items-center" title="ลบออกจากระบบ"><span class="material-icons text-[16px]">delete</span></button>
+                            </div>
+                        </div>`;
                     });
-                    listEl.innerHTML = html || '<div class="py-8 text-center text-slate-400">ไม่พบรายชื่อบุคลากร</div>';
+                    gridEl.innerHTML = html || '<div class="col-span-full py-8 text-center text-slate-400 bg-white/30 backdrop-blur-md rounded-3xl border border-white/50">ไม่พบรายชื่อบุคลากร</div>';
                 } else {
                     let html = '';
                     pendingFiltered.forEach(p => {
                         html += `
-                            <div class="py-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-4">
-                                        <div class="text-2xl font-black text-amber-300 w-8">${p.initial}</div>
-                                        <div>
-                                            <div class="text-xl font-bold text-slate-900">${p.name}</div>
-                                            <div class="text-xs font-mono text-slate-500 mt-1">${p.phone} &bull; ${p.requestDate}</div>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <button onclick="handleReject(${p.id})" class="px-6 py-2 border border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-50 transition-colors">ปฏิเสธ</button>
-                                        <button onclick="handleApprove(${p.id})" class="px-6 py-2 bg-emerald-500 text-white text-xs font-bold hover:bg-emerald-600 transition-colors">อนุมัติ</button>
+                        <div class="bg-white/40 backdrop-blur-xl border border-white/60 p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between hover:bg-white/50 transition-all">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-14 h-14 rounded-full bg-slate-300 text-slate-700 font-extrabold text-xl flex items-center justify-center shadow-md">${p.initial}</div>
+                                    <div>
+                                        <h3 class="text-sm font-black text-slate-800">${p.name}</h3>
+                                        <p class="text-[10px] text-slate-500 font-mono mt-0.5 tracking-wider">${p.phone}</p>
                                     </div>
                                 </div>
                             </div>
-                        `;
+                            
+                            <div class="bg-white/50 border border-white/60 p-3 rounded-2xl mb-5 text-center">
+                                <span class="text-[10px] font-bold text-slate-600">ส่งคำขอเมื่อ: ${p.requestDate}</span>
+                            </div>
+                            
+                            <div class="flex gap-2">
+                                <button onclick="handleReject(${p.id})" class="flex-1 bg-white/60 hover:bg-white text-rose-600 border border-white font-bold py-2.5 rounded-xl text-xs transition-colors shadow-sm">ปฏิเสธ</button>
+                                <button onclick="handleApprove(${p.id})" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs transition-colors shadow-sm shadow-slate-800/20">อนุมัติ</button>
+                            </div>
+                        </div>`;
                     });
-                    listEl.innerHTML = html || '<div class="py-8 text-center text-slate-400">ไม่มีคำขอใหม่</div>';
+                    gridEl.innerHTML = html || '<div class="col-span-full py-8 text-center text-slate-400 bg-white/30 backdrop-blur-md rounded-3xl border border-white/50">ไม่มีคำขอใหม่</div>';
                 }
             }
 
