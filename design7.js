@@ -157,7 +157,7 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
                 ? 'bg-white/20 text-white' 
                 : 'bg-slate-100 text-slate-700';
 
-            // สีป้ายกำกับด้านซ้าย: ผู้ดูแล=สีน้ำเงิน, เจ้าหน้าที่=สีเทา
+            // สีป้ายกำกับ
             const badgeClass = isSel
                 ? 'bg-white/20 text-white'
                 : (s.role === 'admin' ? 'bg-blue-50 text-blue-700' : 'bg-slate-50 text-slate-600 border border-slate-100');
@@ -182,9 +182,6 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
             // ผู้ดูแล = สีน้ำเงิน, เจ้าหน้าที่ = สีเทา
             const roleBadgeClass = s.role === 'admin' ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-700';
 
-            // ตรวจสอบว่าเคย Authen หรือไม่ (ถ้าใน Array ไม่มี isAuthen ให้ถือว่า true ไว้ก่อน)
-            const isAuthen = s.isAuthen !== false;
-
             detailEl.innerHTML = `
                 <div class="flex flex-col h-full">
                     
@@ -194,7 +191,12 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
                         <div class="min-w-0 flex-1 pt-1">
                             <h3 class="text-[18px] font-black text-slate-900 truncate">${s.name}</h3>
                             <p class="text-[13px] text-slate-500 font-mono mb-1.5">${s.phone}</p>
-                            <span class="inline-block ${roleBadgeClass} px-3 py-1 rounded-full text-[10px] font-bold">${s.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่'}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="inline-block ${roleBadgeClass} px-3 py-1 rounded-full text-[10px] font-bold">${s.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่'}</span>
+                                <button onclick="handleToggleRole(${s.id})" class="w-7 h-7 flex items-center justify-center bg-white border border-slate-200 hover:bg-slate-100 rounded-full text-slate-500 transition-colors" title="สลับสิทธิ์">
+                                    <span class="material-icons text-[14px]">swap_horiz</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -211,68 +213,35 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
                         </button>
                     </div>
 
-                    <!-- 3 Status Cards (แยกกรณี Authen กับยังไม่ Authen) -->
+                    <!-- 3 Status Cards -->
                     <div class="grid grid-cols-3 gap-2 md:gap-4 mb-auto">
-                        ${isAuthen ? `
-                            <div class="p-3 bg-emerald-50/50 border border-emerald-100/50 rounded-xl flex flex-col gap-1.5">
-                                <span class="material-icons text-emerald-500 text-[16px]">verified</span>
-                                <div>
-                                    <div class="text-[9px] font-bold text-emerald-600/70 mb-0.5">สถานะ Authen</div>
-                                    <div class="text-[10px] md:text-[11px] font-bold text-emerald-700 truncate">ผ่านการ Authen</div>
-                                </div>
+                        <div class="p-3 bg-emerald-50/50 border border-emerald-100/50 rounded-xl flex flex-col gap-1.5">
+                            <span class="material-icons text-emerald-500 text-[16px]">verified</span>
+                            <div>
+                                <div class="text-[9px] font-bold text-emerald-600/70 mb-0.5">สถานะ Authen</div>
+                                <div class="text-[10px] md:text-[11px] font-bold text-emerald-700 truncate">ผ่านการ Authen</div>
                             </div>
-                            <div class="p-3 bg-blue-50/50 border border-blue-100/50 rounded-xl flex flex-col gap-1.5">
-                                <span class="material-icons text-blue-500 text-[16px]">login</span>
-                                <div>
-                                    <div class="text-[9px] font-bold text-blue-600/70 mb-0.5">เข้าครั้งแรก</div>
-                                    <div class="text-[10px] md:text-[11px] font-bold text-blue-700 truncate">10 มี.ค. 2024</div>
-                                </div>
+                        </div>
+                        <div class="p-3 bg-blue-50/50 border border-blue-100/50 rounded-xl flex flex-col gap-1.5">
+                            <span class="material-icons text-blue-500 text-[16px]">login</span>
+                            <div>
+                                <div class="text-[9px] font-bold text-blue-600/70 mb-0.5">เข้าครั้งแรก</div>
+                                <div class="text-[10px] md:text-[11px] font-bold text-blue-700 truncate">10 มี.ค. 2024</div>
                             </div>
-                            <div class="p-3 bg-amber-50/50 border border-amber-100/50 rounded-xl flex flex-col gap-1.5">
-                                <span class="material-icons text-amber-500 text-[16px]">history</span>
-                                <div>
-                                    <div class="text-[9px] font-bold text-amber-600/70 mb-0.5">ใช้งานล่าสุด</div>
-                                    <div class="text-[10px] md:text-[11px] font-bold text-amber-700 truncate">วันนี้ 08:15</div>
-                                </div>
+                        </div>
+                        <div class="p-3 bg-amber-50/50 border border-amber-100/50 rounded-xl flex flex-col gap-1.5">
+                            <span class="material-icons text-amber-500 text-[16px]">history</span>
+                            <div>
+                                <div class="text-[9px] font-bold text-amber-600/70 mb-0.5">ใช้งานล่าสุด</div>
+                                <div class="text-[10px] md:text-[11px] font-bold text-amber-700 truncate">วันนี้ 08:15</div>
                             </div>
-                        ` : `
-                            <div class="p-3 bg-slate-50 border border-slate-200/60 rounded-xl flex flex-col gap-1.5">
-                                <span class="material-icons text-slate-400 text-[16px]">hourglass_empty</span>
-                                <div>
-                                    <div class="text-[9px] font-bold text-slate-400 mb-0.5">สถานะ Authen</div>
-                                    <div class="text-[10px] md:text-[11px] font-bold text-slate-500 truncate">ยังไม่ Authen</div>
-                                </div>
-                            </div>
-                            <div class="p-3 bg-slate-50 border border-slate-200/60 rounded-xl flex flex-col gap-1.5 opacity-60">
-                                <span class="material-icons text-slate-300 text-[16px]">login</span>
-                                <div>
-                                    <div class="text-[9px] font-bold text-slate-400 mb-0.5">เข้าครั้งแรก</div>
-                                    <div class="text-[10px] md:text-[11px] font-bold text-slate-400 truncate">-</div>
-                                </div>
-                            </div>
-                            <div class="p-3 bg-slate-50 border border-slate-200/60 rounded-xl flex flex-col gap-1.5 opacity-60">
-                                <span class="material-icons text-slate-300 text-[16px]">history</span>
-                                <div>
-                                    <div class="text-[9px] font-bold text-slate-400 mb-0.5">ใช้งานล่าสุด</div>
-                                    <div class="text-[10px] md:text-[11px] font-bold text-slate-400 truncate">-</div>
-                                </div>
-                            </div>
-                        `}
+                        </div>
                     </div>
 
-                    <!-- ปุ่ม Action เรียงติดกัน (เหลือแก้ไข, หน้าที่, เปลี่ยนสถานะ, ถังขยะ) -->
-                    <div class="flex gap-2 pt-6 mt-6 border-t border-slate-100">
-                        <button onclick="openEditModal(${s.id})" class="flex-[1.5] bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-3.5 rounded-xl text-[11px] md:text-xs flex justify-center items-center gap-1.5 transition-colors">
-                            <span class="material-icons text-[14px]">edit</span> แก้ไข
-                        </button>
-                        <button onclick="openResponsibilitiesModal(${s.id})" class="flex-[1.5] bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-3.5 rounded-xl text-[11px] md:text-xs flex justify-center items-center gap-1.5 transition-colors">
-                            <span class="material-icons text-[14px]">assignment</span> หน้าที่
-                        </button>
-                        <button onclick="handleToggleRole(${s.id})" class="flex-[2] bg-[#059669] hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-[11px] md:text-xs transition-colors">
-                            ${s.role === 'admin' ? 'ลดสถานะ' : 'เพิ่มเป็นผู้ดูแล'}
-                        </button>
-                        <button onclick="handleRemoveStaff(${s.id})" class="w-12 shrink-0 flex items-center justify-center bg-rose-50 hover:bg-rose-100 text-rose-500 rounded-xl transition-colors">
-                            <span class="material-icons text-[16px]">delete</span>
+                    <!-- ปุ่ม Action (ลบปุ่มแก้ไขข้อมูลออก เหลือแค่ ลบออกจากหน่วยงาน) -->
+                    <div class="pt-6 mt-6 border-t border-slate-100 flex justify-end">
+                        <button onclick="handleRemoveStaff(${s.id})" class="flex items-center gap-1.5 px-5 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl text-xs font-bold transition-colors">
+                            <span class="material-icons text-[16px]">person_remove</span> ลบออกจากหน่วยงาน
                         </button>
                     </div>
 
