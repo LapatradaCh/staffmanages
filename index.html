@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จัดการเจ้าหน้าที่ในหน่วยงาน - Multi-Design (6 Designs)</title>
+    <title>จัดการเจ้าหน้าที่ในหน่วยงาน - สรุปดีไซน์</title>
     <link rel="stylesheet" href="StaffManagement.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -23,23 +23,31 @@
         <div class="relative" id="designDropdownContainer">
             <button onclick="toggleDesignMenu(event)" class="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-700 shadow-sm transition-all" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 <span class="material-icons text-emerald-600 text-sm">dashboard_customize</span>
-                <span id="currentDesignLabel">เลือกดีไซน์: ดีไซน์ที่ 1 (ต้นฉบับ)</span>
+                <span id="currentDesignLabel">เลือกดีไซน์: สรุปดีไซน์ (Hybrid Custom)</span>
                 <span class="material-icons text-slate-400 text-sm">expand_more</span>
             </button>
             <div id="designMenu" class="hidden absolute right-0 mt-2 w-72 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 space-y-1 text-xs" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                <div class="px-3 py-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider border-b border-slate-100">เลือกรูปแบบการแสดงผล (6 ดีไซน์)</div>
-                <button onclick="switchDesign(1)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50 transition-colors" id="btnD1"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">grid_view</span> 1. ดีไซน์ต้นฉบับ</span><span id="checkD1" class="material-icons text-sm text-emerald-600">check</span></button>
+                
+                <div class="px-3 py-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider border-b border-slate-100">รูปแบบการแสดงผล (ดีไซน์ที่ 1-6)</div>
+                <button onclick="switchDesign(1)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50 transition-colors" id="btnD1"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">grid_view</span> 1. ดีไซน์ต้นฉบับ</span><span id="checkD1" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
                 <button onclick="switchDesign(2)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50 transition-colors" id="btnD2"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">view_sidebar</span> 2. Split Master-Detail</span><span id="checkD2" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
                 <button onclick="switchDesign(3)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50 transition-colors" id="btnD3"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">table_chart</span> 3. Enterprise Table</span><span id="checkD3" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
                 <button onclick="switchDesign(4)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50 transition-colors" id="btnD4"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">style</span> 4. Modern Cards</span><span id="checkD4" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
                 <button onclick="switchDesign(5)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50 transition-colors" id="btnD5"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">view_kanban</span> 5. Kanban Board</span><span id="checkD5" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
                 <button onclick="switchDesign(6)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50 transition-colors" id="btnD6"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">blur_on</span> 6. Glassmorphism</span><span id="checkD6" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
+                
+                <!-- แยกส่วนสรุปดีไซน์ -->
+                <div class="pt-2 pb-1">
+                    <div class="border-t border-slate-200"></div>
+                </div>
+                <div class="px-3 py-1.5 text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider">สรุปดีไซน์</div>
+                <button onclick="switchDesign(7)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-900 bg-emerald-50 transition-colors" id="btnD7"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">auto_awesome</span> สรุปดีไซน์ (Hybrid Custom)</span><span id="checkD7" class="material-icons text-sm text-emerald-600">check</span></button>
             </div>
         </div>
     </div>
 
     <!-- ================= DESIGN 1 (ต้นฉบับดั้งเดิม 100%) ================= -->
-    <div id="design1Container">
+    <div id="design1Container" class="hidden">
         <div class="container">
             <div class="header">
                 <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap;">
@@ -88,7 +96,6 @@
         </div>
     </div>
 
-
     <!-- ================= DESIGN 2 (Split Master-Detail) ================= -->
     <div id="design2Container" class="design-view hidden">
         <div class="bg-white border border-slate-200 rounded-3xl p-4 md:p-8 shadow-sm">
@@ -115,7 +122,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- ================= DESIGN 3 (Enterprise Table) ================= -->
     <div id="design3Container" class="design-view hidden">
@@ -148,7 +154,6 @@
         </div>
     </div>
 
-
     <!-- ================= DESIGN 4 (Modern Floating Cards) ================= -->
     <div id="design4Container" class="design-view hidden">
         <div class="bg-white border border-slate-200 rounded-3xl p-4 md:p-8 shadow-sm space-y-4 md:space-y-6">
@@ -172,7 +177,6 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6" id="d4CardsGrid"></div>
         </div>
     </div>
-
 
     <!-- ================= DESIGN 5 (Kanban Board Style) ================= -->
     <div id="design5Container" class="design-view hidden">
@@ -214,7 +218,6 @@
         </div>
     </div>
 
-
     <!-- ================= DESIGN 6 (Glassmorphism) ================= -->
     <div id="design6Container" class="design-view hidden relative">
         <div class="absolute inset-0 z-0 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 rounded-3xl overflow-hidden">
@@ -242,6 +245,46 @@
                 </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6" id="d6Grid"></div>
+        </div>
+    </div>
+
+    <!-- ================= DESIGN 7 (สรุปดีไซน์ / Hybrid Custom) ================= -->
+    <div id="design7Container" class="design-view">
+        <div class="bg-white border border-slate-200 rounded-[32px] p-4 md:p-8 shadow-sm">
+            
+            <!-- Header -->
+            <div class="flex items-center justify-between gap-4 pb-4 md:pb-6 border-b border-slate-100 flex-nowrap">
+                <div class="min-w-0 flex-1">
+                    <span class="hidden md:inline-block text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-2">Hybrid Master-Detail</span>
+                    <h1 class="text-xl sm:text-2xl md:text-[28px] font-black text-slate-900 tracking-tight truncate">จัดการเจ้าหน้าที่ในหน่วยงาน</h1>
+                </div>
+                <button onclick="openModal('qrModal')" class="shrink-0 bg-slate-900 hover:bg-slate-800 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-2xl font-bold text-[11px] md:text-xs flex items-center gap-2 transition-all shadow-md shadow-slate-900/10">
+                    <span class="material-icons text-sm md:text-[18px]">qr_code_2</span> <span class="hidden sm:inline">QR Code เชิญ</span>
+                </button>
+            </div>
+
+            <!-- Toolbar เมนูสไตล์ -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-6 bg-slate-50 p-2 md:p-3 rounded-2xl border border-slate-200">
+                <div class="flex bg-slate-200/60 p-1.5 rounded-xl w-full md:w-auto overflow-x-auto hide-scrollbar flex-nowrap gap-1">
+                    <button onclick="setD7Tab('staff')" id="d7TabStaff" class="whitespace-nowrap px-5 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition-all">ทั้งหมด</button>
+                    <button onclick="setD7Tab('admin')" id="d7TabAdmin" class="whitespace-nowrap px-5 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-800 transition-all">ผู้ดูแลระบบ</button>
+                    <button onclick="setD7Tab('user')" id="d7TabUser" class="whitespace-nowrap px-5 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-800 transition-all">เจ้าหน้าที่</button>
+                    <button onclick="setD7Tab('pending')" id="d7TabPending" class="whitespace-nowrap px-5 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-800 transition-all flex items-center gap-1.5">รออนุมัติ <span id="d7PendingCount" class="bg-amber-500 text-white px-1.5 py-0.5 rounded-md text-[10px]">0</span></button>
+                </div>
+                <div class="relative w-full md:w-72 shrink-0">
+                    <span class="material-icons absolute left-3.5 top-3 text-slate-400 text-[18px]">search</span>
+                    <input type="text" placeholder="ค้นหาในหน่วยงาน..." oninput="handleSearch(this.value)" class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs font-medium focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+                </div>
+            </div>
+
+            <!-- Split Content Area -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
+                <!-- รายชื่อซ้าย -->
+                <div class="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-[24px] p-3 h-[400px] lg:h-[600px] overflow-y-auto hide-scrollbar space-y-2" id="d7ListPanel"></div>
+                
+                <!-- ข้อมูลขวา -->
+                <div class="lg:col-span-7 bg-slate-50/50 border border-slate-200 rounded-[24px] p-4 lg:p-6 shadow-inner h-auto min-h-[400px] lg:h-[600px] overflow-y-auto hide-scrollbar" id="d7DetailPanel"></div>
+            </div>
         </div>
     </div>
 
@@ -353,6 +396,9 @@
     </div>
 
 
+    <!-- โหลดสคริปต์ของ Design 7 (เรียกไฟล์ภายนอก) -->
+    <script src="design7.js"></script>
+
     <script>
         // ================= Variables ดั้งเดิม =================
         let activeTab = 'all';
@@ -374,13 +420,12 @@
         ];
 
         let pendingList = [
-            { id: 5, name: 'มิว ทดสอบ', phone: '080-999-9999', initial: 'ม', requestDate: '27 ส.ค. 09:15' },
-            { id: 9, name: 'ธนา พารวย', phone: '082-333-4444', initial: 'ธ', requestDate: '28 ส.ค. 10:30' },
-            { id: 10, name: 'ก้องเกียรติ ยิ่งใหญ่', phone: '083-555-6666', initial: 'ก', requestDate: '28 ส.ค. 11:45' }
+            { id: 5, name: 'มิว ทดสอบ', phone: '080-999-9999', initial: 'ม', requestDate: '27 ส.ค. 09:15', requestRole: 'staff' },
+            { id: 9, name: 'ธนา พารวย', phone: '082-333-4444', initial: 'ธ', requestDate: '28 ส.ค. 10:30', requestRole: 'admin' },
+            { id: 10, name: 'ก้องเกียรติ ยิ่งใหญ่', phone: '083-555-6666', initial: 'ก', requestDate: '28 ส.ค. 11:45', requestRole: 'staff' }
         ];
 
-        // ================= Variables สำหรับ Design 2,3,4,5,6 =================
-        let currentDesign = 1;
+        let currentDesign = 7;
         let d2Tab = 'staff';
         let selectedD2StaffId = 1;
         let selectedD2PendingId = null;
@@ -441,7 +486,7 @@
             const item = pendingList.find(p => p.id === id);
             if (item) {
                 pendingList = pendingList.filter(p => p.id !== id);
-                staffList.push({ ...item, role: 'staff', resp: ['น้ำท่วม'] });
+                staffList.push({ ...item, role: item.requestRole || 'staff', resp: ['น้ำท่วม'] });
                 render();
             }
         }
@@ -552,9 +597,20 @@
             currentDesign = num;
             document.getElementById('designMenu').classList.add('hidden');
             
-            for(let i=1; i<=6; i++) {
+            for(let i=1; i<=7; i++) {
                 document.getElementById(`design${i}Container`)?.classList.toggle('hidden', i !== num);
                 document.getElementById(`checkD${i}`)?.classList.toggle('hidden', i !== num);
+                
+                const btn = document.getElementById(`btnD${i}`);
+                if (btn) {
+                    if (i === num) {
+                        btn.classList.remove('text-slate-700', 'hover:bg-slate-50');
+                        btn.classList.add('text-slate-900', 'bg-emerald-50');
+                    } else {
+                        btn.classList.add('text-slate-700', 'hover:bg-slate-50');
+                        btn.classList.remove('text-slate-900', 'bg-emerald-50');
+                    }
+                }
             }
 
             const labels = {
@@ -563,7 +619,8 @@
                 3: 'ดีไซน์ที่ 3 (Enterprise Table)',
                 4: 'ดีไซน์ที่ 4 (Modern Cards)',
                 5: 'ดีไซน์ที่ 5 (Kanban Board)',
-                6: 'ดีไซน์ที่ 6 (Glassmorphism)'
+                6: 'ดีไซน์ที่ 6 (Glassmorphism)',
+                7: 'สรุปดีไซน์ (Hybrid Custom)'
             };
             document.getElementById('currentDesignLabel').innerText = `เลือกดีไซน์: ${labels[num]}`;
             render();
@@ -601,13 +658,13 @@
 
         // ================= Main Render =================
         function render() {
-            // Badges อัปเดตทุกครั้ง
-            document.getElementById('pendingBadge').innerText = pendingList.length;
-            document.getElementById('d2PendingCount').innerText = pendingList.length;
-            document.getElementById('d3PendingCount').innerText = pendingList.length;
-            document.getElementById('d4PendingCount').innerText = pendingList.length;
-            document.getElementById('d5PendingCount').innerText = pendingList.length;
-            document.getElementById('d6PendingCount').innerText = pendingList.length;
+            // Badges (ป้องกัน Null Error)
+            if(document.getElementById('pendingBadge')) document.getElementById('pendingBadge').innerText = pendingList.length;
+            if(document.getElementById('d2PendingCount')) document.getElementById('d2PendingCount').innerText = pendingList.length;
+            if(document.getElementById('d3PendingCount')) document.getElementById('d3PendingCount').innerText = pendingList.length;
+            if(document.getElementById('d4PendingCount')) document.getElementById('d4PendingCount').innerText = pendingList.length;
+            if(document.getElementById('d5PendingCount')) document.getElementById('d5PendingCount').innerText = pendingList.length;
+            if(document.getElementById('d6PendingCount')) document.getElementById('d6PendingCount').innerText = pendingList.length;
 
             const term = searchTerm.toLowerCase();
             const filtered = staffList.filter(s => {
@@ -646,7 +703,6 @@
                     html += '</div>';
                     staffContainer.innerHTML = html;
                 } else {
-                    // **แก้ไข Table Dropdown ตรงนี้ให้ไม่โดนตัด**
                     let html = `<div class="tableContainer"><table class="table"><thead><tr><th style="width: 35%;">ผู้ใช้งาน</th><th style="width: 25%;">บทบาท</th><th style="width: 25%;">เบอร์ติดต่อ</th><th style="width: 15%; text-align: right;">จัดการ</th></tr></thead><tbody>`;
                     filtered.forEach(staff => {
                         html += `<tr>
@@ -929,6 +985,13 @@
                         </div>`;
                     });
                     gridEl.innerHTML = html || '<div class="col-span-full py-8 text-center text-slate-400 bg-white/30 backdrop-blur-md rounded-3xl border border-white/50">ไม่มีคำขอใหม่</div>';
+                }
+            }
+
+            // ----------- DESIGN 7 (แยกไฟล์ design7.js ทำงานอัตโนมัติเมื่อเลือก) -----------
+            if (currentDesign === 7) {
+                if(typeof renderDesign7 === 'function') {
+                    renderDesign7(filtered, pendingFiltered, pendingList, staffList);
                 }
             }
 
