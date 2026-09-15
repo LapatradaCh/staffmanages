@@ -131,13 +131,13 @@ window.renderDesign7 = function(filtered, pendingFiltered, pendingList, staffLis
         const p = pendingList.find(x => x.id === selectedD7PendingId);
         if(p && detailEl) {
             let reqRoleBadge = p.requestRole === 'admin' 
-                ? '<span class="px-2 sm:px-3 py-1 sm:py-1.5 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-lg text-[10px] sm:text-[11px] font-bold">ผู้ดูแลระบบ</span>'
-                : '<span class="px-2 sm:px-3 py-1 sm:py-1.5 bg-white text-slate-800 border border-slate-300 rounded-lg text-[10px] sm:text-[11px] font-bold">เจ้าหน้าที่</span>';
+                ? '<span class="px-2 sm:px-3 py-1 sm:py-1.5 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-lg text-[10px] sm:text-[11px] font-bold shrink-0">ผู้ดูแลระบบ</span>'
+                : '<span class="px-2 sm:px-3 py-1 sm:py-1.5 bg-white text-slate-800 border border-slate-300 rounded-lg text-[10px] sm:text-[11px] font-bold shrink-0">เจ้าหน้าที่</span>';
 
             let detailHtml = '<div class="flex flex-col h-full relative">';
             detailHtml += '<div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 sm:gap-5 pb-4 sm:pb-6">';
             detailHtml += '<div class="w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] shrink-0 rounded-2xl bg-amber-100 text-amber-800 font-black text-xl sm:text-2xl flex items-center justify-center" aria-hidden="true">' + p.initial + '</div>';
-            detailHtml += '<div class="min-w-0 flex-1 pt-1"><h2 class="text-[16px] sm:text-[18px] font-black text-slate-900 truncate">' + p.name + '</h2><p class="text-[12px] sm:text-[13px] text-slate-600 font-mono mb-1.5">' + p.phone + '</p><span class="inline-block bg-amber-50 text-amber-700 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold border border-amber-200">คำขอเข้าร่วมหน่วยงาน</span></div></div>';
+            detailHtml += '<div class="min-w-0 flex-1 pt-1"><h2 class="text-[16px] sm:text-[18px] font-black text-slate-900 truncate">' + p.name + '</h2><p class="text-[12px] sm:text-[13px] text-slate-600 font-mono mb-1.5">' + p.phone + '</p><span class="inline-block bg-amber-50 text-amber-700 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold border border-amber-200 shrink-0 whitespace-nowrap">คำขอเข้าร่วมหน่วยงาน</span></div></div>';
             detailHtml += '<div class="w-full h-px bg-slate-200 mb-4 sm:mb-6"></div>';
             detailHtml += '<div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 mb-auto">';
             detailHtml += '<div class="flex justify-between items-center mb-3 sm:mb-4"><span class="text-[10px] sm:text-[11px] font-bold text-slate-500">บทบาทที่ต้องการ</span>' + reqRoleBadge + '</div>';
@@ -210,7 +210,7 @@ window.renderDesign7 = function(filtered, pendingFiltered, pendingList, staffLis
                 let chipsHtml = displayResp.map(r => '<span class="px-2.5 py-1 bg-white border border-slate-200 text-slate-600 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm whitespace-nowrap">' + r + '</span>').join('');
                 
                 if (hiddenCount > 0) {
-                    chipsHtml += `<button type="button" onclick="showAllResp(${s.id})" aria-label="ดูความรับผิดชอบที่เหลือทั้งหมด" class="cursor-pointer px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm whitespace-nowrap transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400">+${hiddenCount}</button>`;
+                    chipsHtml += `<button type="button" onclick="showAllResp(${s.id})" aria-label="ดูความรับผิดชอบที่เหลือทั้งหมด" class="shrink-0 cursor-pointer px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm whitespace-nowrap transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400">+${hiddenCount}</button>`;
                 }
 
                 respHtml = '<div class="flex flex-wrap gap-1 sm:gap-1.5">' + chipsHtml + '</div>';
@@ -232,24 +232,25 @@ window.renderDesign7 = function(filtered, pendingFiltered, pendingList, staffLis
                 statusCardsHtml += '<div class="shrink-0 w-[115px] sm:w-auto p-2.5 sm:p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1 sm:gap-1.5"><span class="material-icons text-slate-500 text-[14px] sm:text-[16px]" aria-hidden="true">history</span><div><div class="text-[9px] sm:text-[11px] font-bold text-slate-600 mb-0.5">ใช้งานล่าสุด</div><div class="text-[10px] sm:text-xs font-bold text-slate-700 truncate">-</div></div></div>';
             }
 
-            // ★ บังคับ Flex Row ให้อยู่บรรทัดเดียวกันเสมอ ★
+            // ★ แก้อาการ "กรอบตัดข้อความ" โดยการใส่ shrink-0 และ whitespace-nowrap ห้ามย่อห้ามตกบรรทัด
             let roleToggleBtnHtml = isD7EditMode 
-                ? '<button type="button" onclick="handleToggleRole(' + s.id + ')" aria-label="สลับบทบาทสิทธิ์การใช้งาน" class="cursor-pointer flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-bold transition-colors shadow-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">swap_horiz</span> ' + roleToggleBtnText + '</button>' 
+                ? '<button type="button" onclick="handleToggleRole(' + s.id + ')" aria-label="สลับบทบาทสิทธิ์การใช้งาน" class="cursor-pointer shrink-0 flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-bold transition-colors shadow-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400 whitespace-nowrap"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">swap_horiz</span> <span>' + roleToggleBtnText + '</span></button>' 
                 : '';
 
             let respEditBtnHtml = isD7EditMode 
-                ? '<button type="button" onclick="openResponsibilitiesModal(' + s.id + ')" aria-label="แก้ไขข้อมูลด้านความรับผิดชอบ" class="cursor-pointer w-7 h-7 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500" title="แก้ไขหน้าที่"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">edit</span></button>' 
+                ? '<button type="button" onclick="openResponsibilitiesModal(' + s.id + ')" aria-label="แก้ไขข้อมูลด้านความรับผิดชอบ" class="cursor-pointer shrink-0 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500" title="แก้ไขหน้าที่"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">edit</span></button>' 
                 : '';
 
+            // ★ บังคับปุ่มให้อยู่แนวนอนเดียวกันด้วย flex-row และไม่ตัดคำ whitespace-nowrap
             let mainEditBtnHtml = isD7EditMode 
                 ? '<div class="flex flex-row items-center gap-1.5 sm:gap-2 absolute right-0 top-0 sm:relative sm:top-auto sm:right-auto shrink-0">' +
-                  '<button type="button" aria-label="ยกเลิกการแก้ไข" onclick="toggleD7EditMode()" class="cursor-pointer shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 flex flex-row items-center gap-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg transition-colors text-[10px] sm:text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">close</span> <span class="hidden sm:inline">ยกเลิก</span></button>' +
-                  '<button type="button" aria-label="บันทึกการแก้ไข" onclick="toggleD7EditMode()" class="cursor-pointer shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 flex flex-row items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors shadow-sm text-[10px] sm:text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">save</span> <span class="hidden sm:inline">บันทึก</span></button>' +
+                  '<button type="button" aria-label="ยกเลิกการแก้ไข" onclick="toggleD7EditMode()" class="cursor-pointer shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 flex flex-row items-center gap-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg transition-colors text-[10px] sm:text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-slate-400 whitespace-nowrap"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">close</span> <span class="hidden sm:inline">ยกเลิก</span></button>' +
+                  '<button type="button" aria-label="บันทึกการแก้ไข" onclick="toggleD7EditMode()" class="cursor-pointer shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 flex flex-row items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors shadow-sm text-[10px] sm:text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 whitespace-nowrap"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">save</span> <span class="hidden sm:inline">บันทึก</span></button>' +
                   '</div>'
                 : '<button type="button" aria-label="เปิดโหมดแก้ไขการตั้งค่า" onclick="toggleD7EditMode()" class="cursor-pointer absolute right-0 top-0 sm:relative sm:top-auto sm:right-auto shrink-0 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500" title="เปิดโหมดแก้ไข"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">edit</span></button>';
 
             let deleteBtnHtml = isD7EditMode 
-                ? '<div class="pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-slate-200 flex justify-end"><button type="button" aria-label="ลบเจ้าหน้าที่ออกจากหน่วยงาน" onclick="handleRemoveStaff(' + s.id + ')" class="cursor-pointer flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded-xl text-[11px] sm:text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500"><span class="material-icons text-[14px] sm:text-[16px]" aria-hidden="true">person_remove</span> ลบออกจากหน่วยงาน</button></div>' 
+                ? '<div class="pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-slate-200 flex justify-end"><button type="button" aria-label="ลบเจ้าหน้าที่ออกจากหน่วยงาน" onclick="handleRemoveStaff(' + s.id + ')" class="cursor-pointer shrink-0 flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded-xl text-[11px] sm:text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500 whitespace-nowrap"><span class="material-icons text-[14px] sm:text-[16px]" aria-hidden="true">person_remove</span> ลบออกจากหน่วยงาน</button></div>' 
                 : '';
 
             let detailHtml = '<div class="flex flex-col h-full">';
@@ -259,9 +260,10 @@ window.renderDesign7 = function(filtered, pendingFiltered, pendingList, staffLis
             detailHtml += '<div class="w-[48px] h-[48px] sm:w-[64px] sm:h-[64px] shrink-0 rounded-2xl ' + profileBgClass + ' font-black text-xl sm:text-2xl flex items-center justify-center" aria-hidden="true">' + s.initial + '</div>';
             detailHtml += '<div class="min-w-0 pt-0.5 sm:pt-1 pr-16 sm:pr-0">';
             detailHtml += '<h2 class="text-[16px] sm:text-[18px] font-black text-slate-900 truncate">' + s.name + '</h2>';
-            detailHtml += '<p class="text-[11px] sm:text-[13px] text-slate-600 font-mono mb-1.5">' + s.phone + '</p>';
-            detailHtml += '<div class="flex flex-row flex-nowrap items-center gap-1.5 sm:gap-2 mt-1">';
-            detailHtml += '<span class="inline-block border ' + roleBadgeClass + ' px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold whitespace-nowrap">' + roleNameDetail + '</span>';
+            detailHtml += '<p class="text-[11px] sm:text-[13px] text-slate-600 font-mono mb-1.5 truncate">' + s.phone + '</p>';
+            // ใช้ flex-wrap เพื่อให้สถานะต่างๆ ปัดลงบรรทัดใหม่ได้ถ้าหน้าจอเล็กเกินไป
+            detailHtml += '<div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-1">';
+            detailHtml += '<span class="shrink-0 inline-block border ' + roleBadgeClass + ' px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold whitespace-nowrap">' + roleNameDetail + '</span>';
             detailHtml += roleToggleBtnHtml;
             detailHtml += '</div></div></div>';
             detailHtml += mainEditBtnHtml;
