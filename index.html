@@ -304,14 +304,17 @@
         </div>
     </div>
 
-    <!-- ★ Responsibilities Modal (ตั้งค่าความรับผิดชอบแบบ Grid) ★ -->
+    <!-- ★ Responsibilities Modal (ตั้งค่าความรับผิดชอบแบบ Grid ไม่บีบอัดบนมือถือ) ★ -->
     <div id="responsibilitiesModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 550px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box; display: flex; flex-direction: column; max-height: 85vh;">
             <div style="padding: 20px 24px 12px 24px; display: flex; align-items: flex-start; justify-content: space-between; position: relative; flex-shrink: 0; border-bottom: 1px solid #f3f4f6;">
                 <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">เปลี่ยนประเภทปัญหา</h3>
                 <button onclick="closeModal('responsibilitiesModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">close</span></button>
             </div>
-            <div id="respListContainer"></div>
+            
+            <!-- ใช้ Tailwind ช่วยจัดการ Grid ให้ Responsive ป้องกันหน้าจอเละ -->
+            <div id="respListContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 p-4 sm:p-6 overflow-y-auto hide-scrollbar" style="flex: 1; max-height: 55vh; align-content: start;"></div>
+            
             <div style="display: flex; border-top: 1px solid #e5e7eb; flex-shrink: 0; padding: 16px 24px; justify-content: space-between; align-items: center;">
                 <button onclick="selectAllResp()" style="background: none; border: none; color: #10b981; font-weight: 600; font-size: 14px; cursor: pointer; padding: 0;">เลือกทั้งหมด</button>
                 <div style="display: flex; gap: 12px;">
@@ -494,68 +497,33 @@
             render();
         }
 
-        // ================= ★ ฟังก์ชันสำหรับแสดงหน้าต่างแก้ประเภทปัญหา (Grid ที่ไม่เละ) ★ =================
+        // ================= ★ ฟังก์ชันหน้าต่างแก้ประเภท (Responsive บนมือถือ 100%) ★ =================
         function renderRespList() {
             const container = document.getElementById('respListContainer');
-            // บังคับโครงสร้าง Grid แบบ Inline CSS เพื่อป้องกัน Class ใน Tailwind ตีกันจนหน้าจอเละ
-            container.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 16px; padding: 24px; overflow-y: auto; max-height: 55vh; align-content: start;';
-            
             let html = '';
+            
             allCategories.forEach((resp) => {
                 const isSelected = selectedResp.includes(resp);
-                const borderColor = isSelected ? '#10b981' : '#e5e7eb';
-                const bgColor = isSelected ? '#ecfdf5' : '#ffffff';
-                const textColor = isSelected ? '#047857' : '#4b5563';
-                const iconBg = isSelected ? '#ffffff' : '#f8f9fa';
-                const iconBorder = isSelected ? '#10b981' : '#cbd5e1';
-                const iconColor = isSelected ? '#10b981' : '#9ca3af';
+                
+                // ใช้สีสไตล์เขียว-เทา ตามรูปที่แนบมา
+                const borderColor = isSelected ? 'border-emerald-500' : 'border-slate-200 hover:border-slate-300';
+                const bgColor = isSelected ? 'bg-emerald-50/40' : 'bg-white';
+                const textColor = isSelected ? 'text-emerald-700' : 'text-slate-600';
+                const iconBg = isSelected ? 'bg-white' : 'bg-slate-50';
+                const iconBorder = isSelected ? 'border-emerald-500' : 'border-slate-200';
+                const iconColor = isSelected ? 'text-emerald-500' : 'text-slate-400';
                 const iconName = isSelected ? 'check' : 'widgets';
 
-                html += `<button aria-pressed="${isSelected}" onclick="toggleResp('${resp}')" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 8px; border-radius: 16px; border: 2px solid ${borderColor}; background-color: ${bgColor}; cursor: pointer; min-height: 115px; box-sizing: border-box; transition: all 0.2s;">`;
-                html += `<div style="width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid ${iconBorder}; background-color: ${iconBg}; margin-bottom: 12px; flex-shrink: 0;">`;
-                html += `<span class="material-icons" style="font-size: 22px; color: ${iconColor};">${iconName}</span>`;
+                // ใช้ Flex-col ให้เหมือนการ์ดสี่เหลี่ยมจตุรัสและไม่ล้นกรอบ
+                html += `<button type="button" aria-pressed="${isSelected}" onclick="toggleResp('${resp}')" class="flex flex-col items-center justify-start p-3 sm:p-4 rounded-2xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full min-h-[100px] ${borderColor} ${bgColor}">`;
+                html += `<div class="w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2 shrink-0 ${iconBorder} ${iconBg}">`;
+                html += `<span class="material-icons text-[20px] ${iconColor}">${iconName}</span>`;
                 html += `</div>`;
-                html += `<span style="font-size: 12px; font-weight: 700; color: ${textColor}; text-align: center; line-height: 1.35; width: 100%; word-wrap: break-word;">${resp}</span>`;
+                html += `<span class="text-[11px] sm:text-xs font-bold text-center leading-snug w-full break-words ${textColor}">${resp}</span>`;
                 html += `</button>`;
             });
             container.innerHTML = html;
         }
-
-        // ================= ★ ฟังก์ชัน Popup ดูหมวดหมู่ทั้งหมด (สร้างขึ้นมาใหม่แบบ 100% เด้งแน่นอน) ★ =================
-        window.showAllResp = function(id) {
-            const staff = staffList.find(s => s.id === id);
-            if (!staff || !staff.resp) return;
-            
-            // สร้าง Modal ครอบด้วย JS ตรงๆ เพื่อให้ใช้งานได้ชัวร์และไม่ติดข้อจำกัด CSS
-            let modal = document.getElementById('dynamicViewAllModal');
-            if (!modal) {
-                modal = document.createElement('div');
-                modal.id = 'dynamicViewAllModal';
-                modal.style.cssText = "display: flex; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 16px;";
-                document.body.appendChild(modal);
-            } else {
-                modal.style.display = 'flex';
-            }
-            
-            let chipsHtml = staff.resp.map(r => 
-                `<span style="padding: 8px 14px; background-color: #f8f9fa; border: 1px solid #e5e7eb; color: #4b5563; border-radius: 10px; font-size: 13px; font-weight: 700;">${r}</span>`
-            ).join('');
-
-            modal.innerHTML = `
-                <div style="background: white; border-radius: 16px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; max-height: 80vh;">
-                    <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
-                        <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">ด้านความรับผิดชอบทั้งหมด (${staff.resp.length} หมวด)</h3>
-                        <button onclick="document.getElementById('dynamicViewAllModal').style.display='none'" style="background:none; border:none; cursor:pointer; color:#9ca3af; display:flex; align-items:center;"><span class="material-icons">close</span></button>
-                    </div>
-                    <div style="padding: 24px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 8px;" class="hide-scrollbar">
-                        ${chipsHtml}
-                    </div>
-                    <div style="padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end;">
-                        <button onclick="document.getElementById('dynamicViewAllModal').style.display='none'" style="padding: 10px 24px; background-color: #f1f5f9; color: #334155; font-weight: 700; border-radius: 10px; font-size: 14px; border:none; cursor:pointer;">ปิดหน้าต่าง</button>
-                    </div>
-                </div>
-            `;
-        };
 
         function copyText(text) { navigator.clipboard.writeText(text).then(() => alert('คัดลอกข้อมูลสำเร็จ: ' + text)); }
         function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
@@ -625,7 +593,6 @@
                                 '<button class="dropdownItem dropdownItemDanger" onclick="handleRemoveStaff(' + staff.id + ')"><i data-lucide="user-x" style="width: 16px;"></i> ยกเลิกเป็นเจ้าหน้าที่</button>' +
                                 '</div>';
                         }
-                        
                         html += '<div class="card">' +
                                 '<div style="position: absolute; top: 16px; right: 16px; z-index: 40;">' +
                                     '<button class="moreBtn" style="position: static;" onclick="toggleDropdown(' + staff.id + ', event)"><i data-lucide="more-vertical" style="width: 16px;"></i></button>' +
@@ -652,7 +619,6 @@
                                 '<button class="dropdownItem dropdownItemDanger" onclick="handleRemoveStaff(' + staff.id + ')"><i data-lucide="user-x" style="width: 16px;"></i> ยกเลิกเป็นเจ้าหน้าที่</button>' +
                                 '</div>';
                         }
-                        
                         html += '<tr>' +
                                 '<td><div class="userCell"><div class="avatarSmall ' + (staff.role === 'staff' ? 'avatarStaffSmall' : '') + '">' + staff.initial + '</div><span style="font-weight: 600; color: #1f2937;">' + staff.name + '</span></div></td>' +
                                 '<td><div class="roleBadge ' + (staff.role === 'staff' ? 'roleBadgeStaff' : '') + '" style="margin-bottom: 0;"><i data-lucide="' + (staff.role === 'admin' ? 'shield' : 'user') + '" style="width: 12px;"></i> ' + (staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่') + '</div></td>' +
