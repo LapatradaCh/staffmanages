@@ -3,7 +3,28 @@ let d7Tab = 'staff';
 let selectedD7StaffId = null;
 let selectedD7PendingId = null;
 let isD7EditMode = false;
-let d7TempRole = null; // ★ ตัวแปรจำสถานะการสลับสิทธิ์ชั่วคราว ก่อนกดเซฟ
+let d7TempRole = null; 
+let d7TempResp = null; 
+
+// ================= Custom CSS สำหรับ Scrollbar แนวนอนและแนวตั้ง =================
+if (!document.getElementById('d7CustomStyle')) {
+    const style = document.createElement('style');
+    style.id = 'd7CustomStyle';
+    style.innerHTML = `
+        /* เลื่อนแนวตั้ง (ความรับผิดชอบ) */
+        .d7-scroll-y::-webkit-scrollbar { width: 4px; }
+        .d7-scroll-y::-webkit-scrollbar-track { background: transparent; }
+        .d7-scroll-y::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .d7-scroll-y { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+        
+        /* เลื่อนแนวนอน (สิทธิ์การใช้งาน) */
+        .d7-scroll-x::-webkit-scrollbar { height: 4px; }
+        .d7-scroll-x::-webkit-scrollbar-track { background: transparent; }
+        .d7-scroll-x::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .d7-scroll-x { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+    `;
+    document.head.appendChild(style);
+}
 
 // ================= ฟังก์ชันสลับ Tab =================
 window.setD7Tab = function(tab) {
@@ -29,35 +50,39 @@ window.setD7Tab = function(tab) {
     if (typeof render === 'function') render(); 
 };
 
-// ================= ★ ฟังก์ชันระบบ Edit Mode (มี Temp State กันเซฟอัตโนมัติ) ★ =================
+// ================= ★ ฟังก์ชันเข้าสู่โหมดแก้ไข (Single Edit) ★ =================
 window.enterD7Edit = function() {
-    // เอาข้อมูลเดิมมาเก็บไว้ในตัวแปรชั่วคราวก่อนเริ่มแก้
     const s = staffList.find(x => x.id === selectedD7StaffId);
-    if(s) d7TempRole = s.role;
+    if(s) {
+        d7TempRole = s.role;
+        d7TempResp = [...(s.resp || [])];
+    }
     isD7EditMode = true;
     render();
 };
 
 window.cancelD7Edit = function() {
     isD7EditMode = false;
-    d7TempRole = null; // ทิ้งข้อมูลที่แก้
+    d7TempRole = null; 
+    d7TempResp = null; 
     render();
 };
 
 window.saveD7Edit = function() {
     const s = staffList.find(x => x.id === selectedD7StaffId);
     if (s) {
-        s.role = d7TempRole; // เอาข้อมูลชั่วคราวเขียนทับตัวจริง
-        alert('✅ บันทึกสิทธิ์การเข้าถึงเสร็จสิ้น');
+        s.role = d7TempRole; 
+        s.resp = [...d7TempResp];
+        alert('✅ บันทึกข้อมูลสำเร็จ');
     } else {
         alert('❌ เกิดข้อผิดพลาดในการบันทึกข้อมูล');
     }
     isD7EditMode = false;
     d7TempRole = null;
+    d7TempResp = null;
     render();
 };
 
-// ฟังก์ชันสำหรับปุ่ม "สลับสิทธิ์" (เปลี่ยนแค่ค่าชั่วคราวก่อนเซฟ)
 window.d7ToggleRole = function() {
     d7TempRole = d7TempRole === 'admin' ? 'staff' : 'admin';
     render(); 
@@ -163,18 +188,18 @@ window.renderDesign7 = function(filtered, pendingFiltered, pendingList, staffLis
                 ? '<span class="px-2 sm:px-3 py-1 sm:py-1.5 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-lg text-[10px] sm:text-[11px] font-bold shrink-0 min-w-max flex-none" style="white-space: nowrap;">ผู้ดูแลระบบ</span>'
                 : '<span class="px-2 sm:px-3 py-1 sm:py-1.5 bg-white text-slate-800 border border-slate-300 rounded-lg text-[10px] sm:text-[11px] font-bold shrink-0 min-w-max flex-none" style="white-space: nowrap;">เจ้าหน้าที่</span>';
 
-            let detailHtml = '<div class="flex flex-col h-full relative">';
-            detailHtml += '<div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 sm:gap-5 pb-4 sm:pb-6">';
+            let detailHtml = '<div class="flex flex-col min-h-full relative">';
+            detailHtml += '<div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 sm:gap-5 pb-4 sm:pb-6 shrink-0">';
             detailHtml += '<div class="w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] shrink-0 rounded-2xl bg-amber-100 text-amber-800 font-black text-xl sm:text-2xl flex items-center justify-center" aria-hidden="true">' + p.initial + '</div>';
             detailHtml += '<div class="min-w-0 flex-1 pt-1"><h2 class="text-[16px] sm:text-[18px] font-black text-slate-900 truncate">' + p.name + '</h2><p class="text-[12px] sm:text-[13px] text-slate-600 font-mono mb-1.5">' + p.phone + '</p><span class="inline-block bg-amber-50 text-amber-700 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold border border-amber-200 shrink-0 flex-none min-w-max" style="white-space: nowrap;">คำขอเข้าร่วมหน่วยงาน</span></div></div>';
-            detailHtml += '<div class="w-full h-px bg-slate-200 mb-4 sm:mb-6"></div>';
-            detailHtml += '<div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 mb-auto">';
+            detailHtml += '<div class="w-full h-px bg-slate-200 mb-4 sm:mb-6 shrink-0"></div>';
+            detailHtml += '<div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 mb-auto shrink-0">';
             detailHtml += '<div class="flex justify-between items-center mb-3 sm:mb-4"><span class="text-[10px] sm:text-[11px] font-bold text-slate-500">บทบาทที่ต้องการ</span>' + reqRoleBadge + '</div>';
             detailHtml += '<div class="flex justify-between items-center border-t border-slate-200 pt-3 sm:pt-4"><span class="text-[10px] sm:text-[11px] font-bold text-slate-500">วันที่ส่งคำขอ</span><span class="text-[12px] sm:text-[13px] font-bold text-slate-800">' + p.requestDate + '</span></div></div>';
             
-            detailHtml += '<div class="flex flex-col sm:flex-row gap-2 pt-4 sm:pt-6"><button type="button" aria-label="ดูข้อมูลผู้ขอ" onclick="showPendingInfo(\'' + p.name + '\', \'' + p.phone + '\')" class="cursor-pointer w-full sm:flex-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-bold py-2.5 sm:py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[14px] mr-1.5" aria-hidden="true">info</span> ข้อมูล</button>';
-            detailHtml += '<div class="flex gap-2 w-full"><button type="button" aria-label="ปฏิเสธคำขอ" onclick="handleReject(' + p.id + ')" class="cursor-pointer flex-[1] bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 font-bold py-2.5 sm:py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-rose-400">ปฏิเสธ</button>';
-            detailHtml += '<button type="button" aria-label="อนุมัติคำขอ" onclick="handleApprove(' + p.id + ')" class="cursor-pointer flex-[1.5] bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 sm:py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500">อนุมัติ</button></div></div></div>';
+            detailHtml += '<div class="flex flex-col sm:flex-row gap-2 pt-4 sm:pt-6 shrink-0"><button type="button" aria-label="ดูข้อมูลผู้ขอ" onclick="showPendingInfo(\'' + p.name + '\', \'' + p.phone + '\')" class="cursor-pointer w-full sm:flex-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-bold py-2.5 sm:py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[14px] mr-1.5" aria-hidden="true">info</span> <span style="white-space: nowrap;">ข้อมูล</span></button>';
+            detailHtml += '<div class="flex gap-2 w-full"><button type="button" aria-label="ปฏิเสธคำขอ" onclick="handleReject(' + p.id + ')" class="cursor-pointer flex-[1] bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 font-bold py-2.5 sm:py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-rose-400"><span style="white-space: nowrap;">ปฏิเสธ</span></button>';
+            detailHtml += '<button type="button" aria-label="อนุมัติคำขอ" onclick="handleApprove(' + p.id + ')" class="cursor-pointer flex-[1.5] bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 sm:py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500"><span style="white-space: nowrap;">อนุมัติ</span></button></div></div></div>';
             
             detailEl.innerHTML = detailHtml;
         } else if(detailEl) { detailEl.innerHTML = ''; }
@@ -226,30 +251,28 @@ window.renderDesign7 = function(filtered, pendingFiltered, pendingList, staffLis
         if(s && detailEl) {
             const profileBgClass = 'bg-[#c6f6d5] text-[#065f46]';
             
-            // ★ ตรวจสอบว่าอยู่ในโหมดแก้ไขหรือไม่ เพื่อดึงค่าสิทธิ์มาแสดง (ค่าจริง หรือ ค่าจำลองตอนแก้ไข)
             const displayRole = isD7EditMode ? d7TempRole : s.role;
+            const displayResp = isD7EditMode ? (d7TempResp || []) : (s.resp || []);
+            
             let roleBadgeClass = displayRole === 'admin' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-slate-100 text-slate-800 border-slate-200';
             let roleNameDetail = displayRole === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่';
             let roleToggleBtnText = displayRole === 'admin' ? 'ปรับเป็นเจ้าหน้าที่' : 'ปรับเป็น Admin';
 
             let respHtml = '';
             let respCountText = '';
-            if (s.resp && s.resp.length > 0) {
-                // โชว์แค่ 5 หมวด ส่วนที่เหลือใส่ระบบตัดคำ ป้องกันกรอบพัง
-                const MAX_SHOW = 5;
-                const displayResp = s.resp.slice(0, MAX_SHOW);
-                const hiddenCount = s.resp.length - MAX_SHOW;
-
-                let chipsHtml = displayResp.map(r => '<span class="inline-flex items-center h-6 sm:h-7 px-2.5 bg-white border border-slate-200 text-slate-600 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm max-w-[120px] sm:max-w-[150px]"><span class="truncate w-full text-left">' + r + '</span></span>').join('');
+            if (displayResp && displayResp.length > 0) {
+                // สร้างชิปส์ทั้งหมด
+                let chipsHtml = displayResp.map(r => '<span class="inline-flex items-center h-6 sm:h-7 px-2.5 bg-white border border-slate-200 text-slate-600 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm max-w-[120px] sm:max-w-[160px] shrink-0"><span class="truncate w-full text-left" title="'+r+'">' + r + '</span></span>').join('');
                 
-                if (hiddenCount > 0) {
-                    chipsHtml += `<button type="button" onclick="showAllResp(${s.id})" aria-label="ดูความรับผิดชอบที่เหลือทั้งหมด" class="shrink-0 flex-none min-w-max cursor-pointer inline-flex items-center justify-center h-6 sm:h-7 px-2.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm whitespace-nowrap transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 leading-none" style="white-space: nowrap;">+${hiddenCount}</button>`;
-                }
-
-                respHtml = '<div class="flex flex-wrap items-center gap-1 sm:gap-1.5">' + chipsHtml + '</div>';
-                respCountText = ' (' + s.resp.length + ' หมวด)';
+                // ★ เปลี่ยนโครงสร้างเป็น flex-wrap + เลื่อนแนวตั้ง (Vertical Scroll) เพื่อให้มองเห็นและปัดอ่านง่ายขึ้น
+                respHtml = '<div class="w-full mt-1.5 overflow-y-auto max-h-[90px] sm:max-h-[110px] pr-2 d7-scroll-y">';
+                respHtml += '<div class="flex flex-wrap items-center gap-1.5 sm:gap-2 pb-1">';
+                respHtml += chipsHtml;
+                respHtml += '</div></div>';
+                
+                respCountText = ' (' + displayResp.length + ' หมวด)';
             } else {
-                respHtml = '<span class="inline-flex items-center h-6 sm:h-7 text-[12px] sm:text-[13px] font-medium text-slate-500">ไม่ได้ระบุ</span>';
+                respHtml = '<span class="inline-flex items-center h-6 sm:h-7 text-[12px] sm:text-[13px] font-medium text-slate-500 mt-1.5">ไม่ได้ระบุ</span>';
             }
 
             let isAuthen = s.isAuthen !== false;
@@ -265,51 +288,64 @@ window.renderDesign7 = function(filtered, pendingFiltered, pendingList, staffLis
                 statusCardsHtml += '<div class="shrink-0 w-[115px] sm:w-auto p-2.5 sm:p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1 sm:gap-1.5"><span class="material-icons text-slate-500 text-[14px] sm:text-[16px]" aria-hidden="true">history</span><div><div class="text-[9px] sm:text-[11px] font-bold text-slate-600 mb-0.5">ใช้งานล่าสุด</div><div class="text-[10px] sm:text-xs font-bold text-slate-700 truncate">-</div></div></div>';
             }
 
-            // ปุ่มต่างๆ เรียกฟังก์ชัน Temp State 
+            // ปุ่มแก้ไขสิทธิ์ ไถเลื่อนแนวนอนได้
             let roleToggleBtnHtml = isD7EditMode 
-                ? '<button type="button" onclick="d7ToggleRole()" aria-label="สลับบทบาทสิทธิ์การใช้งาน" class="cursor-pointer shrink-0 flex-none min-w-max inline-flex items-center justify-center gap-1 px-2.5 h-6 sm:h-7 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-bold transition-colors shadow-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400 whitespace-nowrap" style="white-space: nowrap;"><span class="material-icons text-[12px] sm:text-[14px] flex-none" aria-hidden="true">swap_horiz</span> <span class="whitespace-nowrap flex-none" style="white-space: nowrap;">' + roleToggleBtnText + '</span></button>' 
+                ? '<button type="button" onclick="d7ToggleRole()" aria-label="สลับบทบาทสิทธิ์การใช้งาน" class="cursor-pointer shrink-0 flex-none min-w-max inline-flex items-center justify-center gap-1 px-2.5 h-6 sm:h-7 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-bold transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-400 whitespace-nowrap" style="white-space: nowrap;"><span class="material-icons text-[12px] sm:text-[14px] flex-none" aria-hidden="true">swap_horiz</span> <span class="whitespace-nowrap flex-none" style="white-space: nowrap;">' + roleToggleBtnText + '</span></button>' 
                 : '';
 
+            // ปุ่มแก้ไขหมวดหมู่
             let respEditBtnHtml = isD7EditMode 
-                ? '<button type="button" onclick="openResponsibilitiesModal(' + s.id + ')" aria-label="แก้ไขข้อมูลด้านความรับผิดชอบ" class="cursor-pointer shrink-0 flex-none min-w-max px-3 h-7 sm:h-8 inline-flex items-center justify-center gap-1.5 bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-700 text-[10px] sm:text-[11px] font-bold transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500 whitespace-nowrap" title="แก้ไขหน้าที่"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">edit</span> แก้ไขหมวดหมู่</button>' 
+                ? '<button type="button" onclick="openResponsibilitiesModal(' + s.id + ')" aria-label="แก้ไขข้อมูลด้านความรับผิดชอบ" class="cursor-pointer shrink-0 flex-none min-w-max px-2.5 py-1 sm:px-3 sm:py-1.5 inline-flex items-center justify-center gap-1 bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-700 text-[10px] sm:text-[11px] font-bold transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500 whitespace-nowrap"><span class="material-icons text-[12px] sm:text-[14px]">edit</span> เลือกหมวดหมู่</button>' 
                 : '';
 
+            // ★ ปุ่มแก้ไข / บันทึก วางไว้มุมขวาบนแบบตายตัว ไม่กระเทือนโครงสร้างอื่น ★
             let mainEditBtnHtml = isD7EditMode 
-                ? '<div class="flex items-center gap-2 shrink-0 flex-none ml-auto">' +
-                  '<button type="button" aria-label="ยกเลิกการแก้ไข" onclick="cancelD7Edit()" class="cursor-pointer flex-none shrink-0 min-w-max inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 h-8 sm:h-9 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg transition-colors text-[11px] sm:text-xs font-bold focus:outline-none focus:ring-2 focus:ring-slate-400 whitespace-nowrap" style="white-space: nowrap;"><span class="material-icons text-[14px] sm:text-[16px]" aria-hidden="true">close</span> ยกเลิก</button>' +
-                  '<button type="button" aria-label="บันทึกการแก้ไข" onclick="saveD7Edit()" class="cursor-pointer flex-none shrink-0 min-w-max inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 h-8 sm:h-9 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors shadow-sm text-[11px] sm:text-xs font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 whitespace-nowrap" style="white-space: nowrap;"><span class="material-icons text-[14px] sm:text-[16px]" aria-hidden="true">save</span> บันทึก</button>' +
+                ? '<div class="absolute top-0 right-0 flex items-center gap-1 sm:gap-2 z-20 bg-white/90 backdrop-blur-sm pl-2 pb-1 rounded-bl-xl">' +
+                  '<button type="button" aria-label="ยกเลิกการแก้ไข" onclick="cancelD7Edit()" class="cursor-pointer flex-none shrink-0 min-w-max inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 h-7 sm:h-8 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg transition-colors text-[10px] sm:text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-slate-400 whitespace-nowrap shadow-sm"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">close</span> <span class="hidden sm:inline whitespace-nowrap flex-none">ยกเลิก</span></button>' +
+                  '<button type="button" aria-label="บันทึกการแก้ไข" onclick="saveD7Edit()" class="cursor-pointer flex-none shrink-0 min-w-max inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 h-7 sm:h-8 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors shadow-sm text-[10px] sm:text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 whitespace-nowrap"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">save</span> <span class="hidden sm:inline whitespace-nowrap flex-none">บันทึก</span></button>' +
                   '</div>'
-                : '<button type="button" aria-label="เปิดโหมดแก้ไขการตั้งค่า" onclick="enterD7Edit()" class="cursor-pointer shrink-0 flex-none min-w-max px-3 h-8 sm:h-9 inline-flex items-center justify-center gap-1.5 bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-700 text-[11px] sm:text-xs font-bold transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500 whitespace-nowrap ml-auto" title="เปิดโหมดแก้ไข"><span class="material-icons text-[14px] sm:text-[16px]" aria-hidden="true">edit</span> แก้ไขประวัติ</button>';
+                : '<button type="button" aria-label="เปิดโหมดแก้ไข" onclick="enterD7Edit()" class="absolute top-0 right-0 cursor-pointer flex-none shrink-0 min-w-max px-2.5 sm:px-3 h-7 sm:h-8 inline-flex items-center justify-center gap-1.5 bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-700 text-[10px] sm:text-[11px] font-bold transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500 whitespace-nowrap z-20" title="เปิดโหมดแก้ไข"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">edit</span> แก้ไขข้อมูล</button>';
 
             let deleteBtnHtml = isD7EditMode 
-                ? '<div class="pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-slate-200 flex justify-end"><button type="button" aria-label="ลบเจ้าหน้าที่ออกจากหน่วยงาน" onclick="handleRemoveStaff(' + s.id + ')" class="cursor-pointer flex-none shrink-0 min-w-max inline-flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2.5 sm:py-3 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded-xl text-[11px] sm:text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500 whitespace-nowrap" style="white-space: nowrap;"><span class="material-icons text-[16px] sm:text-[18px] flex-none" aria-hidden="true">person_remove</span> <span class="whitespace-nowrap flex-none" style="white-space: nowrap;">ลบออกจากหน่วยงาน</span></button></div>' 
+                ? '<div class="pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-slate-200 flex justify-end shrink-0"><button type="button" aria-label="ลบเจ้าหน้าที่ออกจากหน่วยงาน" onclick="handleRemoveStaff(' + s.id + ')" class="cursor-pointer flex-none shrink-0 min-w-max inline-flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2.5 sm:py-3 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded-xl text-[11px] sm:text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500 whitespace-nowrap" style="white-space: nowrap;"><span class="material-icons text-[16px] sm:text-[18px] flex-none" aria-hidden="true">person_remove</span> <span class="whitespace-nowrap flex-none" style="white-space: nowrap;">ลบออกจากหน่วยงาน</span></button></div>' 
                 : '';
 
-            let detailHtml = '<div class="flex flex-col h-full">';
+            let detailHtml = '<div class="flex flex-col min-h-full">';
             
-            // ★ จัดวาง Profile เป็น Flex row ชิดขวาได้อัตโนมัติ (ด้วย ml-auto ที่ปุ่ม) ★
-            detailHtml += '<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 pb-4 sm:pb-6 relative w-full" id="d7ProfileContainer">';
+            // ★ โครงสร้าง Profile: ปลดล็อก pr-140 ออกจากชื่อ เพื่อไม่ให้แหว่ง ★
+            detailHtml += '<div class="relative w-full pb-4 sm:pb-6 shrink-0" id="d7ProfileContainer">';
+            detailHtml += mainEditBtnHtml; // วางปุ่ม absolute ที่มุมขวาบน
+            
             detailHtml += '<div class="flex flex-row gap-3 sm:gap-4 min-w-0 flex-1 overflow-hidden">';
+            
+            // รูปโปรไฟล์
             detailHtml += '<div class="w-[50px] h-[50px] sm:w-[64px] sm:h-[64px] shrink-0 flex-none rounded-2xl ' + profileBgClass + ' font-black text-xl sm:text-2xl flex items-center justify-center" aria-hidden="true">' + s.initial + '</div>';
-            detailHtml += '<div class="min-w-0 pt-0.5 sm:pt-1 flex-1">';
+            
+            // กล่องข้อความ ชื่อและเบอร์โทร (เว้นที่ว่างด้านขวาเฉพาะบรรทัดนี้ เพื่อหลบปุ่ม)
+            detailHtml += '<div class="min-w-0 pt-0.5 sm:pt-1 flex-1 w-full">';
+            detailHtml += '<div class="pr-[75px] sm:pr-[130px] w-full">';
             detailHtml += '<h2 class="text-[16px] sm:text-[18px] font-black text-slate-900 truncate">' + s.name + '</h2>';
             detailHtml += '<p class="text-[11px] sm:text-[13px] text-slate-600 font-mono mb-1.5 truncate">' + s.phone + '</p>';
-            detailHtml += '<div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-1">';
+            detailHtml += '</div>';
+            
+            // ★ กล่องป้ายยศและปุ่มสลับสิทธิ์ ให้ยืดสุดขอบ และเลื่อนซ้ายขวาได้ (ไม่โดน pr บีบแล้ว) ★
+            detailHtml += '<div class="w-full overflow-x-auto hide-scrollbar pb-1 mt-0.5 d7-scroll-x">';
+            detailHtml += '<div class="flex flex-nowrap items-center gap-1.5 sm:gap-2 w-max pr-2">';
             detailHtml += '<span class="shrink-0 flex-none min-w-max inline-flex items-center justify-center h-6 sm:h-7 border ' + roleBadgeClass + ' px-2.5 sm:px-3 rounded-full text-[10px] sm:text-[11px] font-bold whitespace-nowrap" style="white-space: nowrap;">' + roleNameDetail + '</span>';
             detailHtml += roleToggleBtnHtml;
-            detailHtml += '</div></div></div>';
-            
-            detailHtml += mainEditBtnHtml;
+            detailHtml += '</div></div></div></div></div>'; // จบ Profile Container
+
+            detailHtml += '<div class="w-full h-px bg-slate-200 mb-4 sm:mb-6 shrink-0"></div>';
+
+            detailHtml += '<div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 mb-4 sm:mb-6 flex flex-col w-full shrink-0">';
+            detailHtml += '<div class="flex justify-between items-center w-full border-b border-slate-200 pb-2.5 sm:pb-3 mb-1.5 sm:mb-2">';
+            detailHtml += '<p class="text-[11px] sm:text-[12px] font-bold text-slate-700 m-0">ด้านความรับผิดชอบ<span class="text-slate-500 font-normal">' + respCountText + '</span></p>';
+            detailHtml += '<div class="shrink-0 flex-none">' + respEditBtnHtml + '</div>';
+            detailHtml += '</div>';
+            detailHtml += '<div class="w-full">' + respHtml + '</div>';
             detailHtml += '</div>';
 
-            detailHtml += '<div class="w-full h-px bg-slate-200 mb-4 sm:mb-6"></div>';
-
-            detailHtml += '<div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 mb-4 sm:mb-6 flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-4">';
-            detailHtml += '<div class="min-w-0 flex-1 w-full"><p class="text-[10px] sm:text-[11px] font-bold text-slate-500 mb-2">ด้านความรับผิดชอบ<span class="text-slate-400 font-normal">' + respCountText + '</span></p>' + respHtml + '</div>';
-            if(isD7EditMode) detailHtml += '<div class="shrink-0 self-end sm:self-start">' + respEditBtnHtml + '</div>';
-            detailHtml += '</div>';
-
-            detailHtml += '<div class="flex overflow-x-auto hide-scrollbar sm:grid sm:grid-cols-3 gap-2 sm:gap-4 mb-auto pb-2 sm:pb-0">';
+            detailHtml += '<div class="flex overflow-x-auto hide-scrollbar sm:grid sm:grid-cols-3 gap-2 sm:gap-4 mb-auto pb-2 sm:pb-0 shrink-0">';
             detailHtml += statusCardsHtml;
             detailHtml += '</div>';
 
