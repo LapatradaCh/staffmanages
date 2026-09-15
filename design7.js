@@ -34,32 +34,44 @@ function toggleD7EditMode() {
     if (typeof render === 'function') render();
 }
 
+// ================= ฟังก์ชันสำหรับ Scroll มือถืออัตโนมัติ =================
+function d7ScrollToDetail() {
+    if (window.innerWidth < 1024) {
+        setTimeout(() => {
+            const el = document.getElementById('d7DetailPanel');
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+    }
+}
+
 // ================= ฟังก์ชันสร้างโครงร่าง HTML =================
 function initDesign7Skeleton() {
     const container = document.getElementById('design7Container');
     if (!container) return;
 
     if (container.innerHTML.trim() === '') {
-        let skelHtml = '<div class="bg-white p-4 md:p-8">';
+        // เพิ่มความ Responsive: ปรับ Padding สำหรับหน้าจอเล็ก
+        let skelHtml = '<div class="bg-white p-3 sm:p-5 md:p-8">';
         
-        skelHtml += '<div class="flex items-center justify-between gap-4 pb-4 md:pb-6 border-b border-slate-100 flex-nowrap">';
-        skelHtml += '<div class="min-w-0 flex-1"><span class="hidden md:inline-block text-[11px] font-extrabold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full mb-1">Clean & Flat Design</span><h1 class="text-base sm:text-xl md:text-2xl font-black text-slate-900 truncate">จัดการเจ้าหน้าที่ในหน่วยงาน</h1></div>';
-        skelHtml += '<button aria-label="เปิด QR Code เชิญเจ้าหน้าที่" onclick="openModal(\'qrModal\')" class="shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[11px] md:text-xs flex items-center gap-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-sm" aria-hidden="true">qr_code</span> <span class="hidden sm:inline">QR Code เชิญ</span></button>';
+        skelHtml += '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 md:pb-6 border-b border-slate-100">';
+        skelHtml += '<div class="min-w-0 flex-1"><span class="inline-block text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2 sm:px-3 py-1 rounded-full mb-1">Clean & Flat Design</span><h1 class="text-lg sm:text-xl md:text-2xl font-black text-slate-900 truncate">จัดการเจ้าหน้าที่ในหน่วยงาน</h1></div>';
+        skelHtml += '<button aria-label="เปิด QR Code เชิญเจ้าหน้าที่" onclick="openModal(\'qrModal\')" class="self-start sm:self-auto shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[11px] md:text-xs flex items-center gap-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-sm" aria-hidden="true">qr_code</span> <span>QR Code เชิญ</span></button>';
         skelHtml += '</div>';
 
-        skelHtml += '<div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-4 md:mt-6">';
+        skelHtml += '<div class="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 mt-4 md:mt-6">';
         skelHtml += '<div role="tablist" class="flex bg-slate-50 p-1.5 rounded-xl w-full md:w-auto overflow-x-auto hide-scrollbar flex-nowrap border border-slate-100">';
-        skelHtml += '<button role="tab" aria-selected="true" onclick="setD7Tab(\'staff\')" id="d7TabStaff" class="flex-1 md:flex-none whitespace-nowrap px-4 py-2 rounded-lg text-xs font-bold transition-all bg-white text-slate-900 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">ทั้งหมด</button>';
-        skelHtml += '<button role="tab" aria-selected="false" onclick="setD7Tab(\'admin\')" id="d7TabAdmin" class="flex-1 md:flex-none whitespace-nowrap px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 border border-transparent hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">ผู้ดูแลระบบ</button>';
-        skelHtml += '<button role="tab" aria-selected="false" onclick="setD7Tab(\'user\')" id="d7TabUser" class="flex-1 md:flex-none whitespace-nowrap px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 border border-transparent hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">เจ้าหน้าที่</button>';
-        skelHtml += '<button role="tab" aria-selected="false" onclick="setD7Tab(\'pending\')" id="d7TabPending" class="flex-1 md:flex-none whitespace-nowrap px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 border border-transparent hover:text-slate-800 flex justify-center items-center gap-1 focus:outline-none focus:ring-2 focus:ring-emerald-500">รออนุมัติ <span id="d7PendingCount" class="bg-amber-600 text-white px-2 py-0.5 rounded-md text-[11px]">0</span></button>';
+        skelHtml += '<button role="tab" aria-selected="true" onclick="setD7Tab(\'staff\')" id="d7TabStaff" class="flex-1 md:flex-none whitespace-nowrap px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all bg-white text-slate-900 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">ทั้งหมด</button>';
+        skelHtml += '<button role="tab" aria-selected="false" onclick="setD7Tab(\'admin\')" id="d7TabAdmin" class="flex-1 md:flex-none whitespace-nowrap px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-600 border border-transparent hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">ผู้ดูแลระบบ</button>';
+        skelHtml += '<button role="tab" aria-selected="false" onclick="setD7Tab(\'user\')" id="d7TabUser" class="flex-1 md:flex-none whitespace-nowrap px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-600 border border-transparent hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">เจ้าหน้าที่</button>';
+        skelHtml += '<button role="tab" aria-selected="false" onclick="setD7Tab(\'pending\')" id="d7TabPending" class="flex-1 md:flex-none whitespace-nowrap px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-600 border border-transparent hover:text-slate-800 flex justify-center items-center gap-1 focus:outline-none focus:ring-2 focus:ring-emerald-500">รออนุมัติ <span id="d7PendingCount" class="bg-amber-600 text-white px-2 py-0.5 rounded-md text-[10px] sm:text-[11px]">0</span></button>';
         skelHtml += '</div>';
-        skelHtml += '<div class="relative w-full md:w-64 shrink-0"><span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]" aria-hidden="true">search</span><input type="text" aria-label="ค้นหารายชื่อ" placeholder="ค้นหารายชื่อ..." oninput="handleSearch(this.value)" class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-2 text-xs font-medium focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors text-slate-800"></div>';
+        skelHtml += '<div class="relative w-full md:w-64 shrink-0"><span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]" aria-hidden="true">search</span><input type="text" aria-label="ค้นหารายชื่อ" placeholder="ค้นหารายชื่อ..." oninput="handleSearch(this.value)" class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-2 text-[11px] sm:text-xs font-medium focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors text-slate-800"></div>';
         skelHtml += '</div>';
 
-        skelHtml += '<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">';
-        skelHtml += '<div class="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-3 h-[300px] lg:h-[550px] overflow-y-auto hide-scrollbar space-y-2" id="d7ListPanel"></div>';
-        skelHtml += '<div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-5 md:p-8 flex flex-col h-auto min-h-[300px] lg:h-[550px] overflow-y-auto hide-scrollbar" id="d7DetailPanel" role="region" aria-live="polite"></div>';
+        // ปรับความสูงสำหรับมือถือเป็น min-h อัตโนมัติ ไม่ล็อกความสูง
+        skelHtml += '<div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 mt-4 sm:mt-6">';
+        skelHtml += '<div class="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-2 sm:p-3 h-[350px] lg:h-[550px] overflow-y-auto hide-scrollbar space-y-2" id="d7ListPanel"></div>';
+        skelHtml += '<div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 md:p-8 flex flex-col h-auto min-h-[350px] lg:h-[550px] overflow-y-auto hide-scrollbar" id="d7DetailPanel" role="region" aria-live="polite"></div>';
         skelHtml += '</div></div>';
         
         container.innerHTML = skelHtml;
@@ -93,36 +105,38 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
             const selTextClass = isSel ? 'text-slate-300' : 'text-slate-600';
             const badgeBgClass = isSel ? 'bg-white/20 text-white' : 'bg-amber-50 text-amber-700 border border-amber-200';
 
-            listHtml += '<button aria-pressed="' + isSel + '" onclick="selectedD7PendingId=' + p.id + '; isD7EditMode=false; render();" class="w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-slate-500 ' + bgClass + '">';
-            listHtml += '    <div class="flex items-center gap-4 min-w-0">';
-            listHtml += '        <div class="w-11 h-11 shrink-0 rounded-lg font-bold flex items-center justify-center text-[15px] ' + iconBgClass + '" aria-hidden="true">' + p.initial + '</div>';
+            // เพิ่ม d7ScrollToDetail() เพื่อรองรับมือถือ
+            listHtml += '<button aria-pressed="' + isSel + '" onclick="selectedD7PendingId=' + p.id + '; isD7EditMode=false; render(); d7ScrollToDetail();" class="w-full text-left p-3 sm:p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2 sm:gap-3 focus:outline-none focus:ring-2 focus:ring-slate-500 ' + bgClass + '">';
+            listHtml += '    <div class="flex items-center gap-3 sm:gap-4 min-w-0">';
+            listHtml += '        <div class="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-lg font-bold flex items-center justify-center text-[14px] sm:text-[15px] ' + iconBgClass + '" aria-hidden="true">' + p.initial + '</div>';
             listHtml += '        <div class="min-w-0">';
-            listHtml += '            <p class="font-bold text-[14px] truncate">' + p.name + '</p>';
-            listHtml += '            <p class="text-[11px] ' + selTextClass + ' font-mono mt-0.5 truncate">' + p.requestDate + '</p>';
+            listHtml += '            <p class="font-bold text-[13px] sm:text-[14px] truncate">' + p.name + '</p>';
+            listHtml += '            <p class="text-[10px] sm:text-[11px] ' + selTextClass + ' font-mono mt-0.5 truncate">' + p.requestDate + '</p>';
             listHtml += '        </div>';
             listHtml += '    </div>';
-            listHtml += '    <span class="shrink-0 text-[11px] px-3 py-1 rounded-full font-bold ' + badgeBgClass + '">คำขอใหม่</span>';
+            listHtml += '    <span class="shrink-0 text-[9px] sm:text-[11px] px-2 sm:px-3 py-1 rounded-full font-bold ' + badgeBgClass + '">คำขอใหม่</span>';
             listHtml += '</button>';
         });
-        listEl.innerHTML = listHtml || '<div class="flex flex-col items-center justify-center h-full text-slate-500 gap-2"><span class="material-icons text-4xl" aria-hidden="true">inbox</span><p class="text-sm font-bold">ไม่มีคำขออนุมัติ</p></div>';
+        listEl.innerHTML = listHtml || '<div class="flex flex-col items-center justify-center h-full text-slate-500 gap-2"><span class="material-icons text-3xl sm:text-4xl" aria-hidden="true">inbox</span><p class="text-xs sm:text-sm font-bold">ไม่มีคำขออนุมัติ</p></div>';
 
         const p = pendingList.find(x => x.id === selectedD7PendingId);
         if(p) {
             let reqRoleBadge = p.requestRole === 'admin' 
-                ? '<span class="px-3 py-1.5 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-lg text-[11px] font-bold">ผู้ดูแลระบบ</span>'
-                : '<span class="px-3 py-1.5 bg-white text-slate-800 border border-slate-300 rounded-lg text-[11px] font-bold">เจ้าหน้าที่</span>';
+                ? '<span class="px-2 sm:px-3 py-1 sm:py-1.5 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-lg text-[10px] sm:text-[11px] font-bold">ผู้ดูแลระบบ</span>'
+                : '<span class="px-2 sm:px-3 py-1 sm:py-1.5 bg-white text-slate-800 border border-slate-300 rounded-lg text-[10px] sm:text-[11px] font-bold">เจ้าหน้าที่</span>';
 
-            let detailHtml = '<div class="flex flex-col h-full">';
-            detailHtml += '<div class="flex items-start gap-5 pb-6">';
-            detailHtml += '<div class="w-[64px] h-[64px] shrink-0 rounded-2xl bg-amber-100 text-amber-800 font-black text-2xl flex items-center justify-center" aria-hidden="true">' + p.initial + '</div>';
-            detailHtml += '<div class="min-w-0 flex-1 pt-1"><h2 class="text-[18px] font-black text-slate-900 truncate">' + p.name + '</h2><p class="text-[13px] text-slate-600 font-mono mb-1.5">' + p.phone + '</p><span class="inline-block bg-amber-50 text-amber-700 px-3 py-1 rounded-full text-[11px] font-bold border border-amber-200">คำขอเข้าร่วมหน่วยงาน</span></div></div>';
-            detailHtml += '<div class="w-full h-px bg-slate-200 mb-6"></div>';
-            detailHtml += '<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-auto">';
-            detailHtml += '<div class="flex justify-between items-center mb-4"><span class="text-[11px] font-bold text-slate-500">บทบาทที่ต้องการ</span>' + reqRoleBadge + '</div>';
-            detailHtml += '<div class="flex justify-between items-center border-t border-slate-200 pt-4"><span class="text-[11px] font-bold text-slate-500">วันที่ส่งคำขอ</span><span class="text-[13px] font-bold text-slate-800">' + p.requestDate + '</span></div></div>';
-            detailHtml += '<div class="flex gap-2 pt-6"><button aria-label="ดูข้อมูลผู้ขอ" onclick="showPendingInfo(\'' + p.name + '\', \'' + p.phone + '\')" class="flex-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-bold py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[14px] mr-1.5" aria-hidden="true">info</span> ข้อมูล</button>';
-            detailHtml += '<button aria-label="ปฏิเสธคำขอ" onclick="handleReject(' + p.id + ')" class="flex-[1] bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 font-bold py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-rose-400">ปฏิเสธ</button>';
-            detailHtml += '<button aria-label="อนุมัติคำขอ" onclick="handleApprove(' + p.id + ')" class="flex-[1.5] bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500">อนุมัติ</button></div></div>';
+            let detailHtml = '<div class="flex flex-col h-full relative">';
+            detailHtml += '<div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 sm:gap-5 pb-4 sm:pb-6">';
+            detailHtml += '<div class="w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] shrink-0 rounded-2xl bg-amber-100 text-amber-800 font-black text-xl sm:text-2xl flex items-center justify-center" aria-hidden="true">' + p.initial + '</div>';
+            detailHtml += '<div class="min-w-0 flex-1 pt-1"><h2 class="text-[16px] sm:text-[18px] font-black text-slate-900 truncate">' + p.name + '</h2><p class="text-[12px] sm:text-[13px] text-slate-600 font-mono mb-1.5">' + p.phone + '</p><span class="inline-block bg-amber-50 text-amber-700 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold border border-amber-200">คำขอเข้าร่วมหน่วยงาน</span></div></div>';
+            detailHtml += '<div class="w-full h-px bg-slate-200 mb-4 sm:mb-6"></div>';
+            detailHtml += '<div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 mb-auto">';
+            detailHtml += '<div class="flex justify-between items-center mb-3 sm:mb-4"><span class="text-[10px] sm:text-[11px] font-bold text-slate-500">บทบาทที่ต้องการ</span>' + reqRoleBadge + '</div>';
+            detailHtml += '<div class="flex justify-between items-center border-t border-slate-200 pt-3 sm:pt-4"><span class="text-[10px] sm:text-[11px] font-bold text-slate-500">วันที่ส่งคำขอ</span><span class="text-[12px] sm:text-[13px] font-bold text-slate-800">' + p.requestDate + '</span></div></div>';
+            // ปุ่ม Action แนวนอน/ซ้อนกันบนมือถือ
+            detailHtml += '<div class="flex flex-col sm:flex-row gap-2 pt-4 sm:pt-6"><button aria-label="ดูข้อมูลผู้ขอ" onclick="showPendingInfo(\'' + p.name + '\', \'' + p.phone + '\')" class="w-full sm:flex-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-bold py-2.5 sm:py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[14px] mr-1.5" aria-hidden="true">info</span> ข้อมูล</button>';
+            detailHtml += '<div class="flex gap-2 w-full"><button aria-label="ปฏิเสธคำขอ" onclick="handleReject(' + p.id + ')" class="flex-[1] bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 font-bold py-2.5 sm:py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-rose-400">ปฏิเสธ</button>';
+            detailHtml += '<button aria-label="อนุมัติคำขอ" onclick="handleApprove(' + p.id + ')" class="flex-[1.5] bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 sm:py-3.5 rounded-xl text-[11px] md:text-xs flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500">อนุมัติ</button></div></div></div>';
             
             detailEl.innerHTML = detailHtml;
         } else { detailEl.innerHTML = ''; }
@@ -152,18 +166,18 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
             const badgeClass = isSel ? 'bg-white/20 text-white' : (s.role === 'admin' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-slate-100 text-slate-700 border-slate-200');
             const roleName = s.role === 'admin' ? 'ผู้ดูแล' : 'เจ้าหน้าที่';
 
-            listHtml += '<button aria-pressed="' + isSel + '" onclick="selectedD7StaffId=' + s.id + '; isD7EditMode=false; render();" class="w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-slate-500 ' + bgClass + '">';
-            listHtml += '    <div class="flex items-center gap-4 min-w-0">';
-            listHtml += '        <div class="w-11 h-11 shrink-0 rounded-lg font-bold flex items-center justify-center text-[15px] ' + iconBgClass + '" aria-hidden="true">' + s.initial + '</div>';
+            listHtml += '<button aria-pressed="' + isSel + '" onclick="selectedD7StaffId=' + s.id + '; isD7EditMode=false; render(); d7ScrollToDetail();" class="w-full text-left p-3 sm:p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2 sm:gap-3 focus:outline-none focus:ring-2 focus:ring-slate-500 ' + bgClass + '">';
+            listHtml += '    <div class="flex items-center gap-3 sm:gap-4 min-w-0">';
+            listHtml += '        <div class="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-lg font-bold flex items-center justify-center text-[14px] sm:text-[15px] ' + iconBgClass + '" aria-hidden="true">' + s.initial + '</div>';
             listHtml += '        <div class="min-w-0">';
-            listHtml += '            <p class="font-bold text-[14px] truncate">' + s.name + '</p>';
-            listHtml += '            <p class="text-[11px] ' + selTextClass + ' font-mono mt-0.5 truncate">' + s.phone + '</p>';
+            listHtml += '            <p class="font-bold text-[13px] sm:text-[14px] truncate">' + s.name + '</p>';
+            listHtml += '            <p class="text-[10px] sm:text-[11px] ' + selTextClass + ' font-mono mt-0.5 truncate">' + s.phone + '</p>';
             listHtml += '        </div>';
             listHtml += '    </div>';
-            listHtml += '    <span class="shrink-0 text-[11px] px-3 py-1 rounded-full font-bold border ' + badgeClass + '">' + roleName + '</span>';
+            listHtml += '    <span class="shrink-0 text-[9px] sm:text-[11px] px-2 sm:px-3 py-1 rounded-full font-bold border ' + badgeClass + '">' + roleName + '</span>';
             listHtml += '</button>';
         });
-        listEl.innerHTML = listHtml || '<div class="flex flex-col items-center justify-center h-full text-slate-500 gap-2"><span class="material-icons text-4xl" aria-hidden="true">search_off</span><p class="text-sm font-bold">ไม่พบข้อมูล</p></div>';
+        listEl.innerHTML = listHtml || '<div class="flex flex-col items-center justify-center h-full text-slate-500 gap-2"><span class="material-icons text-3xl sm:text-4xl" aria-hidden="true">search_off</span><p class="text-xs sm:text-sm font-bold">ไม่พบข้อมูล</p></div>';
 
         const s = staffList.find(x => x.id === selectedD7StaffId);
         if(s) {
@@ -179,73 +193,75 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
                 const displayResp = s.resp.slice(0, MAX_SHOW);
                 const hiddenCount = s.resp.length - MAX_SHOW;
 
-                let chipsHtml = displayResp.map(r => '<span class="px-2.5 py-1 bg-white border border-slate-200 text-slate-600 rounded-lg text-[11px] font-bold shadow-sm whitespace-nowrap">' + r + '</span>').join('');
+                let chipsHtml = displayResp.map(r => '<span class="px-2.5 py-1 bg-white border border-slate-200 text-slate-600 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm whitespace-nowrap">' + r + '</span>').join('');
                 
-                // ★ จุดที่แก้ไข: เชื่อมปุ่มเข้ากับฟังก์ชันเปิด Popup
                 if (hiddenCount > 0) {
-                    chipsHtml += `<button onclick="showAllResp(${s.id})" aria-label="ดูความรับผิดชอบที่เหลือทั้งหมด" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg text-[11px] font-bold shadow-sm whitespace-nowrap transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400">+${hiddenCount}</button>`;
+                    chipsHtml += `<button onclick="showAllResp(${s.id})" aria-label="ดูความรับผิดชอบที่เหลือทั้งหมด" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm whitespace-nowrap transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400">+${hiddenCount}</button>`;
                 }
 
-                respHtml = '<div class="flex flex-wrap gap-1.5">' + chipsHtml + '</div>';
+                respHtml = '<div class="flex flex-wrap gap-1 sm:gap-1.5">' + chipsHtml + '</div>';
                 respCountText = ' (' + s.resp.length + ' หมวด)';
             } else {
-                respHtml = '<span class="text-[13px] font-medium text-slate-500 inline-block">ไม่ได้ระบุ</span>';
+                respHtml = '<span class="text-[12px] sm:text-[13px] font-medium text-slate-500 inline-block">ไม่ได้ระบุ</span>';
             }
 
             let isAuthen = s.isAuthen !== false;
             let statusCardsHtml = '';
 
+            // Responsive padding & typography for status cards
             if (isAuthen) {
-                statusCardsHtml += '<div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-emerald-700 text-[16px]" aria-hidden="true">verified</span><div><div class="text-[11px] font-bold text-emerald-800 mb-0.5">สถานะ Authen</div><div class="text-xs font-bold text-emerald-900 truncate">ผ่านการ Authen</div></div></div>';
-                statusCardsHtml += '<div class="p-3 bg-blue-50 border border-blue-200 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-blue-700 text-[16px]" aria-hidden="true">login</span><div><div class="text-[11px] font-bold text-blue-800 mb-0.5">เข้าครั้งแรก</div><div class="text-xs font-bold text-blue-900 truncate">10 มี.ค. 2024</div></div></div>';
-                statusCardsHtml += '<div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-amber-700 text-[16px]" aria-hidden="true">history</span><div><div class="text-[11px] font-bold text-amber-800 mb-0.5">ใช้งานล่าสุด</div><div class="text-xs font-bold text-amber-900 truncate">วันนี้ 08:15</div></div></div>';
+                statusCardsHtml += '<div class="p-2.5 sm:p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex flex-col gap-1 sm:gap-1.5"><span class="material-icons text-emerald-700 text-[14px] sm:text-[16px]" aria-hidden="true">verified</span><div><div class="text-[9px] sm:text-[11px] font-bold text-emerald-800 mb-0.5">สถานะ Authen</div><div class="text-[10px] sm:text-xs font-bold text-emerald-900 truncate">ผ่านการ Authen</div></div></div>';
+                statusCardsHtml += '<div class="p-2.5 sm:p-3 bg-blue-50 border border-blue-200 rounded-xl flex flex-col gap-1 sm:gap-1.5"><span class="material-icons text-blue-700 text-[14px] sm:text-[16px]" aria-hidden="true">login</span><div><div class="text-[9px] sm:text-[11px] font-bold text-blue-800 mb-0.5">เข้าครั้งแรก</div><div class="text-[10px] sm:text-xs font-bold text-blue-900 truncate">10 มี.ค. 2024</div></div></div>';
+                statusCardsHtml += '<div class="p-2.5 sm:p-3 bg-amber-50 border border-amber-200 rounded-xl flex flex-col gap-1 sm:gap-1.5"><span class="material-icons text-amber-700 text-[14px] sm:text-[16px]" aria-hidden="true">history</span><div><div class="text-[9px] sm:text-[11px] font-bold text-amber-800 mb-0.5">ใช้งานล่าสุด</div><div class="text-[10px] sm:text-xs font-bold text-amber-900 truncate">วันนี้ 08:15</div></div></div>';
             } else {
-                statusCardsHtml += '<div class="p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-slate-500 text-[16px]" aria-hidden="true">hourglass_empty</span><div><div class="text-[11px] font-bold text-slate-600 mb-0.5">สถานะ Authen</div><div class="text-xs font-bold text-slate-700 truncate">ยังไม่ Authen</div></div></div>';
-                statusCardsHtml += '<div class="p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-slate-500 text-[16px]" aria-hidden="true">login</span><div><div class="text-[11px] font-bold text-slate-600 mb-0.5">เข้าครั้งแรก</div><div class="text-xs font-bold text-slate-700 truncate">-</div></div></div>';
-                statusCardsHtml += '<div class="p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-slate-500 text-[16px]" aria-hidden="true">history</span><div><div class="text-[11px] font-bold text-slate-600 mb-0.5">ใช้งานล่าสุด</div><div class="text-xs font-bold text-slate-700 truncate">-</div></div></div>';
+                statusCardsHtml += '<div class="p-2.5 sm:p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1 sm:gap-1.5"><span class="material-icons text-slate-500 text-[14px] sm:text-[16px]" aria-hidden="true">hourglass_empty</span><div><div class="text-[9px] sm:text-[11px] font-bold text-slate-600 mb-0.5">สถานะ Authen</div><div class="text-[10px] sm:text-xs font-bold text-slate-700 truncate">ยังไม่ Authen</div></div></div>';
+                statusCardsHtml += '<div class="p-2.5 sm:p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1 sm:gap-1.5"><span class="material-icons text-slate-500 text-[14px] sm:text-[16px]" aria-hidden="true">login</span><div><div class="text-[9px] sm:text-[11px] font-bold text-slate-600 mb-0.5">เข้าครั้งแรก</div><div class="text-[10px] sm:text-xs font-bold text-slate-700 truncate">-</div></div></div>';
+                statusCardsHtml += '<div class="p-2.5 sm:p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1 sm:gap-1.5"><span class="material-icons text-slate-500 text-[14px] sm:text-[16px]" aria-hidden="true">history</span><div><div class="text-[9px] sm:text-[11px] font-bold text-slate-600 mb-0.5">ใช้งานล่าสุด</div><div class="text-[10px] sm:text-xs font-bold text-slate-700 truncate">-</div></div></div>';
             }
 
             let roleToggleBtnHtml = isD7EditMode 
-                ? '<button onclick="handleToggleRole(' + s.id + ')" aria-label="สลับบทบาทสิทธิ์การใช้งาน" class="flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-[11px] font-bold transition-colors shadow-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[14px]" aria-hidden="true">swap_horiz</span> ' + roleToggleBtnText + '</button>' 
+                ? '<button onclick="handleToggleRole(' + s.id + ')" aria-label="สลับบทบาทสิทธิ์การใช้งาน" class="flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-bold transition-colors shadow-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">swap_horiz</span> ' + roleToggleBtnText + '</button>' 
                 : '';
 
             let respEditBtnHtml = isD7EditMode 
-                ? '<button onclick="openResponsibilitiesModal(' + s.id + ')" aria-label="แก้ไขข้อมูลด้านความรับผิดชอบ" class="w-8 h-8 shrink-0 flex items-center justify-center bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500" title="แก้ไขหน้าที่"><span class="material-icons text-[14px]" aria-hidden="true">edit</span></button>' 
+                ? '<button onclick="openResponsibilitiesModal(' + s.id + ')" aria-label="แก้ไขข้อมูลด้านความรับผิดชอบ" class="w-7 h-7 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500" title="แก้ไขหน้าที่"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">edit</span></button>' 
                 : '';
 
+            // ปุ่มแก้ไขหลัก (จัดให้ Responsive: บนมือถือลอยขวาบน, เดสก์ท็อปต่อท้ายแนวนอน)
             let mainEditBtnHtml = isD7EditMode 
-                ? '<div class="flex items-center gap-2">' +
-                  '<button aria-label="ยกเลิกการแก้ไข" onclick="toggleD7EditMode()" class="shrink-0 px-3 py-1.5 flex items-center gap-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg transition-colors text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[14px]" aria-hidden="true">close</span> ยกเลิก</button>' +
-                  '<button aria-label="บันทึกการแก้ไข" onclick="toggleD7EditMode()" class="shrink-0 px-3 py-1.5 flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors shadow-sm text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500"><span class="material-icons text-[14px]" aria-hidden="true">save</span> บันทึก</button>' +
+                ? '<div class="flex items-center gap-1.5 sm:gap-2 absolute right-0 top-0 sm:relative sm:top-auto sm:right-auto">' +
+                  '<button aria-label="ยกเลิกการแก้ไข" onclick="toggleD7EditMode()" class="shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 flex items-center gap-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg transition-colors text-[10px] sm:text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">close</span> <span class="hidden sm:inline">ยกเลิก</span></button>' +
+                  '<button aria-label="บันทึกการแก้ไข" onclick="toggleD7EditMode()" class="shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors shadow-sm text-[10px] sm:text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">save</span> <span class="hidden sm:inline">บันทึก</span></button>' +
                   '</div>'
-                : '<button aria-label="เปิดโหมดแก้ไขการตั้งค่า" onclick="toggleD7EditMode()" class="shrink-0 w-8 h-8 flex items-center justify-center bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500" title="เปิดโหมดแก้ไข"><span class="material-icons text-[14px]" aria-hidden="true">edit</span></button>';
+                : '<button aria-label="เปิดโหมดแก้ไขการตั้งค่า" onclick="toggleD7EditMode()" class="absolute right-0 top-0 sm:relative sm:top-auto sm:right-auto shrink-0 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500" title="เปิดโหมดแก้ไข"><span class="material-icons text-[12px] sm:text-[14px]" aria-hidden="true">edit</span></button>';
 
             let deleteBtnHtml = isD7EditMode 
-                ? '<div class="pt-6 mt-6 border-t border-slate-200 flex justify-end"><button aria-label="ลบเจ้าหน้าที่ออกจากหน่วยงาน" onclick="handleRemoveStaff(' + s.id + ')" class="flex items-center gap-1.5 px-5 py-2.5 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500"><span class="material-icons text-[16px]" aria-hidden="true">person_remove</span> ลบออกจากหน่วยงาน</button></div>' 
+                ? '<div class="pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-slate-200 flex justify-end"><button aria-label="ลบเจ้าหน้าที่ออกจากหน่วยงาน" onclick="handleRemoveStaff(' + s.id + ')" class="flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded-xl text-[11px] sm:text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500"><span class="material-icons text-[14px] sm:text-[16px]" aria-hidden="true">person_remove</span> ลบออกจากหน่วยงาน</button></div>' 
                 : '';
 
             let detailHtml = '<div class="flex flex-col h-full">';
             
-            detailHtml += '<div class="flex items-start gap-5 pb-6" id="d7ProfileContainer">';
-            detailHtml += '<div class="w-[64px] h-[64px] shrink-0 rounded-2xl ' + profileBgClass + ' font-black text-2xl flex items-center justify-center" aria-hidden="true">' + s.initial + '</div>';
-            detailHtml += '<div class="min-w-0 flex-1 pt-1">';
-            detailHtml += '<h2 class="text-[18px] font-black text-slate-900 truncate">' + s.name + '</h2>';
-            detailHtml += '<p class="text-[13px] text-slate-600 font-mono mb-1.5">' + s.phone + '</p>';
-            detailHtml += '<div class="flex items-center gap-2 mt-1">';
-            detailHtml += '<span class="inline-block border ' + roleBadgeClass + ' px-3 py-1 rounded-full text-[11px] font-bold">' + roleNameDetail + '</span>';
+            detailHtml += '<div class="flex items-start gap-3 sm:gap-5 pb-4 sm:pb-6 relative" id="d7ProfileContainer">';
+            detailHtml += '<div class="w-[50px] h-[50px] sm:w-[64px] sm:h-[64px] shrink-0 rounded-2xl ' + profileBgClass + ' font-black text-xl sm:text-2xl flex items-center justify-center" aria-hidden="true">' + s.initial + '</div>';
+            detailHtml += '<div class="min-w-0 flex-1 pt-0.5 sm:pt-1 pr-16 sm:pr-0">'; // pr-16 เพื่อกันข้อความทับปุ่มแก้ไขในมือถือ
+            detailHtml += '<h2 class="text-[16px] sm:text-[18px] font-black text-slate-900 truncate">' + s.name + '</h2>';
+            detailHtml += '<p class="text-[11px] sm:text-[13px] text-slate-600 font-mono mb-1.5">' + s.phone + '</p>';
+            detailHtml += '<div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-1">';
+            detailHtml += '<span class="inline-block border ' + roleBadgeClass + ' px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold">' + roleNameDetail + '</span>';
             detailHtml += roleToggleBtnHtml;
             detailHtml += '</div></div>';
             detailHtml += mainEditBtnHtml;
             detailHtml += '</div>';
 
-            detailHtml += '<div class="w-full h-px bg-slate-200 mb-6"></div>';
+            detailHtml += '<div class="w-full h-px bg-slate-200 mb-4 sm:mb-6"></div>';
 
-            detailHtml += '<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 flex justify-between items-start">';
-            detailHtml += '<div class="min-w-0 flex-1"><p class="text-[11px] font-bold text-slate-500 mb-2">ด้านความรับผิดชอบ<span class="text-slate-400 font-normal">' + respCountText + '</span></p>' + respHtml + '</div>';
-            if(isD7EditMode) detailHtml += '<div class="shrink-0 ml-4">' + respEditBtnHtml + '</div>';
+            detailHtml += '<div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 mb-4 sm:mb-6 flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-0">';
+            detailHtml += '<div class="min-w-0 flex-1 w-full"><p class="text-[10px] sm:text-[11px] font-bold text-slate-500 mb-2">ด้านความรับผิดชอบ<span class="text-slate-400 font-normal">' + respCountText + '</span></p>' + respHtml + '</div>';
+            if(isD7EditMode) detailHtml += '<div class="shrink-0 self-end sm:self-start">' + respEditBtnHtml + '</div>';
             detailHtml += '</div>';
 
-            detailHtml += '<div class="grid grid-cols-3 gap-2 md:gap-4 mb-auto">';
+            // ใช้ grid-cols-3 ตลอด แต่ถ้าจอมือถือเล็กมาก จะถูกบีบด้วย p-2 เพื่อไม่ให้ล้น
+            detailHtml += '<div class="grid grid-cols-3 gap-2 sm:gap-4 mb-auto">';
             detailHtml += statusCardsHtml;
             detailHtml += '</div>';
 
