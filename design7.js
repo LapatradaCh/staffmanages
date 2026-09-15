@@ -1,20 +1,19 @@
 // ================= Variables สำหรับ Design 7 =================
 let d7Tab = 'staff';
-let selectedD7StaffId = 1;
+let selectedD7StaffId = null;
 let selectedD7PendingId = null;
 let isD7EditMode = false;
 
 // ================= ฟังก์ชันสลับ Tab =================
 function setD7Tab(tab) {
     d7Tab = tab;
-    isD7EditMode = false; // รีเซ็ตโหมดแก้ไขเมื่อเปลี่ยน Tab
+    isD7EditMode = false; 
     const tabs = ['staff', 'admin', 'user', 'pending'];
     const idMap = { 'staff': 'd7TabStaff', 'admin': 'd7TabAdmin', 'user': 'd7TabUser', 'pending': 'd7TabPending' };
     
     tabs.forEach(t => {
         const el = document.getElementById(idMap[t]);
         if(el) {
-            // เพิ่ม aria-selected สำหรับ Screen Reader
             if (t === tab) {
                 el.classList.add('bg-white', 'text-slate-900', 'border', 'border-slate-200');
                 el.classList.remove('text-slate-500', 'hover:text-slate-700', 'border-transparent');
@@ -55,7 +54,7 @@ function initDesign7Skeleton() {
         skelHtml += '<button role="tab" aria-selected="false" onclick="setD7Tab(\'user\')" id="d7TabUser" class="flex-1 md:flex-none whitespace-nowrap px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 border border-transparent hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">เจ้าหน้าที่</button>';
         skelHtml += '<button role="tab" aria-selected="false" onclick="setD7Tab(\'pending\')" id="d7TabPending" class="flex-1 md:flex-none whitespace-nowrap px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 border border-transparent hover:text-slate-800 flex justify-center items-center gap-1 focus:outline-none focus:ring-2 focus:ring-emerald-500">รออนุมัติ <span id="d7PendingCount" class="bg-amber-600 text-white px-2 py-0.5 rounded-md text-[11px]">0</span></button>';
         skelHtml += '</div>';
-        skelHtml += '<div class="relative w-full md:w-64 shrink-0"><span class="material-icons absolute left-3 top-2.5 text-slate-500 text-sm" aria-hidden="true">search</span><input type="text" aria-label="ค้นหารายชื่อ" placeholder="ค้นหารายชื่อ..." oninput="handleSearch(this.value)" class="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-4 py-2 text-xs font-medium focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors text-slate-800"></div>';
+        skelHtml += '<div class="relative w-full md:w-64 shrink-0"><span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]" aria-hidden="true">search</span><input type="text" aria-label="ค้นหารายชื่อ" placeholder="ค้นหารายชื่อ..." oninput="handleSearch(this.value)" class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-2 text-xs font-medium focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors text-slate-800"></div>';
         skelHtml += '</div>';
 
         skelHtml += '<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">';
@@ -79,6 +78,13 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
 
     // ----------- กรณีเลือกรอพิจารณา -----------
     if(d7Tab === 'pending') {
+        if (pendingFiltered.length > 0) {
+            const found = pendingFiltered.find(p => p.id === selectedD7PendingId);
+            if (!found) selectedD7PendingId = pendingFiltered[0].id;
+        } else {
+            selectedD7PendingId = null;
+        }
+
         let listHtml = '';
         pendingFiltered.forEach(p => {
             const isSel = selectedD7PendingId === p.id;
@@ -87,7 +93,6 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
             const selTextClass = isSel ? 'text-slate-300' : 'text-slate-600';
             const badgeBgClass = isSel ? 'bg-white/20 text-white' : 'bg-amber-50 text-amber-700 border border-amber-200';
 
-            // ใช้แท็ก <button> สำหรับ WCAG Keyboard Navigation
             listHtml += '<button aria-pressed="' + isSel + '" onclick="selectedD7PendingId=' + p.id + '; isD7EditMode=false; render();" class="w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-slate-500 ' + bgClass + '">';
             listHtml += '    <div class="flex items-center gap-4 min-w-0">';
             listHtml += '        <div class="w-11 h-11 shrink-0 rounded-lg font-bold flex items-center justify-center text-[15px] ' + iconBgClass + '" aria-hidden="true">' + p.initial + '</div>';
@@ -101,7 +106,7 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
         });
         listEl.innerHTML = listHtml || '<div class="flex flex-col items-center justify-center h-full text-slate-500 gap-2"><span class="material-icons text-4xl" aria-hidden="true">inbox</span><p class="text-sm font-bold">ไม่มีคำขออนุมัติ</p></div>';
 
-        const p = pendingList.find(x => x.id === selectedD7PendingId) || pendingFiltered[0];
+        const p = pendingList.find(x => x.id === selectedD7PendingId);
         if(p) {
             let reqRoleBadge = p.requestRole === 'admin' 
                 ? '<span class="px-3 py-1.5 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-lg text-[11px] font-bold">ผู้ดูแลระบบ</span>'
@@ -129,6 +134,13 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
             if(d7Tab === 'user') return s.role === 'staff';
             return true;
         });
+
+        if (d7Staffs.length > 0) {
+            const found = d7Staffs.find(s => s.id === selectedD7StaffId);
+            if (!found) selectedD7StaffId = d7Staffs[0].id;
+        } else {
+            selectedD7StaffId = null;
+        }
         
         let listHtml = '';
         d7Staffs.forEach(s => {
@@ -140,7 +152,6 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
             const badgeClass = isSel ? 'bg-white/20 text-white' : (s.role === 'admin' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-slate-100 text-slate-700 border-slate-200');
             const roleName = s.role === 'admin' ? 'ผู้ดูแล' : 'เจ้าหน้าที่';
 
-            // ใช้แท็ก <button> สำหรับ WCAG Keyboard Navigation
             listHtml += '<button aria-pressed="' + isSel + '" onclick="selectedD7StaffId=' + s.id + '; isD7EditMode=false; render();" class="w-full text-left p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-slate-500 ' + bgClass + '">';
             listHtml += '    <div class="flex items-center gap-4 min-w-0">';
             listHtml += '        <div class="w-11 h-11 shrink-0 rounded-lg font-bold flex items-center justify-center text-[15px] ' + iconBgClass + '" aria-hidden="true">' + s.initial + '</div>';
@@ -154,7 +165,7 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
         });
         listEl.innerHTML = listHtml || '<div class="flex flex-col items-center justify-center h-full text-slate-500 gap-2"><span class="material-icons text-4xl" aria-hidden="true">search_off</span><p class="text-sm font-bold">ไม่พบข้อมูล</p></div>';
 
-        const s = staffList.find(x => x.id === selectedD7StaffId) || d7Staffs[0];
+        const s = staffList.find(x => x.id === selectedD7StaffId);
         if(s) {
             const profileBgClass = 'bg-[#c6f6d5] text-[#065f46]';
             let roleBadgeClass = s.role === 'admin' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-slate-100 text-slate-800 border-slate-200';
@@ -162,13 +173,25 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
             let roleToggleBtnText = s.role === 'admin' ? 'ปรับเป็นเจ้าหน้าที่' : 'ปรับเป็น Admin';
 
             let respHtml = '';
+            let respCountText = '';
             if (s.resp && s.resp.length > 0) {
-                respHtml = s.resp.map(r => '<span class="text-[13px] font-bold text-slate-800">' + r + '</span>').join('<span class="text-[13px] text-slate-800">, </span>');
+                const MAX_SHOW = 3;
+                const displayResp = s.resp.slice(0, MAX_SHOW);
+                const hiddenCount = s.resp.length - MAX_SHOW;
+
+                let chipsHtml = displayResp.map(r => '<span class="px-2.5 py-1 bg-white border border-slate-200 text-slate-600 rounded-lg text-[11px] font-bold shadow-sm whitespace-nowrap">' + r + '</span>').join('');
+                
+                // ★ จุดที่แก้ไข: เชื่อมปุ่มเข้ากับฟังก์ชันเปิด Popup
+                if (hiddenCount > 0) {
+                    chipsHtml += `<button onclick="showAllResp(${s.id})" aria-label="ดูความรับผิดชอบที่เหลือทั้งหมด" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg text-[11px] font-bold shadow-sm whitespace-nowrap transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400">+${hiddenCount}</button>`;
+                }
+
+                respHtml = '<div class="flex flex-wrap gap-1.5">' + chipsHtml + '</div>';
+                respCountText = ' (' + s.resp.length + ' หมวด)';
             } else {
-                respHtml = '<span class="text-[13px] font-medium text-slate-500">ไม่ได้ระบุ</span>';
+                respHtml = '<span class="text-[13px] font-medium text-slate-500 inline-block">ไม่ได้ระบุ</span>';
             }
 
-            // WCAG Color Contrast
             let isAuthen = s.isAuthen !== false;
             let statusCardsHtml = '';
 
@@ -177,22 +200,19 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
                 statusCardsHtml += '<div class="p-3 bg-blue-50 border border-blue-200 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-blue-700 text-[16px]" aria-hidden="true">login</span><div><div class="text-[11px] font-bold text-blue-800 mb-0.5">เข้าครั้งแรก</div><div class="text-xs font-bold text-blue-900 truncate">10 มี.ค. 2024</div></div></div>';
                 statusCardsHtml += '<div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-amber-700 text-[16px]" aria-hidden="true">history</span><div><div class="text-[11px] font-bold text-amber-800 mb-0.5">ใช้งานล่าสุด</div><div class="text-xs font-bold text-amber-900 truncate">วันนี้ 08:15</div></div></div>';
             } else {
-                // เปลี่ยน Inactive state ให้ผ่าน WCAG Contrast Ratio
                 statusCardsHtml += '<div class="p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-slate-500 text-[16px]" aria-hidden="true">hourglass_empty</span><div><div class="text-[11px] font-bold text-slate-600 mb-0.5">สถานะ Authen</div><div class="text-xs font-bold text-slate-700 truncate">ยังไม่ Authen</div></div></div>';
                 statusCardsHtml += '<div class="p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-slate-500 text-[16px]" aria-hidden="true">login</span><div><div class="text-[11px] font-bold text-slate-600 mb-0.5">เข้าครั้งแรก</div><div class="text-xs font-bold text-slate-700 truncate">-</div></div></div>';
                 statusCardsHtml += '<div class="p-3 bg-slate-100 border border-slate-300 rounded-xl flex flex-col gap-1.5"><span class="material-icons text-slate-500 text-[16px]" aria-hidden="true">history</span><div><div class="text-[11px] font-bold text-slate-600 mb-0.5">ใช้งานล่าสุด</div><div class="text-xs font-bold text-slate-700 truncate">-</div></div></div>';
             }
 
-            // ============ แสดงปุ่ม/ซ่อนปุ่ม ตามสถานะโหมดแก้ไข ============
             let roleToggleBtnHtml = isD7EditMode 
-                ? '<button onclick="handleToggleRole(' + s.id + ')" aria-label="สลับบทบาทสิทธิ์การใช้งาน" class="flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-[11px] font-bold transition-colors shadow-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-500"><span class="material-icons text-[14px]" aria-hidden="true">swap_horiz</span> ' + roleToggleBtnText + '</button>' 
+                ? '<button onclick="handleToggleRole(' + s.id + ')" aria-label="สลับบทบาทสิทธิ์การใช้งาน" class="flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-[11px] font-bold transition-colors shadow-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[14px]" aria-hidden="true">swap_horiz</span> ' + roleToggleBtnText + '</button>' 
                 : '';
 
             let respEditBtnHtml = isD7EditMode 
                 ? '<button onclick="openResponsibilitiesModal(' + s.id + ')" aria-label="แก้ไขข้อมูลด้านความรับผิดชอบ" class="w-8 h-8 shrink-0 flex items-center justify-center bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500" title="แก้ไขหน้าที่"><span class="material-icons text-[14px]" aria-hidden="true">edit</span></button>' 
                 : '';
 
-            // ปุ่มที่มุมขวาบนเปลี่ยนระหว่าง บันทึก/ยกเลิก กับ ดินสอแก้
             let mainEditBtnHtml = isD7EditMode 
                 ? '<div class="flex items-center gap-2">' +
                   '<button aria-label="ยกเลิกการแก้ไข" onclick="toggleD7EditMode()" class="shrink-0 px-3 py-1.5 flex items-center gap-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg transition-colors text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-slate-400"><span class="material-icons text-[14px]" aria-hidden="true">close</span> ยกเลิก</button>' +
@@ -206,34 +226,30 @@ function renderDesign7(filtered, pendingFiltered, pendingList, staffList) {
 
             let detailHtml = '<div class="flex flex-col h-full">';
             
-            // เปลี่ยน h3 เป็น h2 ตามหลัก Semantic HTML (รองรับ Screen Reader)
             detailHtml += '<div class="flex items-start gap-5 pb-6" id="d7ProfileContainer">';
             detailHtml += '<div class="w-[64px] h-[64px] shrink-0 rounded-2xl ' + profileBgClass + ' font-black text-2xl flex items-center justify-center" aria-hidden="true">' + s.initial + '</div>';
             detailHtml += '<div class="min-w-0 flex-1 pt-1">';
             detailHtml += '<h2 class="text-[18px] font-black text-slate-900 truncate">' + s.name + '</h2>';
-            
-            // ชื่อ-เบอร์ ล็อกไว้ ไม่อนุญาตให้แก้
             detailHtml += '<p class="text-[13px] text-slate-600 font-mono mb-1.5">' + s.phone + '</p>';
-            
             detailHtml += '<div class="flex items-center gap-2 mt-1">';
             detailHtml += '<span class="inline-block border ' + roleBadgeClass + ' px-3 py-1 rounded-full text-[11px] font-bold">' + roleNameDetail + '</span>';
-            detailHtml += roleToggleBtnHtml; // ซ่อน/แสดงตามโหมดแก้ไข
+            detailHtml += roleToggleBtnHtml;
             detailHtml += '</div></div>';
-            detailHtml += mainEditBtnHtml; // แสดงปุ่มบันทึก/ยกเลิก หรือ ดินสอ
+            detailHtml += mainEditBtnHtml;
             detailHtml += '</div>';
 
             detailHtml += '<div class="w-full h-px bg-slate-200 mb-6"></div>';
 
-            detailHtml += '<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 flex justify-between items-center">';
-            detailHtml += '<div><p class="text-[11px] font-bold text-slate-500 mb-1">ด้านความรับผิดชอบ</p><div>' + respHtml + '</div></div>';
-            detailHtml += respEditBtnHtml; // ซ่อน/แสดงตามโหมดแก้ไข
+            detailHtml += '<div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 flex justify-between items-start">';
+            detailHtml += '<div class="min-w-0 flex-1"><p class="text-[11px] font-bold text-slate-500 mb-2">ด้านความรับผิดชอบ<span class="text-slate-400 font-normal">' + respCountText + '</span></p>' + respHtml + '</div>';
+            if(isD7EditMode) detailHtml += '<div class="shrink-0 ml-4">' + respEditBtnHtml + '</div>';
             detailHtml += '</div>';
 
             detailHtml += '<div class="grid grid-cols-3 gap-2 md:gap-4 mb-auto">';
             detailHtml += statusCardsHtml;
             detailHtml += '</div>';
 
-            detailHtml += deleteBtnHtml; // ซ่อน/แสดงตามโหมดแก้ไข
+            detailHtml += deleteBtnHtml;
 
             detailHtml += '</div>';
             
