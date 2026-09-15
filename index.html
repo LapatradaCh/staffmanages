@@ -10,10 +10,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fa; padding: 20px; }
-        .design-view { box-sizing: border-box; width: 100%; max-width: 1100px; margin: 0 auto; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #f8f9fa; 
+            padding: 20px; 
+        }
+        .design-view { 
+            box-sizing: border-box; 
+            width: 100%; 
+            max-width: 1100px; 
+            margin: 0 auto; 
+        }
+        .hide-scrollbar::-webkit-scrollbar { 
+            display: none; 
+        }
+        .hide-scrollbar { 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+        }
     </style>
 </head>
 <body>
@@ -28,20 +42,49 @@
             </button>
             <div id="designMenu" class="hidden absolute right-0 mt-2 w-72 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 space-y-1 text-xs">
                 <div class="px-3 py-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider border-b border-slate-100">รูปแบบการแสดงผล (ดีไซน์ที่ 1-6)</div>
-                <button onclick="switchDesign(1)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD1"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">grid_view</span> 1. ดีไซน์ต้นฉบับ</span><span id="checkD1" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
-                <button onclick="switchDesign(2)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD2"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">view_sidebar</span> 2. Split Master-Detail</span><span id="checkD2" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
-                <button onclick="switchDesign(3)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD3"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">table_chart</span> 3. Enterprise Table</span><span id="checkD3" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
-                <button onclick="switchDesign(4)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD4"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">style</span> 4. Modern Cards</span><span id="checkD4" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
-                <button onclick="switchDesign(5)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD5"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">view_kanban</span> 5. Kanban Board</span><span id="checkD5" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
-                <button onclick="switchDesign(6)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD6"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">blur_on</span> 6. Glassmorphism</span><span id="checkD6" class="material-icons text-sm text-emerald-600 hidden">check</span></button>
+                
+                <button onclick="switchDesign(1)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD1">
+                    <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">grid_view</span> 1. ดีไซน์ต้นฉบับ</span>
+                    <span id="checkD1" class="material-icons text-sm text-emerald-600 hidden">check</span>
+                </button>
+                
+                <button onclick="switchDesign(2)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD2">
+                    <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">view_sidebar</span> 2. Split Master-Detail</span>
+                    <span id="checkD2" class="material-icons text-sm text-emerald-600 hidden">check</span>
+                </button>
+                
+                <button onclick="switchDesign(3)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD3">
+                    <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">table_chart</span> 3. Enterprise Table</span>
+                    <span id="checkD3" class="material-icons text-sm text-emerald-600 hidden">check</span>
+                </button>
+                
+                <button onclick="switchDesign(4)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD4">
+                    <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">style</span> 4. Modern Cards</span>
+                    <span id="checkD4" class="material-icons text-sm text-emerald-600 hidden">check</span>
+                </button>
+                
+                <button onclick="switchDesign(5)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD5">
+                    <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">view_kanban</span> 5. Kanban Board</span>
+                    <span id="checkD5" class="material-icons text-sm text-emerald-600 hidden">check</span>
+                </button>
+                
+                <button onclick="switchDesign(6)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD6">
+                    <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">blur_on</span> 6. Glassmorphism</span>
+                    <span id="checkD6" class="material-icons text-sm text-emerald-600 hidden">check</span>
+                </button>
+                
                 <div class="pt-2 pb-1"><div class="border-t border-slate-200"></div></div>
                 <div class="px-3 py-1.5 text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider">สรุปดีไซน์</div>
-                <button onclick="switchDesign(7)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-900 bg-emerald-50" id="btnD7"><span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">auto_awesome</span> สรุปดีไซน์ (Hybrid Custom)</span><span id="checkD7" class="material-icons text-sm text-emerald-600">check</span></button>
+                
+                <button onclick="switchDesign(7)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-900 bg-emerald-50" id="btnD7">
+                    <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">auto_awesome</span> สรุปดีไซน์ (Hybrid Custom)</span>
+                    <span id="checkD7" class="material-icons text-sm text-emerald-600">check</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- ================= Containers ดีไซน์อื่นๆ ================= -->
+    <!-- ================= DESIGN 1 (ต้นฉบับดั้งเดิม) ================= -->
     <div id="design1Container" class="hidden">
         <div class="container">
             <div class="header">
@@ -55,6 +98,7 @@
                     </button>
                 </div>
             </div>
+            
             <div class="tabsContainer">
                 <button class="tab tabActive" onclick="switchTab('all')" id="tabAll">
                     <span class="material-icons tabIcon">people</span> เจ้าหน้าที่ทั้งหมด
@@ -63,6 +107,7 @@
                     <span class="material-icons tabIcon">pending_actions</span> รอพิจารณา <span class="badge" id="pendingBadge">0</span>
                 </button>
             </div>
+            
             <div id="contentAll">
                 <div class="toolbar">
                     <div class="toolbarLeft">
@@ -85,12 +130,14 @@
                 </div>
                 <div id="staffDisplayContainer"></div>
             </div>
+            
             <div id="contentPending" style="display: none;">
                 <div class="grid" id="pendingDisplayContainer"></div>
             </div>
         </div>
     </div>
     
+    <!-- ================= DESIGN 2 (Split Master-Detail) ================= -->
     <div id="design2Container" class="design-view hidden">
         <div class="bg-white border border-slate-200 rounded-3xl p-4 md:p-8 shadow-sm">
             <div class="flex items-center justify-between gap-4 pb-4 md:pb-6 border-b border-slate-100 flex-nowrap">
@@ -98,8 +145,11 @@
                     <span class="hidden md:inline-block text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-1">Split Master-Detail</span>
                     <h1 class="text-base sm:text-xl md:text-2xl font-black text-slate-900 truncate">จัดการเจ้าหน้าที่ในหน่วยงาน</h1>
                 </div>
-                <button onclick="openModal('qrModal')" class="shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[10px] md:text-xs flex items-center gap-1.5"><span class="material-icons text-sm">qr_code</span> <span class="hidden sm:inline">QR เชิญ</span></button>
+                <button onclick="openModal('qrModal')" class="shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[10px] md:text-xs flex items-center gap-1.5">
+                    <span class="material-icons text-sm">qr_code</span> <span class="hidden sm:inline">QR เชิญ</span>
+                </button>
             </div>
+            
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-4 md:mt-6">
                 <div class="flex bg-slate-100 p-1 rounded-xl w-full md:w-auto">
                     <button onclick="setD2Tab('staff')" id="d2TabStaff" class="flex-1 md:flex-none px-6 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition-all whitespace-nowrap">เจ้าหน้าที่ทั้งหมด</button>
@@ -110,6 +160,7 @@
                     <input type="text" placeholder="ค้นหารายชื่อ..." oninput="handleSearch(this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-xs font-medium focus:outline-none focus:border-emerald-500">
                 </div>
             </div>
+            
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4">
                 <div class="lg:col-span-5 bg-slate-50/70 border border-slate-200 rounded-2xl p-4 h-[300px] lg:h-[550px] overflow-y-auto hide-scrollbar space-y-2" id="d2ListPanel"></div>
                 <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 md:p-8 flex flex-col justify-between shadow-sm h-auto min-h-[300px] lg:h-[550px] overflow-y-auto" id="d2DetailPanel"></div>
@@ -117,6 +168,7 @@
         </div>
     </div>
     
+    <!-- ================= DESIGN 3 (Enterprise Table) ================= -->
     <div id="design3Container" class="design-view hidden">
         <div class="bg-white border border-slate-200 rounded-3xl p-4 md:p-8 shadow-sm space-y-4 md:space-y-6">
             <div class="flex items-center justify-between gap-4 pb-4 md:pb-6 border-b border-slate-100 flex-nowrap">
@@ -124,8 +176,11 @@
                     <span class="hidden md:inline-block text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-1">Enterprise Table</span>
                     <h1 class="text-base sm:text-xl md:text-2xl font-black text-slate-900 truncate">จัดการเจ้าหน้าที่ในหน่วยงาน</h1>
                 </div>
-                <button onclick="openModal('qrModal')" class="shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[10px] md:text-xs flex items-center gap-1.5"><span class="material-icons text-sm">qr_code</span> <span class="hidden sm:inline">QR เชิญ</span></button>
+                <button onclick="openModal('qrModal')" class="shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[10px] md:text-xs flex items-center gap-1.5">
+                    <span class="material-icons text-sm">qr_code</span> <span class="hidden sm:inline">QR เชิญ</span>
+                </button>
             </div>
+            
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-50 p-2 md:p-4 rounded-2xl border border-slate-200">
                 <div class="flex bg-slate-200/60 p-1 rounded-xl w-full md:w-auto overflow-x-auto hide-scrollbar flex-nowrap">
                     <button onclick="setD3Tab('all')" id="d3TabAll" class="whitespace-nowrap px-4 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition-all">ทั้งหมด</button>
@@ -138,6 +193,7 @@
                     <input type="text" placeholder="ค้นหาในตาราง..." oninput="handleSearch(this.value)" class="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-xs font-medium focus:outline-none focus:border-emerald-500">
                 </div>
             </div>
+            
             <div class="overflow-x-auto border border-slate-200 rounded-2xl">
                 <table class="w-full text-left text-xs divide-y divide-slate-100 whitespace-nowrap">
                     <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider font-bold" id="d3TableHead"></thead>
@@ -147,6 +203,7 @@
         </div>
     </div>
     
+    <!-- ================= DESIGN 4 (Modern Floating Cards) ================= -->
     <div id="design4Container" class="design-view hidden">
         <div class="bg-white border border-slate-200 rounded-3xl p-4 md:p-8 shadow-sm space-y-4 md:space-y-6">
             <div class="flex items-center justify-between gap-4 pb-4 md:pb-6 border-b border-slate-100 flex-nowrap">
@@ -154,8 +211,11 @@
                     <span class="hidden md:inline-block text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-1">Modern Cards</span>
                     <h1 class="text-base sm:text-xl md:text-2xl font-black text-slate-900 truncate">จัดการเจ้าหน้าที่ในหน่วยงาน</h1>
                 </div>
-                <button onclick="openModal('qrModal')" class="shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[10px] md:text-xs flex items-center gap-1.5"><span class="material-icons text-sm">qr_code</span> <span class="hidden sm:inline">QR เชิญ</span></button>
+                <button onclick="openModal('qrModal')" class="shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[10px] md:text-xs flex items-center gap-1.5">
+                    <span class="material-icons text-sm">qr_code</span> <span class="hidden sm:inline">QR เชิญ</span>
+                </button>
             </div>
+            
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex bg-slate-100 p-1 rounded-xl w-full md:w-auto">
                     <button onclick="setD4Tab('staff')" id="d4TabStaff" class="flex-1 md:flex-none px-4 md:px-6 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition-all whitespace-nowrap">จัดการบุคลากร</button>
@@ -166,10 +226,12 @@
                     <input type="text" placeholder="ค้นหาการ์ด..." oninput="handleSearch(this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-xs font-medium focus:outline-none focus:border-emerald-500">
                 </div>
             </div>
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6" id="d4CardsGrid"></div>
         </div>
     </div>
     
+    <!-- ================= DESIGN 5 (Kanban Board Style) ================= -->
     <div id="design5Container" class="design-view hidden">
         <div class="bg-slate-100 border border-slate-200 rounded-3xl p-4 md:p-6 shadow-inner md:h-[80vh] flex flex-col">
             <div class="flex items-center justify-between gap-4 pb-4 mb-4 border-b border-slate-300 flex-nowrap">
@@ -177,8 +239,11 @@
                     <span class="hidden md:inline-block text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full mb-1">Kanban Workflow</span>
                     <h1 class="text-base sm:text-xl md:text-2xl font-black text-slate-800 truncate">จัดการเจ้าหน้าที่ในหน่วยงาน</h1>
                 </div>
-                <button onclick="openModal('qrModal')" class="shrink-0 bg-white hover:bg-slate-50 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[10px] md:text-xs flex items-center gap-1.5 shadow-sm"><span class="material-icons text-sm">qr_code</span> <span class="hidden sm:inline">QR เชิญ</span></button>
+                <button onclick="openModal('qrModal')" class="shrink-0 bg-white hover:bg-slate-50 text-slate-800 px-3 md:px-4 py-2 rounded-xl font-bold text-[10px] md:text-xs flex items-center gap-1.5 shadow-sm">
+                    <span class="material-icons text-sm">qr_code</span> <span class="hidden sm:inline">QR เชิญ</span>
+                </button>
             </div>
+            
             <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-y-auto lg:overflow-x-auto lg:overflow-y-hidden pb-4 hide-scrollbar">
                 <div class="flex flex-col bg-slate-200/50 rounded-2xl w-full lg:w-[320px] shrink-0 p-4 border border-slate-200 h-auto lg:h-full max-h-[500px] lg:max-h-full">
                     <div class="flex justify-between items-center mb-4 px-1">
@@ -187,6 +252,7 @@
                     </div>
                     <div class="flex flex-col gap-3 overflow-y-auto hide-scrollbar h-full" id="d5AdminCol"></div>
                 </div>
+                
                 <div class="flex flex-col bg-slate-200/50 rounded-2xl w-full lg:w-[320px] shrink-0 p-4 border border-slate-200 h-auto lg:h-full max-h-[500px] lg:max-h-full">
                     <div class="flex justify-between items-center mb-4 px-1">
                         <h3 class="font-bold text-slate-700 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> เจ้าหน้าที่</h3>
@@ -194,6 +260,7 @@
                     </div>
                     <div class="flex flex-col gap-3 overflow-y-auto hide-scrollbar h-full" id="d5StaffCol"></div>
                 </div>
+                
                 <div class="flex flex-col bg-amber-100/30 rounded-2xl w-full lg:w-[320px] shrink-0 p-4 border border-amber-200/50 h-auto lg:h-full max-h-[500px] lg:max-h-full">
                     <div class="flex justify-between items-center mb-4 px-1">
                         <h3 class="font-bold text-amber-700 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span> รอพิจารณา</h3>
@@ -205,6 +272,7 @@
         </div>
     </div>
     
+    <!-- ================= DESIGN 6 (Glassmorphism) ================= -->
     <div id="design6Container" class="design-view hidden relative">
         <div class="absolute inset-0 z-0 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 rounded-3xl overflow-hidden">
             <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-white/60 blur-[80px] rounded-full"></div>
@@ -220,6 +288,7 @@
                     <span class="material-icons text-sm">qr_code_2</span> <span class="hidden sm:inline">QR Code เชิญ</span>
                 </button>
             </div>
+            
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
                 <div class="flex w-full md:w-auto gap-2 p-1.5 bg-white/30 backdrop-blur-md border border-white/50 rounded-2xl overflow-x-auto hide-scrollbar">
                     <button onclick="setD6Tab('staff')" id="d6TabStaff" class="flex-1 md:flex-none px-4 md:px-6 py-2.5 rounded-xl text-xs font-bold bg-white/80 text-slate-900 shadow-sm transition-all whitespace-nowrap">บุคลากรทั้งหมด</button>
@@ -230,6 +299,7 @@
                     <input type="text" placeholder="ค้นหารายชื่อ..." oninput="handleSearch(this.value)" class="w-full bg-white/50 backdrop-blur-md border border-white/60 rounded-2xl pl-10 pr-4 py-2.5 text-xs font-medium focus:outline-none focus:bg-white/80 transition-all text-slate-800 placeholder-slate-400 shadow-sm">
                 </div>
             </div>
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6" id="d6Grid"></div>
         </div>
     </div>
@@ -239,6 +309,7 @@
 
 
     <!-- ================= MODALS ================= -->
+    
     <!-- QR Code Modal -->
     <div id="qrModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
@@ -304,29 +375,45 @@
         </div>
     </div>
 
-    <!-- ★ Responsibilities Modal (ตั้งค่าความรับผิดชอบแบบ Grid ไม่บีบอัดบนมือถือ) ★ -->
+    <!-- ★ Responsibilities Modal (เปลี่ยนปุ่มเป็นสีเขียว/แดง และจัดการให้ Responsive ในมือถือ) ★ -->
     <div id="responsibilitiesModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 550px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box; display: flex; flex-direction: column; max-height: 85vh;">
-            <div style="padding: 20px 24px 12px 24px; display: flex; align-items: flex-start; justify-content: space-between; position: relative; flex-shrink: 0; border-bottom: 1px solid #f3f4f6;">
-                <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">เปลี่ยนประเภทปัญหา</h3>
-                <button onclick="closeModal('responsibilitiesModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">close</span></button>
+            
+            <div class="flex items-start justify-between relative shrink-0 border-b border-slate-100 p-4 sm:p-5 md:px-6 pb-3">
+                <h3 class="text-base sm:text-lg font-bold m-0 text-slate-800">เปลี่ยนประเภทปัญหา</h3>
+                <button onclick="cancelResponsibilities()" class="bg-transparent border-none text-slate-400 hover:text-slate-600 cursor-pointer flex items-center p-0 focus:outline-none"><span class="material-icons text-[20px]">close</span></button>
             </div>
             
-            <!-- ใช้ Tailwind ช่วยจัดการ Grid ให้ Responsive ป้องกันหน้าจอเละ -->
-            <div id="respListContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 p-4 sm:p-6 overflow-y-auto hide-scrollbar" style="flex: 1; max-height: 55vh; align-content: start;"></div>
+            <div id="respListContainer"></div>
             
-            <div style="display: flex; border-top: 1px solid #e5e7eb; flex-shrink: 0; padding: 16px 24px; justify-content: space-between; align-items: center;">
-                <button onclick="selectAllResp()" style="background: none; border: none; color: #10b981; font-weight: 600; font-size: 14px; cursor: pointer; padding: 0;">เลือกทั้งหมด</button>
-                <div style="display: flex; gap: 12px;">
-                    <button style="padding: 10px 20px; background: #6b7280; border: none; border-radius: 8px; font-weight: 600; color: white; cursor: pointer;" onclick="closeModal('responsibilitiesModal')">ยกเลิก</button>
-                    <button style="padding: 10px 20px; background: #3b82f6; border: none; border-radius: 8px; font-weight: 600; color: white; cursor: pointer;" onclick="closeModal('responsibilitiesModal')">บันทึกข้อมูล</button>
+            <div class="flex border-t border-slate-200 shrink-0 p-3 sm:p-4 md:px-6 justify-between items-center gap-2">
+                <button onclick="selectAllResp()" class="bg-transparent border-none text-emerald-500 font-bold text-[11px] sm:text-[14px] cursor-pointer p-0 whitespace-nowrap focus:outline-none">เลือกทั้งหมด</button>
+                <div class="flex gap-1.5 sm:gap-3">
+                    <button class="px-3 py-1.5 sm:px-5 sm:py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg sm:rounded-xl font-bold text-[11px] sm:text-sm cursor-pointer whitespace-nowrap border-none shadow-sm focus:outline-none transition-colors" onclick="cancelResponsibilities()">ยกเลิก</button>
+                    <button class="px-3 py-1.5 sm:px-5 sm:py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg sm:rounded-xl font-bold text-[11px] sm:text-sm cursor-pointer whitespace-nowrap border-none shadow-sm focus:outline-none transition-colors" onclick="saveResponsibilities()">บันทึกข้อมูล</button>
                 </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- ★ View All Responsibilities Modal (Popup ดูหมวดหมู่ทั้งหมด) ★ -->
+    <div id="viewAllRespModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1060; align-items: center; justify-content: center; padding: 16px;">
+        <div style="background: white; border-radius: 16px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; max-height: 80vh;">
+            <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
+                <h3 id="viewAllRespModalTitle" style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">ด้านความรับผิดชอบทั้งหมด</h3>
+                <button onclick="closeModal('viewAllRespModal')" class="text-slate-400 hover:text-slate-600 focus:outline-none"><span class="material-icons">close</span></button>
+            </div>
+            <div style="padding: 24px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 8px;" class="hide-scrollbar" id="viewAllRespContainer">
+                <!-- เนื้อหาจะถูกแทรกโดย JS -->
+            </div>
+            <div style="padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end;">
+                <button onclick="closeModal('viewAllRespModal')" style="padding: 10px 24px; background-color: #f1f5f9; color: #334155; font-weight: 700; border-radius: 10px; font-size: 14px; border:none; cursor:pointer;">ปิดหน้าต่าง</button>
             </div>
         </div>
     </div>
 
-
-    <!-- โหลดสคริปต์ของ Design 7 -->
+    <!-- Script สำหรับ Design 7 -->
     <script src="design7.js"></script>
 
     <script>
@@ -338,7 +425,7 @@
         let activeDropdown = null;
         let editingStaffId = null;
         
-        // 37 หมวดหมู่ตามรูป
+        // 37 หมวดหมู่
         const allCategories = [
             'น้ำท่วม', 'ความสะอาด', 'ไฟฟ้า', 'ทางเท้า', 'ผิวเพิ่มประเภท', 'หาบเร่แผงลอย',
             'ประปา', 'ถนน', 'ผิดกฎจราจร', 'ทุจริต', 'สัตว์', 'เสียง', 'โรงเรียน',
@@ -348,7 +435,9 @@
             'ขอใช้บริการ', 'คุ้มครองผู้บริโภค', 'สถานบันเทิง', 'ชื่นชม', 'บริจาค/ช่วยเหลือ',
             'อื่นๆ', 'อาคารสถานที่', 'ความปลอดภัย', 'ทดสอบ category manualจ้า', 'ทักทดสอบแก้ไขประเภท'
         ];
-        let selectedResp = [...allCategories];
+        
+        // ตัวแปรชั่วคราวสำหรับเก็บข้อมูลตอนที่กำลังแก้ไข แต่ยังไม่เซฟ
+        let selectedResp = [];
 
         let staffList = [
             { id: 1, name: 'สมชาย ใจดี', role: 'admin', phone: '080-000-0001', initial: 'ส', resp: [...allCategories], isAuthen: true },
@@ -462,8 +551,15 @@
         function saveEditStaff() {
             const name = document.getElementById('editNameInput').value;
             const phone = document.getElementById('editPhoneInput').value;
+            
+            if(name.trim() === '' || phone.trim() === '') {
+                alert('❌ ข้อมูลไม่ครบถ้วน ไม่สามารถบันทึกได้');
+                return;
+            }
+
             if (editingStaffId !== null) {
                 staffList = staffList.map(s => s.id === editingStaffId ? { ...s, name: name, phone: phone, initial: name.charAt(0) } : s);
+                alert('✅ บันทึกข้อมูลประวัติสำเร็จ');
             }
             closeModal('editModal');
             render();
@@ -472,7 +568,13 @@
         function openResponsibilitiesModal(id) {
             editingStaffId = id;
             const staff = staffList.find(s => s.id === id);
-            selectedResp = staff.resp ? [...staff.resp] : [];
+            
+            if (typeof isD7EditMode !== 'undefined' && isD7EditMode && typeof d7TempResp !== 'undefined' && d7TempResp !== null) {
+                selectedResp = [...d7TempResp]; 
+            } else {
+                selectedResp = staff.resp ? [...staff.resp] : []; 
+            }
+            
             activeDropdown = null;
             renderRespList();
             openModal('responsibilitiesModal');
@@ -480,50 +582,92 @@
 
         function toggleResp(resp) {
             selectedResp = selectedResp.includes(resp) ? selectedResp.filter(r => r !== resp) : [...selectedResp, resp];
-            if(editingStaffId !== null) {
-                staffList = staffList.map(s => s.id === editingStaffId ? { ...s, resp: [...selectedResp] } : s);
-            }
-            renderRespList();
-            render(); 
+            renderRespList(); 
         }
 
         function selectAllResp() {
             if (selectedResp.length === allCategories.length) selectedResp = [];
             else selectedResp = [...allCategories];
-            if(editingStaffId !== null) {
-                staffList = staffList.map(s => s.id === editingStaffId ? { ...s, resp: [...selectedResp] } : s);
-            }
             renderRespList();
-            render();
         }
 
-        // ================= ★ ฟังก์ชันหน้าต่างแก้ประเภท (Responsive บนมือถือ 100%) ★ =================
+        function saveResponsibilities() {
+            if (typeof isD7EditMode !== 'undefined' && isD7EditMode) {
+                d7TempResp = [...selectedResp];
+                closeModal('responsibilitiesModal');
+                render(); 
+            } else {
+                if (editingStaffId !== null) {
+                    staffList = staffList.map(s => s.id === editingStaffId ? { ...s, resp: [...selectedResp] } : s);
+                    alert('✅ บันทึกประเภทความรับผิดชอบสำเร็จ');
+                }
+                closeModal('responsibilitiesModal');
+                render(); 
+            }
+        }
+
+        function cancelResponsibilities() {
+            closeModal('responsibilitiesModal');
+        }
+
         function renderRespList() {
             const container = document.getElementById('respListContainer');
-            let html = '';
+            container.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; padding: 16px; overflow-y: auto; max-height: 55vh; align-content: start;';
             
+            let html = '';
             allCategories.forEach((resp) => {
                 const isSelected = selectedResp.includes(resp);
-                
-                // ใช้สีสไตล์เขียว-เทา ตามรูปที่แนบมา
-                const borderColor = isSelected ? 'border-emerald-500' : 'border-slate-200 hover:border-slate-300';
-                const bgColor = isSelected ? 'bg-emerald-50/40' : 'bg-white';
-                const textColor = isSelected ? 'text-emerald-700' : 'text-slate-600';
-                const iconBg = isSelected ? 'bg-white' : 'bg-slate-50';
-                const iconBorder = isSelected ? 'border-emerald-500' : 'border-slate-200';
-                const iconColor = isSelected ? 'text-emerald-500' : 'text-slate-400';
+                const borderColor = isSelected ? '#10b981' : '#e5e7eb';
+                const bgColor = isSelected ? '#ecfdf5' : '#ffffff';
+                const textColor = isSelected ? '#047857' : '#4b5563';
+                const iconBg = isSelected ? '#ffffff' : '#f8f9fa';
+                const iconBorder = isSelected ? '#10b981' : '#cbd5e1';
+                const iconColor = isSelected ? '#10b981' : '#9ca3af';
                 const iconName = isSelected ? 'check' : 'widgets';
 
-                // ใช้ Flex-col ให้เหมือนการ์ดสี่เหลี่ยมจตุรัสและไม่ล้นกรอบ
-                html += `<button type="button" aria-pressed="${isSelected}" onclick="toggleResp('${resp}')" class="flex flex-col items-center justify-start p-3 sm:p-4 rounded-2xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full min-h-[100px] ${borderColor} ${bgColor}">`;
-                html += `<div class="w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2 shrink-0 ${iconBorder} ${iconBg}">`;
-                html += `<span class="material-icons text-[20px] ${iconColor}">${iconName}</span>`;
+                html += `<button aria-pressed="${isSelected}" onclick="toggleResp('${resp}')" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 6px; border-radius: 12px; border: 1.5px solid ${borderColor}; background-color: ${bgColor}; cursor: pointer; min-height: 80px; box-sizing: border-box; transition: all 0.2s;" title="${resp}">`;
+                html += `<div style="width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid ${iconBorder}; background-color: ${iconBg}; margin-bottom: 6px; flex-shrink: 0;">`;
+                html += `<span class="material-icons" style="font-size: 16px; color: ${iconColor};">${iconName}</span>`;
                 html += `</div>`;
-                html += `<span class="text-[11px] sm:text-xs font-bold text-center leading-snug w-full break-words ${textColor}">${resp}</span>`;
+                html += `<span style="font-size: 11px; font-weight: 700; color: ${textColor}; text-align: center; line-height: 1.3; width: 100%; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;">${resp}</span>`;
                 html += `</button>`;
             });
             container.innerHTML = html;
         }
+
+        window.showAllResp = function(id) {
+            const staff = staffList.find(s => s.id === id);
+            if (!staff || !staff.resp) return;
+            
+            let modal = document.getElementById('dynamicViewAllModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'dynamicViewAllModal';
+                modal.style.cssText = "display: flex; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 16px;";
+                document.body.appendChild(modal);
+            } else {
+                modal.style.display = 'flex';
+            }
+            
+            let chipsHtml = staff.resp.map(r => 
+                `<span style="padding: 8px 14px; background-color: #f8f9fa; border: 1px solid #e5e7eb; color: #4b5563; border-radius: 10px; font-size: 13px; font-weight: 700;">${r}</span>`
+            ).join('');
+
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 16px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; max-height: 80vh;">
+                    <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
+                        <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">ด้านความรับผิดชอบทั้งหมด (${staff.resp.length} หมวด)</h3>
+                        <button onclick="document.getElementById('dynamicViewAllModal').style.display='none'" style="background:none; border:none; cursor:pointer; color:#9ca3af; display:flex; align-items:center;"><span class="material-icons">close</span></button>
+                    </div>
+                    <div style="padding: 24px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 8px;" class="hide-scrollbar">
+                        ${chipsHtml}
+                    </div>
+                    <div style="padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end;">
+                        <button onclick="document.getElementById('dynamicViewAllModal').style.display='none'" style="padding: 10px 24px; background-color: #f1f5f9; color: #334155; font-weight: 700; border-radius: 10px; font-size: 14px; border:none; cursor:pointer;">ปิดหน้าต่าง</button>
+                    </div>
+                </div>
+            `;
+        };
 
         function copyText(text) { navigator.clipboard.writeText(text).then(() => alert('คัดลอกข้อมูลสำเร็จ: ' + text)); }
         function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
@@ -593,6 +737,7 @@
                                 '<button class="dropdownItem dropdownItemDanger" onclick="handleRemoveStaff(' + staff.id + ')"><i data-lucide="user-x" style="width: 16px;"></i> ยกเลิกเป็นเจ้าหน้าที่</button>' +
                                 '</div>';
                         }
+                        
                         html += '<div class="card">' +
                                 '<div style="position: absolute; top: 16px; right: 16px; z-index: 40;">' +
                                     '<button class="moreBtn" style="position: static;" onclick="toggleDropdown(' + staff.id + ', event)"><i data-lucide="more-vertical" style="width: 16px;"></i></button>' +
@@ -619,6 +764,7 @@
                                 '<button class="dropdownItem dropdownItemDanger" onclick="handleRemoveStaff(' + staff.id + ')"><i data-lucide="user-x" style="width: 16px;"></i> ยกเลิกเป็นเจ้าหน้าที่</button>' +
                                 '</div>';
                         }
+                        
                         html += '<tr>' +
                                 '<td><div class="userCell"><div class="avatarSmall ' + (staff.role === 'staff' ? 'avatarStaffSmall' : '') + '">' + staff.initial + '</div><span style="font-weight: 600; color: #1f2937;">' + staff.name + '</span></div></td>' +
                                 '<td><div class="roleBadge ' + (staff.role === 'staff' ? 'roleBadgeStaff' : '') + '" style="margin-bottom: 0;"><i data-lucide="' + (staff.role === 'admin' ? 'shield' : 'user') + '" style="width: 12px;"></i> ' + (staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่') + '</div></td>' +
