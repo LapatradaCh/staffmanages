@@ -6,15 +6,26 @@
     <title>จัดการเจ้าหน้าที่ในหน่วยงาน - สรุปดีไซน์</title>
     <link rel="stylesheet" href="StaffManagement.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        *, ::before, ::after { 
+            font-family: "Anuphan", sans-serif !important; 
+        }
+        .material-icons, [class*="material-icons"] {
+            font-family: 'Material Icons' !important;
+        }
+
         body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: #f8f9fa; 
             padding: 20px; 
+            margin: 0;
+            transition: padding 0.2s ease;
         }
+
         .design-view { 
             box-sizing: border-box; 
             width: 100%; 
@@ -28,6 +39,80 @@
             -ms-overflow-style: none; 
             scrollbar-width: none; 
         }
+
+        /* ================= Responsive Scaling (เมื่อกด Response / หน้าจอเล็กลง) ================= */
+        /* ย่อขนาดตัวหนังสือและปุ่มทุกตัวตามความกว้างหน้าจอ */
+        html {
+            font-size: 16px;
+            transition: font-size 0.2s ease;
+        }
+
+        @media (max-width: 1024px) {
+            html {
+                font-size: 15px;
+            }
+            body {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            html {
+                font-size: 13.5px;
+            }
+            body {
+                padding: 10px;
+            }
+            button, input, select, textarea {
+                font-size: clamp(10px, 2.8vw, 13px) !important;
+                padding-top: clamp(4px, 1.2vw, 8px) !important;
+                padding-bottom: clamp(4px, 1.2vw, 8px) !important;
+                padding-left: clamp(6px, 2vw, 12px) !important;
+                padding-right: clamp(6px, 2vw, 12px) !important;
+            }
+            .min-h-\[44px\] {
+                min-height: 38px !important;
+            }
+            .min-h-\[32px\] {
+                min-height: 28px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 12px;
+            }
+            body {
+                padding: 6px;
+            }
+            button, input, select, textarea {
+                font-size: clamp(9px, 3.2vw, 11.5px) !important;
+                padding-top: clamp(3px, 1vw, 6px) !important;
+                padding-bottom: clamp(3px, 1vw, 6px) !important;
+                padding-left: clamp(5px, 1.8vw, 9px) !important;
+                padding-right: clamp(5px, 1.8vw, 9px) !important;
+            }
+            .min-h-\[44px\] {
+                min-height: 34px !important;
+            }
+            .min-h-\[32px\] {
+                min-height: 26px !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            html {
+                font-size: 11px;
+            }
+            body {
+                padding: 4px;
+            }
+            button, input, select, textarea {
+                font-size: 9.5px !important;
+                padding-left: 5px !important;
+                padding-right: 5px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -35,40 +120,40 @@
     <!-- ================= เมนูสลับดีไซน์ ================= -->
     <div class="max-w-[1100px] mx-auto mb-6 flex justify-end relative z-50">
         <div class="relative" id="designDropdownContainer">
-            <button onclick="toggleDesignMenu(event)" class="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-700 shadow-sm transition-all">
-                <span class="material-icons text-emerald-600 text-sm">dashboard_customize</span>
+            <button id="designMenuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="designMenu" onclick="toggleDesignMenu(event)" class="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-full text-xs font-bold text-slate-800 shadow-sm transition-all focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-700 cursor-pointer">
+                <span class="material-icons text-emerald-700 text-sm" aria-hidden="true">dashboard_customize</span>
                 <span id="currentDesignLabel">เลือกดีไซน์: สรุปดีไซน์ (Hybrid Custom)</span>
-                <span class="material-icons text-slate-400 text-sm">expand_more</span>
+                <span class="material-icons text-slate-600 text-sm" aria-hidden="true">expand_more</span>
             </button>
-            <div id="designMenu" class="hidden absolute right-0 mt-2 w-72 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 space-y-1 text-xs">
+            <div id="designMenu" role="menu" class="hidden absolute right-0 mt-2 w-72 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 space-y-1 text-xs">
                 <div class="px-3 py-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider border-b border-slate-100">รูปแบบการแสดงผล (ดีไซน์ที่ 1-6)</div>
                 
-                <button onclick="switchDesign(1)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD1">
+                <button onclick="switchDesign(1)" class="w-full text-left px-3.5 py-2.5 rounded-full font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD1">
                     <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">grid_view</span> 1. ดีไซน์ต้นฉบับ</span>
                     <span id="checkD1" class="material-icons text-sm text-emerald-600 hidden">check</span>
                 </button>
                 
-                <button onclick="switchDesign(2)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD2">
+                <button onclick="switchDesign(2)" class="w-full text-left px-3.5 py-2.5 rounded-full font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD2">
                     <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">view_sidebar</span> 2. Split Master-Detail</span>
                     <span id="checkD2" class="material-icons text-sm text-emerald-600 hidden">check</span>
                 </button>
                 
-                <button onclick="switchDesign(3)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD3">
+                <button onclick="switchDesign(3)" class="w-full text-left px-3.5 py-2.5 rounded-full font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD3">
                     <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">table_chart</span> 3. Enterprise Table</span>
                     <span id="checkD3" class="material-icons text-sm text-emerald-600 hidden">check</span>
                 </button>
                 
-                <button onclick="switchDesign(4)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD4">
+                <button onclick="switchDesign(4)" class="w-full text-left px-3.5 py-2.5 rounded-full font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD4">
                     <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">style</span> 4. Modern Cards</span>
                     <span id="checkD4" class="material-icons text-sm text-emerald-600 hidden">check</span>
                 </button>
                 
-                <button onclick="switchDesign(5)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD5">
+                <button onclick="switchDesign(5)" class="w-full text-left px-3.5 py-2.5 rounded-full font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD5">
                     <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">view_kanban</span> 5. Kanban Board</span>
                     <span id="checkD5" class="material-icons text-sm text-emerald-600 hidden">check</span>
                 </button>
                 
-                <button onclick="switchDesign(6)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD6">
+                <button onclick="switchDesign(6)" class="w-full text-left px-3.5 py-2.5 rounded-full font-semibold flex items-center justify-between text-slate-700 hover:bg-slate-50" id="btnD6">
                     <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">blur_on</span> 6. Glassmorphism</span>
                     <span id="checkD6" class="material-icons text-sm text-emerald-600 hidden">check</span>
                 </button>
@@ -76,7 +161,7 @@
                 <div class="pt-2 pb-1"><div class="border-t border-slate-200"></div></div>
                 <div class="px-3 py-1.5 text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider">สรุปดีไซน์</div>
                 
-                <button onclick="switchDesign(7)" class="w-full text-left px-3 py-2.5 rounded-xl font-semibold flex items-center justify-between text-slate-900 bg-emerald-50" id="btnD7">
+                <button onclick="switchDesign(7)" class="w-full text-left px-3.5 py-2.5 rounded-full font-semibold flex items-center justify-between text-slate-900 bg-emerald-50" id="btnD7">
                     <span class="flex items-center gap-2"><span class="material-icons text-sm text-emerald-600">auto_awesome</span> สรุปดีไซน์ (Hybrid Custom)</span>
                     <span id="checkD7" class="material-icons text-sm text-emerald-600">check</span>
                 </button>
@@ -274,7 +359,7 @@
     
     <!-- ================= DESIGN 6 (Glassmorphism) ================= -->
     <div id="design6Container" class="design-view hidden relative">
-        <div class="absolute inset-0 z-0 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 rounded-3xl overflow-hidden">
+        <div class="absolute inset-0 z-0 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 rounded-3xl ">
             <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-white/60 blur-[80px] rounded-full"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-slate-400/30 blur-[60px] rounded-full"></div>
         </div>
@@ -311,104 +396,119 @@
     <!-- ================= MODALS ================= -->
     
     <!-- QR Code Modal -->
-    <div id="qrModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
+    <div id="qrModal" role="dialog" aria-modal="true" aria-labelledby="qrModalTitle" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
             <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-                <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">QR Code เชิญเจ้าหน้าที่</h3>
-                <button onclick="closeModal('qrModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
+                <h3 id="qrModalTitle" style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">QR Code เชิญเจ้าหน้าที่</h3>
+                <button type="button" aria-label="ปิดหน้าต่าง QR Code" onclick="closeModal('qrModal')" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700" style="background: none; border: none; color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; border-radius: 999px;"><i data-lucide="x" style="width: 20px;" aria-hidden="true"></i></button>
             </div>
             <div style="padding: 24px; box-sizing: border-box;">
-                <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; text-align: center; width: 100%; max-width: 220px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; margin: 0 auto;">
-                    <div style="color: #10b981; font-weight: 700; font-size: 15px; margin-bottom: 2px;">QR Code</div>
-                    <div style="color: #6b7280; font-size: 12px; margin-bottom: 12px;">เชิญเจ้าหน้าที่</div>
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://traffy.in.th/join/lab2" alt="QR Code" style="width: 100%; max-width: 150px; height: auto; display: block;">
+                <div style="background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px; text-align: center; width: 100%; max-width: 220px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; margin: 0 auto;">
+                    <div style="color: #047857; font-weight: 700; font-size: 15px; margin-bottom: 2px;">QR Code</div>
+                    <div style="color: #475569; font-size: 12px; margin-bottom: 12px;">เชิญเจ้าหน้าที่</div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://traffy.in.th/join/lab2" alt="QR Code สำหรับสแกนเข้าร่วมหน่วยงาน" style="width: 100%; max-width: 150px; height: auto; display: block;">
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Edit Staff Modal -->
-    <div id="editModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
+    <div id="editModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 450px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
             <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-                <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">แก้ไขข้อมูล</h3>
-                <button onclick="closeModal('editModal')" style="background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
+                <h3 id="editModalTitle" style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">แก้ไขข้อมูลเจ้าหน้าที่</h3>
+                <button type="button" aria-label="ปิดหน้าต่างแก้ไขข้อมูล" onclick="closeModal('editModal')" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700" style="background: none; border: none; color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; border-radius: 999px;"><i data-lucide="x" style="width: 20px;" aria-hidden="true"></i></button>
             </div>
             <div style="padding: 24px; box-sizing: border-box; width: 100%;">
                 <div class="formGroup" style="margin-bottom: 16px; width: 100%;">
-                    <label class="label" style="color: #4b5563; display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px;">ชื่อ - นามสกุล</label>
-                    <input type="text" class="input" id="editNameInput" style="width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box;">
+                    <label for="editNameInput" class="label" style="color: #334155; display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px;">ชื่อ - นามสกุล</label>
+                    <input type="text" class="input focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-700" id="editNameInput" style="width: 100%; padding: 10px 16px; border: 1.5px solid #94a3b8; border-radius: 999px; box-sizing: border-box; color: #0f172a;">
                 </div>
                 <div class="formGroup" style="margin-top: 16px; margin-bottom: 16px; width: 100%;">
-                    <label class="label" style="color: #4b5563; display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px;">เบอร์โทรศัพท์</label>
-                    <input type="text" class="input" id="editPhoneInput" style="width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box;">
+                    <label for="editPhoneInput" class="label" style="color: #334155; display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px;">เบอร์โทรศัพท์</label>
+                    <input type="text" class="input focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-700" id="editPhoneInput" style="width: 100%; padding: 10px 16px; border: 1.5px solid #94a3b8; border-radius: 999px; box-sizing: border-box; color: #0f172a;">
                 </div>
                 <div style="display: flex; gap: 12px; margin-top: 24px; align-items: center;">
-                    <button onclick="closeModal('editModal')" style="flex: 0.8; height: 48px; border-radius: 999px; background: white; border: 1px solid #d1d5db; font-weight: 600; color: #374151; cursor: pointer;">ยกเลิก</button>
-                    <button onclick="saveEditStaff()" style="flex: 1.2; height: 48px; border-radius: 999px; background: #2563eb; border: none; font-weight: 600; color: white; cursor: pointer;">บันทึก</button>
+                    <button type="button" onclick="closeModal('editModal')" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700" style="flex: 0.8; height: 48px; border-radius: 999px; background: white; border: 1.5px solid #94a3b8; font-weight: 700; color: #1e293b; cursor: pointer;">ยกเลิก</button>
+                    <button type="button" onclick="saveEditStaff()" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-700" style="flex: 1.2; height: 48px; border-radius: 999px; background: #1d4ed8; border: none; font-weight: 700; color: white; cursor: pointer;">บันทึก</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Pending Info Modal -->
-    <div id="pendingInfoModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
+    <div id="pendingInfoModal" role="dialog" aria-modal="true" aria-labelledby="pendingInfoModalTitle" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 400px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
             <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: center; position: relative;">
-                <h3 style="font-size: 16px; font-weight: 700; margin: 0; color: #1f2937;">รายละเอียดคำขอ</h3>
-                <button onclick="closeModal('pendingInfoModal')" style="position: absolute; right: 20px; background: none; border: none; color: #9ca3af; cursor: pointer; display: flex; align-items: center;"><i data-lucide="x" style="width: 20px;"></i></button>
+                <h3 id="pendingInfoModalTitle" style="font-size: 16px; font-weight: 700; margin: 0; color: #1f2937;">รายละเอียดคำขอ</h3>
+                <button type="button" aria-label="ปิดหน้าต่างรายละเอียดคำขอ" onclick="closeModal('pendingInfoModal')" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700" style="position: absolute; right: 20px; background: none; border: none; color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; border-radius: 999px;"><i data-lucide="x" style="width: 20px;" aria-hidden="true"></i></button>
             </div>
             <div style="padding: 24px; box-sizing: border-box;">
-                <div style="background: #f8f9fa; border-radius: 12px; padding: 16px; border: 1px solid #e5e7eb; margin-bottom: 24px;">
+                <div style="background: #f8f9fa; border-radius: 16px; padding: 16px; border: 1px solid #e5e7eb; margin-bottom: 24px;">
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                        <i data-lucide="user" style="width: 16px; color: #4b5563;"></i>
-                        <span style="color: #6b7280; font-size: 14px; width: 60px;">ชื่อ-สกุล</span>
-                        <span style="color: #1f2937; font-weight: 600; font-size: 14px;" id="infoName">-</span>
+                        <i data-lucide="user" style="width: 16px; color: #334155;" aria-hidden="true"></i>
+                        <span style="color: #475569; font-size: 14px; width: 60px;">ชื่อ-สกุล</span>
+                        <span style="color: #0f172a; font-weight: 700; font-size: 14px;" id="infoName">-</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <i data-lucide="phone" style="width: 16px; color: #4b5563;"></i>
-                        <span style="color: #6b7280; font-size: 14px; width: 60px;">โทรศัพท์</span>
-                        <span style="color: #1f2937; font-weight: 600; font-size: 14px;" id="infoPhone">-</span>
+                        <i data-lucide="phone" style="width: 16px; color: #334155;" aria-hidden="true"></i>
+                        <span style="color: #475569; font-size: 14px; width: 60px;">โทรศัพท์</span>
+                        <span style="color: #0f172a; font-weight: 700; font-size: 14px;" id="infoPhone">-</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ★ Responsibilities Modal (เปลี่ยนปุ่มเป็นสีเขียว/แดง และจัดการให้ Responsive ในมือถือ) ★ -->
-    <div id="responsibilitiesModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
+    <!-- ★ Responsibilities Modal ★ -->
+    <div id="responsibilitiesModal" role="dialog" aria-modal="true" aria-labelledby="respModalTitle" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1050; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 550px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); box-sizing: border-box; display: flex; flex-direction: column; max-height: 85vh;">
             
             <div class="flex items-start justify-between relative shrink-0 border-b border-slate-100 p-4 sm:p-5 md:px-6 pb-3">
-                <h3 class="text-base sm:text-lg font-bold m-0 text-slate-800">เปลี่ยนประเภทปัญหา</h3>
-                <button onclick="cancelResponsibilities()" class="bg-transparent border-none text-slate-400 hover:text-slate-600 cursor-pointer flex items-center p-0 focus:outline-none"><span class="material-icons text-[20px]">close</span></button>
+                <div>
+                    <h3 id="respModalTitle" class="text-base sm:text-lg font-bold m-0 text-slate-900">เลือกประเภทที่รับผิดชอบ</h3>
+                    <p class="text-xs text-slate-500 m-0 mt-0.5" id="respModalSubtitle">เลือกหมวดหมู่ที่ต้องการมอบหมาย หรือกดไม่เลือกประเภท</p>
+                </div>
+                <button type="button" aria-label="ปิดหน้าต่างเปลี่ยนประเภทปัญหา" onclick="cancelResponsibilities()" class="bg-transparent border-none text-slate-700 hover:text-slate-900 cursor-pointer flex items-center justify-center p-1 rounded-full min-w-[36px] min-h-[36px] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700"><span class="material-icons text-[22px]" aria-hidden="true">close</span></button>
+            </div>
+
+            <!-- Top bar with 'ไม่เลือกประเภทที่รับผิดชอบ' and selection count -->
+            <div class="px-4 sm:px-5 md:px-6 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-2 shrink-0 flex-wrap">
+                <button type="button" onclick="clearAllResp()" id="btnQuickNoResp" class="cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all border min-h-[32px] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700 bg-white text-slate-700 border-slate-300 hover:bg-slate-100">
+                    <span class="material-icons text-sm sm:text-base" id="iconQuickNoResp" aria-hidden="true">block</span>
+                    <span>ไม่เลือกประเภทที่รับผิดชอบ</span>
+                </button>
+                <span id="respCountBadge" class="text-xs sm:text-sm font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full">เลือกแล้ว 0 / 37</span>
             </div>
             
             <div id="respListContainer"></div>
             
-            <div class="flex border-t border-slate-200 shrink-0 p-3 sm:p-4 md:px-6 justify-between items-center gap-2">
-                <button onclick="selectAllResp()" class="bg-transparent border-none text-emerald-500 font-bold text-[11px] sm:text-[14px] cursor-pointer p-0 whitespace-nowrap focus:outline-none">เลือกทั้งหมด</button>
-                <div class="flex gap-1.5 sm:gap-3">
-                    <button class="px-3 py-1.5 sm:px-5 sm:py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg sm:rounded-xl font-bold text-[11px] sm:text-sm cursor-pointer whitespace-nowrap border-none shadow-sm focus:outline-none transition-colors" onclick="cancelResponsibilities()">ยกเลิก</button>
-                    <button class="px-3 py-1.5 sm:px-5 sm:py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg sm:rounded-xl font-bold text-[11px] sm:text-sm cursor-pointer whitespace-nowrap border-none shadow-sm focus:outline-none transition-colors" onclick="saveResponsibilities()">บันทึกข้อมูล</button>
+            <div class="flex border-t border-slate-200 shrink-0 p-3 sm:p-4 md:px-6 justify-between items-center gap-2 flex-wrap sm:flex-nowrap">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <button type="button" onclick="selectAllResp()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs sm:text-sm cursor-pointer px-3 py-1.5 rounded-full whitespace-nowrap border border-emerald-300 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-700 min-h-[36px]">เลือกทั้งหมด</button>
+                    <button type="button" onclick="clearAllResp()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 font-bold text-xs sm:text-sm cursor-pointer px-3 py-1.5 rounded-full whitespace-nowrap border border-slate-300 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700 min-h-[36px]">ไม่เลือกประเภท</button>
+                </div>
+                <div class="flex gap-2 sm:gap-3">
+                    <button type="button" class="px-4 py-2 sm:px-5 sm:py-2.5 bg-rose-700 hover:bg-rose-800 text-white rounded-full font-bold text-xs sm:text-sm cursor-pointer whitespace-nowrap border-none shadow-sm focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-700 transition-colors min-h-[36px]" onclick="cancelResponsibilities()">ยกเลิก</button>
+                    <button type="button" class="px-4 py-2 sm:px-5 sm:py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-full font-bold text-xs sm:text-sm cursor-pointer whitespace-nowrap border-none shadow-sm focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 transition-colors min-h-[36px]" onclick="saveResponsibilities()">บันทึกข้อมูล</button>
                 </div>
             </div>
             
         </div>
     </div>
 
-    <!-- ★ View All Responsibilities Modal (Popup ดูหมวดหมู่ทั้งหมด) ★ -->
-    <div id="viewAllRespModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1060; align-items: center; justify-content: center; padding: 16px;">
+    <!-- ★ View All Responsibilities Modal ★ -->
+    <div id="viewAllRespModal" role="dialog" aria-modal="true" aria-labelledby="viewAllRespModalTitle" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.5); z-index: 1060; align-items: center; justify-content: center; padding: 16px;">
         <div style="background: white; border-radius: 16px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; max-height: 80vh;">
             <div style="padding: 20px 24px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between;">
                 <h3 id="viewAllRespModalTitle" style="font-size: 18px; font-weight: 700; margin: 0; color: #1f2937;">ด้านความรับผิดชอบทั้งหมด</h3>
-                <button onclick="closeModal('viewAllRespModal')" class="text-slate-400 hover:text-slate-600 focus:outline-none"><span class="material-icons">close</span></button>
+                <button type="button" aria-label="ปิดหน้าต่างหมวดหมู่ทั้งหมด" onclick="closeModal('viewAllRespModal')" class="text-slate-700 hover:text-slate-900 rounded-full min-w-[36px] min-h-[36px] flex items-center justify-center focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700"><span class="material-icons" aria-hidden="true">close</span></button>
             </div>
             <div style="padding: 24px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 8px;" class="hide-scrollbar" id="viewAllRespContainer">
                 <!-- เนื้อหาจะถูกแทรกโดย JS -->
             </div>
             <div style="padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end;">
-                <button onclick="closeModal('viewAllRespModal')" style="padding: 10px 24px; background-color: #f1f5f9; color: #334155; font-weight: 700; border-radius: 10px; font-size: 14px; border:none; cursor:pointer;">ปิดหน้าต่าง</button>
+                <button type="button" onclick="closeModal('viewAllRespModal')" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700" style="padding: 10px 24px; background-color: #f1f5f9; color: #1e293b; font-weight: 700; border-radius: 999px; font-size: 14px; border: 1.5px solid #cbd5e1; cursor:pointer; min-height: 40px;">ปิดหน้าต่าง</button>
             </div>
         </div>
     </div>
@@ -569,11 +669,14 @@
             editingStaffId = id;
             const staff = staffList.find(s => s.id === id);
             
+            let rawResp = [];
             if (typeof isD7EditMode !== 'undefined' && isD7EditMode && typeof d7TempResp !== 'undefined' && d7TempResp !== null) {
-                selectedResp = [...d7TempResp]; 
-            } else {
-                selectedResp = staff.resp ? [...staff.resp] : []; 
+                rawResp = d7TempResp; 
+            } else if (staff && staff.resp) {
+                rawResp = staff.resp; 
             }
+            // กรองเฉพาะหมวดหมู่จริง
+            selectedResp = rawResp.filter(r => allCategories.includes(r));
             
             activeDropdown = null;
             renderRespList();
@@ -586,8 +689,12 @@
         }
 
         function selectAllResp() {
-            if (selectedResp.length === allCategories.length) selectedResp = [];
-            else selectedResp = [...allCategories];
+            selectedResp = [...allCategories];
+            renderRespList();
+        }
+
+        function clearAllResp() {
+            selectedResp = [];
             renderRespList();
         }
 
@@ -611,23 +718,52 @@
         }
 
         function renderRespList() {
+            const countBadge = document.getElementById('respCountBadge');
+            const quickBtn = document.getElementById('btnQuickNoResp');
+            const quickIcon = document.getElementById('iconQuickNoResp');
+            
+            const count = selectedResp.length;
+            if (countBadge) {
+                if (count === 0) {
+                    countBadge.innerHTML = '<span class="text-amber-800 font-bold">ไม่เลือกประเภท (0 หมวด)</span>';
+                } else {
+                    countBadge.innerHTML = 'เลือกแล้ว <span class="text-emerald-700 font-extrabold">' + count + '</span> / ' + allCategories.length + ' หมวด';
+                }
+            }
+
+            if (quickBtn) {
+                if (count === 0) {
+                    quickBtn.className = 'cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all border min-h-[32px] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700 bg-amber-100 text-amber-900 border-amber-300 shadow-sm';
+                    if (quickIcon) {
+                        quickIcon.innerText = 'check_circle';
+                        quickIcon.className = 'material-icons text-sm sm:text-base text-amber-700';
+                    }
+                } else {
+                    quickBtn.className = 'cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all border min-h-[32px] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-700 bg-white text-slate-700 border-slate-300 hover:bg-slate-100';
+                    if (quickIcon) {
+                        quickIcon.innerText = 'block';
+                        quickIcon.className = 'material-icons text-sm sm:text-base text-slate-500';
+                    }
+                }
+            }
+
             const container = document.getElementById('respListContainer');
-            container.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; padding: 16px; overflow-y: auto; max-height: 55vh; align-content: start;';
+            container.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; padding: 16px; overflow-y: auto; max-height: 52vh; align-content: start;';
             
             let html = '';
             allCategories.forEach((resp) => {
                 const isSelected = selectedResp.includes(resp);
-                const borderColor = isSelected ? '#10b981' : '#e5e7eb';
+                const borderColor = isSelected ? '#059669' : '#e2e8f0';
                 const bgColor = isSelected ? '#ecfdf5' : '#ffffff';
-                const textColor = isSelected ? '#047857' : '#4b5563';
-                const iconBg = isSelected ? '#ffffff' : '#f8f9fa';
-                const iconBorder = isSelected ? '#10b981' : '#cbd5e1';
-                const iconColor = isSelected ? '#10b981' : '#9ca3af';
+                const textColor = isSelected ? '#065f46' : '#475569';
+                const iconBg = isSelected ? '#ffffff' : '#f8fafc';
+                const iconBorder = isSelected ? '#059669' : '#cbd5e1';
+                const iconColor = isSelected ? '#059669' : '#94a3b8';
                 const iconName = isSelected ? 'check' : 'widgets';
 
-                html += `<button aria-pressed="${isSelected}" onclick="toggleResp('${resp}')" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 6px; border-radius: 12px; border: 1.5px solid ${borderColor}; background-color: ${bgColor}; cursor: pointer; min-height: 80px; box-sizing: border-box; transition: all 0.2s;" title="${resp}">`;
+                html += `<button type="button" aria-pressed="${isSelected}" onclick="toggleResp('${resp}')" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-700" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 6px; border-radius: 18px; border: 1.5px solid ${borderColor}; background-color: ${bgColor}; cursor: pointer; min-height: 80px; box-sizing: border-box; transition: all 0.2s;" title="${resp}">`;
                 html += `<div style="width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid ${iconBorder}; background-color: ${iconBg}; margin-bottom: 6px; flex-shrink: 0;">`;
-                html += `<span class="material-icons" style="font-size: 16px; color: ${iconColor};">${iconName}</span>`;
+                html += `<span class="material-icons" style="font-size: 16px; color: ${iconColor};" aria-hidden="true">${iconName}</span>`;
                 html += `</div>`;
                 html += `<span style="font-size: 11px; font-weight: 700; color: ${textColor}; text-align: center; line-height: 1.3; width: 100%; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;">${resp}</span>`;
                 html += `</button>`;
@@ -669,12 +805,80 @@
             `;
         };
 
+        let activeOpenModalId = null;
+        let lastFocusedElementBeforeModal = null;
+
         function copyText(text) { navigator.clipboard.writeText(text).then(() => alert('คัดลอกข้อมูลสำเร็จ: ' + text)); }
-        function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
-        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+
+        function openModal(modalId) { 
+            lastFocusedElementBeforeModal = document.activeElement;
+            activeOpenModalId = modalId;
+            const el = document.getElementById(modalId);
+            if (el) {
+                el.style.display = 'flex';
+                setTimeout(() => {
+                    const focusables = el.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    if (focusables.length > 0) focusables[0].focus();
+                }, 60);
+            }
+        }
+
+        function closeModal(modalId) { 
+            const el = document.getElementById(modalId);
+            if (el) el.style.display = 'none';
+            if (activeOpenModalId === modalId) {
+                activeOpenModalId = null;
+                if (lastFocusedElementBeforeModal && typeof lastFocusedElementBeforeModal.focus === 'function') {
+                    lastFocusedElementBeforeModal.focus();
+                }
+            }
+        }
 
         // ================= Switcher Logic =================
-        function toggleDesignMenu(e) { e.stopPropagation(); document.getElementById('designMenu').classList.toggle('hidden'); }
+        function toggleDesignMenu(e) { 
+            e.stopPropagation(); 
+            const menu = document.getElementById('designMenu');
+            const isHidden = menu.classList.toggle('hidden');
+            const btn = document.getElementById('designMenuBtn');
+            if (btn) btn.setAttribute('aria-expanded', String(!isHidden));
+        }
+
+        // Global Keydown Handler for Escape and Focus Trap (WCAG 2.1.1, 2.1.2)
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (activeOpenModalId) {
+                    closeModal(activeOpenModalId);
+                }
+                const menu = document.getElementById('designMenu');
+                if (menu && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                    const btn = document.getElementById('designMenuBtn');
+                    if (btn) {
+                        btn.setAttribute('aria-expanded', 'false');
+                        btn.focus();
+                    }
+                }
+            } else if (e.key === 'Tab' && activeOpenModalId) {
+                const el = document.getElementById(activeOpenModalId);
+                if (!el) return;
+                const focusables = el.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                if (focusables.length === 0) return;
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+
+                if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+        });
         function switchDesign(num) {
             currentDesign = num; document.getElementById('designMenu').classList.add('hidden');
             for(let i=1; i<=7; i++) {
@@ -743,10 +947,10 @@
                                     '<button class="moreBtn" style="position: static;" onclick="toggleDropdown(' + staff.id + ', event)"><i data-lucide="more-vertical" style="width: 16px;"></i></button>' +
                                     dropdownHtml +
                                 '</div>' +
-                                '<div class="avatar ' + (staff.role === 'staff' ? 'avatarStaff' : '') + '">' + staff.initial + '</div>' +
-                                '<div class="name">' + staff.name + '</div>' +
-                                '<div class="roleBadge ' + (staff.role === 'staff' ? 'roleBadgeStaff' : '') + '"><i data-lucide="' + (staff.role === 'admin' ? 'shield' : 'user') + '" style="width: 12px;"></i> ' + (staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่') + '</div>' +
-                                '<div class="contact"><div style="display: flex; align-items: center; gap: 8px;"><i data-lucide="phone" style="width: 16px; color: #9ca3af;"></i> ' + staff.phone + '</div><i data-lucide="copy" class="copyBtn" style="width: 14px; cursor: pointer;" onclick="copyText(\'' + staff.phone + '\')"></i></div>' +
+                                
+                                '<div class="name flex items-center justify-center gap-1">' + staff.name + (staff.isAuthen !== false ? ' <span class="material-icons text-emerald-700 align-middle" style="font-size: 16px;" title="ผ่านการยืนยันตัวตนแล้ว" aria-label="ผ่านการยืนยันตัวตนแล้ว" role="img">verified</span>' : '') + '</div>' +
+                                '<div class="roleBadge ' + (staff.role === 'staff' ? 'roleBadgeStaff' : '') + '"><i data-lucide="' + (staff.role === 'admin' ? 'shield' : 'user') + '" style="width: 12px;" aria-hidden="true"></i> ' + (staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่') + '</div>' +
+                                '<div class="contact"><div style="display: flex; align-items: center; gap: 8px;"><i data-lucide="phone" style="width: 16px; color: #475569;" aria-hidden="true"></i> ' + staff.phone + '</div><button type="button" aria-label="คัดลอกเบอร์โทรศัพท์" class="copyBtn" style="min-width: 28px; min-height: 28px; display: inline-flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; color: #475569; border-radius: 4px;" onclick="copyText(\'' + staff.phone + '\')"><i data-lucide="copy" style="width: 16px;" aria-hidden="true"></i></button></div>' +
                             '</div>';
                     });
                     html += '</div>';
@@ -757,27 +961,27 @@
                         let dropdownHtml = '';
                         if (activeDropdown === staff.id) {
                             dropdownHtml = '<div class="dropdownMenu" style="right: 0; top: 100%; margin-top: 4px; z-index: 9999;">' +
-                                '<button class="dropdownItem" onclick="openEditModal(' + staff.id + ')"><i data-lucide="edit-3" style="width: 16px;"></i> แก้ไขข้อมูล</button>' +
-                                '<button class="dropdownItem" onclick="openResponsibilitiesModal(' + staff.id + ')"><i data-lucide="list-collapse" style="width: 16px;"></i> ด้านความรับผิดชอบ</button>' +
-                                '<button class="dropdownItem" onclick="handleToggleRole(' + staff.id + ')"><i data-lucide="' + (staff.role === 'admin' ? 'arrow-down' : 'arrow-up') + '" style="width: 16px;"></i> ' + (staff.role === 'admin' ? 'ลดสถานะ' : 'เพิ่มเป็นผู้ดูแล') + '</button>' +
+                                '<button class="dropdownItem" onclick="openEditModal(' + staff.id + ')"><i data-lucide="edit-3" style="width: 16px;" aria-hidden="true"></i> แก้ไขข้อมูล</button>' +
+                                '<button class="dropdownItem" onclick="openResponsibilitiesModal(' + staff.id + ')"><i data-lucide="list-collapse" style="width: 16px;" aria-hidden="true"></i> ด้านความรับผิดชอบ</button>' +
+                                '<button class="dropdownItem" onclick="handleToggleRole(' + staff.id + ')"><i data-lucide="' + (staff.role === 'admin' ? 'arrow-down' : 'arrow-up') + '" style="width: 16px;" aria-hidden="true"></i> ' + (staff.role === 'admin' ? 'ลดสถานะ' : 'เพิ่มเป็นผู้ดูแล') + '</button>' +
                                 '<div class="dropdownDivider"></div>' +
-                                '<button class="dropdownItem dropdownItemDanger" onclick="handleRemoveStaff(' + staff.id + ')"><i data-lucide="user-x" style="width: 16px;"></i> ยกเลิกเป็นเจ้าหน้าที่</button>' +
+                                '<button class="dropdownItem dropdownItemDanger" onclick="handleRemoveStaff(' + staff.id + ')"><i data-lucide="user-x" style="width: 16px;" aria-hidden="true"></i> ยกเลิกเป็นเจ้าหน้าที่</button>' +
                                 '</div>';
                         }
                         
                         html += '<tr>' +
-                                '<td><div class="userCell"><div class="avatarSmall ' + (staff.role === 'staff' ? 'avatarStaffSmall' : '') + '">' + staff.initial + '</div><span style="font-weight: 600; color: #1f2937;">' + staff.name + '</span></div></td>' +
-                                '<td><div class="roleBadge ' + (staff.role === 'staff' ? 'roleBadgeStaff' : '') + '" style="margin-bottom: 0;"><i data-lucide="' + (staff.role === 'admin' ? 'shield' : 'user') + '" style="width: 12px;"></i> ' + (staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่') + '</div></td>' +
+                                '<td><div class="userCell"><div class="avatarSmall ' + (staff.role === 'staff' ? 'avatarStaffSmall' : '') + '">' + staff.initial + '</div><span style="font-weight: 600; color: #0f172a; display: inline-flex; align-items: center; gap: 4px;">' + staff.name + (staff.isAuthen !== false ? ' <span class="material-icons text-emerald-700" style="font-size: 16px;" title="ผ่านการยืนยันตัวตนแล้ว" aria-label="ผ่านการยืนยันตัวตนแล้ว" role="img">verified</span>' : '') + '</span></div></td>' +
+                                '<td><div class="roleBadge ' + (staff.role === 'staff' ? 'roleBadgeStaff' : '') + '" style="margin-bottom: 0;"><i data-lucide="' + (staff.role === 'admin' ? 'shield' : 'user') + '" style="width: 12px;" aria-hidden="true"></i> ' + (staff.role === 'admin' ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่') + '</div></td>' +
                                 '<td style="white-space: nowrap;">' + staff.phone + '</td>' +
                                 '<td style="text-align: right; overflow: visible;">' +
                                     '<div style="position: relative; display: inline-block;">' +
-                                        '<button class="moreBtn" onclick="toggleDropdown(' + staff.id + ', event)">' +
-                                            '<i data-lucide="more-vertical" style="width: 16px;"></i>' +
+                                        '<button type="button" aria-label="เมนูจัดการเจ้าหน้าที่ ' + staff.name + '" class="moreBtn" onclick="toggleDropdown(' + staff.id + ', event)">' +
+                                            '<i data-lucide="more-vertical" style="width: 16px;" aria-hidden="true"></i>' +
                                         '</button>' +
                                         dropdownHtml +
                                     '</div>' +
                                 '</td>' +
-                            '</tr>';
+                                '</tr>';
                     });
                     html += '</tbody></table></div>';
                     staffContainer.innerHTML = html;
@@ -789,7 +993,7 @@
                     pendingHtml += '<div class="card" style="align-items: flex-start; padding: 20px;">' +
                             '<div style="display: flex; align-items: center; gap: 4px; color: #9ca3af; font-size: 12px; margin-bottom: 12px;"><span class="material-icons" style="font-size: 14px;">schedule</span> ' + pending.requestDate + '</div>' +
                             '<div class="userCell" style="margin-bottom: 8px;">' +
-                                '<div class="avatarSmall" style="background: #fef3c7; color: #d97706;">' + pending.initial + '</div>' +
+                                
                                 '<div><div style="font-weight: 700; color: #1f2937; font-size: 16px;">' + pending.name + '</div><div class="pendingLabel">ขอเป็นเจ้าหน้าที่</div></div>' +
                             '</div>' +
                             '<div class="contact" style="margin: 12px 0;">' +
@@ -815,7 +1019,7 @@
                     filtered.forEach(s => {
                         const isSel = selectedD2StaffId === s.id;
                         listHtml += '<div onclick="selectedD2StaffId=' + s.id + '; render();" class="p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2 ' + (isSel ? 'bg-slate-900 text-white border-slate-900 shadow-md' : 'bg-white border-slate-200 hover:border-slate-300 text-slate-900') + '">' +
-                            '<div class="flex items-center gap-3 min-w-0"><div class="w-10 h-10 shrink-0 rounded-xl font-bold flex items-center justify-center ' + (isSel ? 'bg-white/20' : 'bg-slate-100') + '">' + s.initial + '</div><div class="min-w-0"><p class="font-bold text-xs truncate">' + s.name + '</p><p class="text-[10px] ' + (isSel?'text-slate-300':'text-slate-500') + ' truncate">' + s.phone + '</p></div></div>' +
+                            '<div class="flex items-center gap-3 min-w-0"><div class="w-10 h-10 shrink-0 rounded-xl font-bold flex items-center justify-center ' + (isSel ? 'bg-white/20' : 'bg-slate-100') + '">' + s.initial + '</div><div class="min-w-0"><p class="font-bold text-xs truncate flex items-center">' + s.name + (s.isAuthen !== false ? ' <span class="material-icons text-emerald-700 text-xs ml-1" title="ผ่านการยืนยันตัวตนแล้ว" aria-label="ผ่านการยืนยันตัวตนแล้ว" role="img">verified</span>' : '') + '</p><p class="text-[10px] ' + (isSel?'text-slate-300':'text-slate-500') + ' truncate">' + s.phone + '</p></div></div>' +
                             '<span class="shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold ' + (isSel?'bg-white/20':'bg-slate-100') + '">' + (s.role==='admin'?'ผู้ดูแล':'เจ้าหน้าที่') + '</span>' +
                         '</div>';
                     });
@@ -825,11 +1029,11 @@
                     if(s) {
                         detailEl.innerHTML = '<div class="space-y-6">' +
                                 '<div class="flex items-center gap-4 border-b border-slate-100 pb-6">' +
-                                    '<div class="w-16 h-16 shrink-0 rounded-2xl bg-emerald-100 text-emerald-800 font-black text-2xl flex items-center justify-center">' + s.initial + '</div>' +
-                                    '<div class="min-w-0"><h3 class="text-xl font-black text-slate-900 truncate">' + s.name + '</h3><p class="text-xs text-slate-500 mt-1">' + s.phone + '</p><span class="inline-block mt-1.5 bg-slate-100 text-slate-900 px-3 py-0.5 rounded-full text-[10px] font-bold">' + (s.role==='admin'?'ผู้ดูแลระบบ':'เจ้าหน้าที่') + '</span></div>' +
+                                    '<div class="w-16 h-16 shrink-0 rounded-2xl bg-emerald-100 text-emerald-800 font-black text-2xl flex items-center justify-center ">' + s.initial + '</div>' +
+                                    '<div class="min-w-0"><h3 class="text-xl font-black text-slate-900 truncate flex items-center">' + s.name + (s.isAuthen !== false ? ' <span class="material-icons text-emerald-700 text-lg ml-1.5" title="ผ่านการยืนยันตัวตนแล้ว" aria-label="ผ่านการยืนยันตัวตนแล้ว" role="img">verified</span>' : '') + '</h3><p class="text-xs text-slate-500 mt-1">' + s.phone + '</p><span class="inline-block mt-1.5 bg-slate-100 text-slate-900 px-3 py-0.5 rounded-full text-[10px] font-bold">' + (s.role==='admin'?'ผู้ดูแลระบบ':'เจ้าหน้าที่') + '</span></div>' +
                                 '</div>' +
                                 '<div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1">' +
-                                    '<p class="text-[10px] font-bold uppercase text-slate-400">ด้านความรับผิดชอบ</p>' +
+                                    '<p class="text-[10px] font-bold uppercase text-slate-500">ด้านความรับผิดชอบ</p>' +
                                     '<p class="text-xs font-bold text-slate-800">' + (s.resp && s.resp.length > 0 ? s.resp.join(', ') : 'ไม่มี') + '</p>' +
                                 '</div>' +
                                 '<div class="flex flex-wrap gap-2 pt-2">' +
@@ -845,7 +1049,7 @@
                     pendingFiltered.forEach(p => {
                         const isSel = selectedD2PendingId === p.id;
                         listHtml += '<div onclick="selectedD2PendingId=' + p.id + '; render();" class="p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2 ' + (isSel ? 'bg-amber-500 text-white border-amber-500 shadow-md' : 'bg-white border-slate-200 hover:border-slate-300 text-slate-900') + '">' +
-                            '<div class="flex items-center gap-3 min-w-0"><div class="w-10 h-10 shrink-0 rounded-xl font-bold flex items-center justify-center ' + (isSel ? 'bg-white/20' : 'bg-amber-100 text-amber-700') + '">' + p.initial + '</div><div class="min-w-0"><p class="font-bold text-xs truncate">' + p.name + '</p><p class="text-[10px] ' + (isSel?'text-white/80':'text-slate-500') + ' truncate">' + p.requestDate + '</p></div></div>' +
+                            '<div class="flex items-center gap-3 min-w-0"><div class="w-10 h-10 shrink-0 rounded-xl font-bold flex items-center justify-center  ' + (isSel ? 'bg-white/20' : 'bg-amber-100 text-amber-700') + '">' + p.initial + '</div><div class="min-w-0"><p class="font-bold text-xs truncate">' + p.name + '</p><p class="text-[10px] ' + (isSel?'text-white/80':'text-slate-500') + ' truncate">' + p.requestDate + '</p></div></div>' +
                         '</div>';
                     });
                     listEl.innerHTML = listHtml || '<p class="text-xs text-center text-slate-500 mt-10">ไม่มีคำขอ</p>';
@@ -858,6 +1062,7 @@
                                     '<div class="min-w-0"><h3 class="text-xl font-black text-slate-900 truncate">' + p.name + '</h3><p class="text-xs text-slate-500 mt-1">' + p.phone + '</p><span class="inline-block mt-1.5 bg-amber-500 text-white px-3 py-0.5 rounded-full text-[10px] font-bold">คำขอเข้าร่วมหน่วยงาน</span></div>' +
                                 '</div>' +
                                 '<div class="flex gap-2 pt-4">' +
+                                    '<button onclick="showPendingInfo(\'' + p.name + '\', \'' + p.phone + '\')" class="flex-1 bg-white border border-slate-300 text-slate-700 font-bold py-3 rounded-xl text-xs hover:bg-slate-50 whitespace-nowrap">ข้อมูล</button>' +
                                     '<button onclick="handleReject(' + p.id + ')" class="flex-1 bg-white border border-rose-200 text-rose-600 font-bold py-3 rounded-xl text-xs hover:bg-rose-50 whitespace-nowrap">ปฏิเสธ</button>' +
                                     '<button onclick="handleApprove(' + p.id + ')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs whitespace-nowrap">อนุมัติ</button>' +
                                 '</div>' +
@@ -887,7 +1092,7 @@
                     let tHtml = '';
                     d3Staffs.forEach(s => {
                         tHtml += '<tr class="hover:bg-slate-50/80">' +
-                            '<td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-800 font-bold flex items-center justify-center">' + s.initial + '</div><div><div class="font-bold text-slate-900">' + s.name + '</div><div class="text-[10px] text-slate-500">' + s.phone + '</div></div></div></td>' +
+                            '<td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-800 font-bold flex items-center justify-center ">' + s.initial + '</div><div><div class="font-bold text-slate-900 flex items-center gap-1">' + s.name + (s.isAuthen !== false ? ' <span class="material-icons text-emerald-700 text-xs" title="ผ่านการยืนยันตัวตนแล้ว" aria-label="ผ่านการยืนยันตัวตนแล้ว" role="img">verified</span>' : '') + '</div><div class="text-[10px] text-slate-600">' + s.phone + '</div></div></div></td>' +
                             '<td class="px-6 py-4 whitespace-nowrap"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold ' + (s.role==='admin'?'bg-indigo-100 text-indigo-700':'bg-slate-100 text-slate-700') + '">' + (s.role==='admin'?'ผู้ดูแลระบบ':'เจ้าหน้าที่') + '</span></td>' +
                             '<td class="px-6 py-4 text-right whitespace-nowrap"><div class="flex items-center justify-end gap-1"><button onclick="openEditModal(' + s.id + ')" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg"><span class="material-icons text-[14px]">edit</span></button><button onclick="openResponsibilitiesModal(' + s.id + ')" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg"><span class="material-icons text-[14px]">task</span></button><button onclick="handleToggleRole(' + s.id + ')" class="p-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-lg"><span class="material-icons text-[14px]">swap_vert</span></button><button onclick="handleRemoveStaff(' + s.id + ')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg"><span class="material-icons text-[14px]">delete</span></button></div></td>' +
                         '</tr>';
@@ -903,7 +1108,7 @@
                     let gHtml = '';
                     filtered.forEach(s => {
                         gHtml += '<div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow min-w-0">' +
-                            '<div class="flex items-start justify-between mb-4"><div class="flex items-center gap-3 min-w-0"><div class="w-12 h-12 shrink-0 rounded-2xl bg-emerald-600 text-white font-extrabold text-lg flex items-center justify-center">' + s.initial + '</div><div class="min-w-0"><h3 class="text-sm font-black text-slate-900 truncate">' + s.name + '</h3><p class="text-[10px] text-slate-500 font-mono mt-0.5 truncate">' + s.phone + '</p></div></div></div>' +
+                            '<div class="flex items-start justify-between mb-4"><div class="flex items-center gap-3 min-w-0"><div class="w-12 h-12 shrink-0 rounded-2xl bg-emerald-600 text-white font-extrabold text-lg flex items-center justify-center ">' + s.initial + '</div><div class="min-w-0"><h3 class="text-sm font-black text-slate-900 truncate flex items-center">' + s.name + (s.isAuthen !== false ? ' <span class="material-icons text-emerald-700 text-sm ml-1" title="ผ่านการยืนยันตัวตนแล้ว" aria-label="ผ่านการยืนยันตัวตนแล้ว" role="img">verified</span>' : '') + '</h3><p class="text-[10px] text-slate-500 font-mono mt-0.5 truncate">' + s.phone + '</p></div></div></div>' +
                             '<div class="flex justify-between items-center bg-slate-50 p-2.5 rounded-xl border border-slate-100 mb-4 gap-2"><span class="px-2 py-0.5 shrink-0 rounded-full text-[10px] font-extrabold ' + (s.role==='admin'?'bg-indigo-100 text-indigo-800':'bg-slate-200 text-slate-700') + '">' + (s.role==='admin'?'ผู้ดูแล':'เจ้าหน้าที่') + '</span><button onclick="openResponsibilitiesModal(' + s.id + ')" class="text-[10px] font-bold text-emerald-600 flex items-center gap-1 hover:underline truncate whitespace-nowrap"><span class="material-icons text-[12px]">settings</span> หน้าที่</button></div>' +
                             '<div class="flex gap-1.5"><button onclick="openEditModal(' + s.id + ')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl flex justify-center text-[10px] font-bold whitespace-nowrap">แก้ไข</button><button onclick="handleToggleRole(' + s.id + ')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl flex justify-center text-[10px] font-bold whitespace-nowrap">สลับ</button><button onclick="handleRemoveStaff(' + s.id + ')" class="shrink-0 px-3 bg-rose-50 hover:bg-rose-100 py-2 rounded-xl flex justify-center"><span class="material-icons text-[14px] text-rose-600">delete</span></button></div>' +
                         '</div>';
@@ -913,9 +1118,9 @@
                     let gHtml = '';
                     pendingFiltered.forEach(p => {
                         gHtml += '<div class="bg-amber-50/50 border border-amber-200/50 rounded-3xl p-5 shadow-sm flex flex-col justify-between min-w-0">' +
-                            '<div class="flex items-start justify-between mb-4"><div class="flex items-center gap-3 min-w-0"><div class="w-12 h-12 shrink-0 rounded-2xl bg-amber-100 text-amber-700 font-extrabold text-lg flex items-center justify-center">' + p.initial + '</div><div class="min-w-0"><h3 class="text-sm font-black text-slate-900 truncate">' + p.name + '</h3><p class="text-[10px] text-slate-500 font-mono mt-0.5 truncate">' + p.phone + '</p></div></div></div>' +
+                            '<div class="flex items-start justify-between mb-4"><div class="flex items-center gap-3 min-w-0"><div class="w-12 h-12 shrink-0 rounded-2xl bg-amber-100 text-amber-700 font-extrabold text-lg flex items-center justify-center ">' + p.initial + '</div><div class="min-w-0"><h3 class="text-sm font-black text-slate-900 truncate">' + p.name + '</h3><p class="text-[10px] text-slate-500 font-mono mt-0.5 truncate">' + p.phone + '</p></div></div></div>' +
                             '<div class="bg-white p-2.5 rounded-xl border border-slate-100 mb-4 text-[10px] text-center font-bold text-slate-500 truncate">ส่งคำขอ: ' + p.requestDate + '</div>' +
-                            '<div class="flex gap-2"><button onclick="handleReject(' + p.id + ')" class="flex-1 bg-white border border-rose-200 text-rose-600 font-bold py-2 rounded-xl text-xs hover:bg-rose-50 whitespace-nowrap">ปฏิเสธ</button><button onclick="handleApprove(' + p.id + ')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs whitespace-nowrap">อนุมัติ</button></div>' +
+                            '<div class="flex gap-2"><button onclick="showPendingInfo(\'' + p.name + '\', \'' + p.phone + '\')" class="flex-1 bg-white border border-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs hover:bg-slate-50 whitespace-nowrap">ข้อมูล</button><button onclick="handleReject(' + p.id + ')" class="flex-1 bg-white border border-rose-200 text-rose-600 font-bold py-2 rounded-xl text-xs hover:bg-rose-50 whitespace-nowrap">ปฏิเสธ</button><button onclick="handleApprove(' + p.id + ')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs whitespace-nowrap">อนุมัติ</button></div>' +
                         '</div>';
                     });
                     gridEl.innerHTML = gHtml || '<p class="col-span-full text-center text-xs text-slate-500 py-10">ไม่มีคำขอรออนุมัติ</p>';
@@ -934,7 +1139,7 @@
                 admins.forEach(s => {
                     adminHtml += '<div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all group min-w-0">' +
                         '<div class="flex items-start justify-between">' +
-                            '<div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 shrink-0 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs">' + s.initial + '</div><div class="min-w-0"><div class="text-xs font-bold text-slate-800 truncate">' + s.name + '</div><div class="text-[9px] text-slate-400 truncate">' + s.phone + '</div></div></div>' +
+                            '<div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 shrink-0 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs ">' + s.initial + '</div><div class="min-w-0"><div class="text-xs font-bold text-slate-800 truncate flex items-center">' + s.name + (s.isAuthen !== false ? ' <span class="material-icons text-emerald-700 text-xs ml-1" title="ผ่านการยืนยันตัวตนแล้ว" aria-label="ผ่านการยืนยันตัวตนแล้ว" role="img">verified</span>' : '') + '</div><div class="text-[9px] text-slate-400 truncate">' + s.phone + '</div></div></div>' +
                         '</div>' +
                         '<div class="flex gap-1 mt-3 pt-3 border-t border-slate-100 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">' +
                             '<button onclick="openEditModal(' + s.id + ')" class="flex-1 text-[10px] font-bold text-slate-500 hover:text-slate-800 bg-slate-50 py-1 rounded whitespace-nowrap">แก้ไข</button>' +
@@ -949,7 +1154,7 @@
                 staffs.forEach(s => {
                     staffHtml += '<div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all group min-w-0">' +
                         '<div class="flex items-start justify-between">' +
-                            '<div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 shrink-0 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">' + s.initial + '</div><div class="min-w-0"><div class="text-xs font-bold text-slate-800 truncate">' + s.name + '</div><div class="text-[9px] text-slate-400 truncate">' + s.phone + '</div></div></div>' +
+                            '<div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 shrink-0 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs ">' + s.initial + '</div><div class="min-w-0"><div class="text-xs font-bold text-slate-800 truncate flex items-center">' + s.name + (s.isAuthen !== false ? ' <span class="material-icons text-emerald-700 text-xs ml-1" title="ผ่านการยืนยันตัวตนแล้ว" aria-label="ผ่านการยืนยันตัวตนแล้ว" role="img">verified</span>' : '') + '</div><div class="text-[9px] text-slate-400 truncate">' + s.phone + '</div></div></div>' +
                         '</div>' +
                         '<div class="flex gap-1 mt-3 pt-3 border-t border-slate-100 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">' +
                             '<button onclick="openEditModal(' + s.id + ')" class="flex-1 text-[10px] font-bold text-slate-500 hover:text-slate-800 bg-slate-50 py-1 rounded whitespace-nowrap">แก้ไข</button>' +
@@ -965,7 +1170,7 @@
                 pendingFiltered.forEach(p => {
                     penHtml += '<div class="bg-white p-3 rounded-xl shadow-sm border border-amber-200 hover:shadow-md transition-all min-w-0">' +
                         '<div class="flex items-start justify-between mb-2">' +
-                            '<div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 shrink-0 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs">' + p.initial + '</div><div class="min-w-0"><div class="text-xs font-bold text-slate-800 truncate">' + p.name + '</div><div class="text-[9px] text-slate-400 truncate">' + p.requestDate + '</div></div></div>' +
+                            '<div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 shrink-0 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs ">' + p.initial + '</div><div class="min-w-0"><div class="text-xs font-bold text-slate-800 truncate">' + p.name + '</div><div class="text-[9px] text-slate-400 truncate">' + p.requestDate + '</div></div></div>' +
                         '</div>' +
                         '<div class="flex gap-1 pt-2">' +
                             '<button onclick="handleApprove(' + p.id + ')" class="flex-1 text-[10px] font-bold text-white bg-emerald-500 hover:bg-emerald-600 py-1.5 rounded whitespace-nowrap">อนุมัติ</button>' +
@@ -985,9 +1190,9 @@
                         html += '<div class="bg-white/40 backdrop-blur-xl border border-white/60 p-5 md:p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between hover:bg-white/50 transition-all min-w-0">' +
                             '<div class="flex items-start justify-between mb-4">' +
                                 '<div class="flex items-center gap-4 min-w-0">' +
-                                    '<div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-full bg-slate-800 text-white font-extrabold text-lg md:text-xl flex items-center justify-center shadow-md">' + s.initial + '</div>' +
+                                    '<div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-full bg-slate-800 text-white font-extrabold text-lg md:text-xl flex items-center justify-center shadow-md ">' + s.initial + '</div>' +
                                     '<div class="min-w-0">' +
-                                        '<h3 class="text-xs md:text-sm font-black text-slate-800 truncate">' + s.name + '</h3>' +
+                                        '<h3 class="text-xs md:text-sm font-black text-slate-800 truncate flex items-center">' + s.name + (s.isAuthen !== false ? ' <span class="material-icons text-emerald-700 text-sm ml-1" title="ผ่านการยืนยันตัวตนแล้ว" aria-label="ผ่านการยืนยันตัวตนแล้ว" role="img">verified</span>' : '') + '</h3>' +
                                         '<p class="text-[10px] text-slate-500 font-mono mt-0.5 tracking-wider truncate">' + s.phone + '</p>' +
                                     '</div>' +
                                 '</div>' +
@@ -1011,7 +1216,7 @@
                         html += '<div class="bg-white/40 backdrop-blur-xl border border-white/60 p-5 md:p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between hover:bg-white/50 transition-all min-w-0">' +
                             '<div class="flex items-start justify-between mb-4">' +
                                 '<div class="flex items-center gap-4 min-w-0">' +
-                                    '<div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-full bg-slate-300 text-slate-700 font-extrabold text-lg md:text-xl flex items-center justify-center shadow-md">' + p.initial + '</div>' +
+                                    '<div class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-full bg-slate-300 text-slate-700 font-extrabold text-lg md:text-xl flex items-center justify-center shadow-md ">' + p.initial + '</div>' +
                                     '<div class="min-w-0">' +
                                         '<h3 class="text-xs md:text-sm font-black text-slate-800 truncate">' + p.name + '</h3>' +
                                         '<p class="text-[10px] text-slate-500 font-mono mt-0.5 tracking-wider truncate">' + p.phone + '</p>' +
@@ -1022,6 +1227,7 @@
                                 '<span class="text-[10px] font-bold text-slate-600">ส่งคำขอเมื่อ: ' + p.requestDate + '</span>' +
                             '</div>' +
                             '<div class="flex gap-2">' +
+                                '<button onclick="showPendingInfo(\'' + p.name + '\', \'' + p.phone + '\')" class="flex-1 bg-white/60 hover:bg-white text-slate-700 border border-white font-bold py-2.5 rounded-xl text-xs transition-colors shadow-sm whitespace-nowrap">ข้อมูล</button>' +
                                 '<button onclick="handleReject(' + p.id + ')" class="flex-1 bg-white/60 hover:bg-white text-rose-600 border border-white font-bold py-2.5 rounded-xl text-xs transition-colors shadow-sm whitespace-nowrap">ปฏิเสธ</button>' +
                                 '<button onclick="handleApprove(' + p.id + ')" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs transition-colors shadow-sm shadow-slate-800/20 whitespace-nowrap">อนุมัติ</button>' +
                             '</div>' +

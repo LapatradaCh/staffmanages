@@ -2,8 +2,13 @@
    StaffManagement.css (รองรับ Design 1-7)
 ========================================================= */
 
-* {
+*, ::before, ::after {
   box-sizing: border-box;
+  font-family: "Anuphan", sans-serif !important;
+}
+
+.material-icons, [class*="material-icons"] {
+  font-family: 'Material Icons' !important;
 }
 
 button {
@@ -111,8 +116,8 @@ button {
   display: flex;
   align-items: center;
   background: #f3f4f6;
-  border-radius: 8px;
-  padding: 0 12px;
+  border-radius: 999px;
+  padding: 0 16px;
   width: 250px;
   height: 44px;
   flex-shrink: 0;
@@ -129,28 +134,30 @@ button {
 .filterGroup {
   display: flex;
   background: #f3f4f6;
-  border-radius: 8px;
+  border-radius: 999px;
   padding: 4px;
   gap: 4px;
   height: 44px;
 }
 .filterBtn {
   padding: 0 16px;
-  height: 36px;
-  font-size: 14px;
   border: none;
   background: transparent;
-  border-radius: 6px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
   color: #6b7280;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: all 0.2s;
+  height: 100%;
+  white-space: nowrap;
+}
+.filterBtn:hover {
+  color: #374151;
 }
 .filterBtnActive {
   background: white;
-  color: #111827;
+  color: #10b981;
   font-weight: 600;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
@@ -163,7 +170,7 @@ button {
 .viewToggle {
   display: flex;
   background: #f3f4f6;
-  border-radius: 8px;
+  border-radius: 999px;
   padding: 4px;
   height: 44px;
 }
@@ -172,7 +179,7 @@ button {
   height: 36px;
   border: none;
   background: transparent;
-  border-radius: 6px;
+  border-radius: 999px;
   color: #9ca3af;
   cursor: pointer;
   display: flex;
@@ -189,14 +196,14 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 0 16px;
+  padding: 0 18px;
   height: 44px;
   font-size: 14px;
   font-weight: 600;
   color: #4b5563;
   background: white;
   border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -206,14 +213,14 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 0 16px;
+  padding: 0 18px;
   height: 44px;
   font-size: 14px;
   font-weight: 600;
   color: white;
   background: #10b981;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -336,7 +343,7 @@ button {
 /* --- Pending Cards --- */
 .pendingActions { display: flex; gap: 8px; margin-top: 16px; width: 100%; }
 .btnApprove, .btnReject {
-  flex: 1; padding: 8px; border-radius: 8px; font-weight: 600;
+  flex: 1; padding: 8px 16px; border-radius: 999px; font-weight: 600;
   font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .btnApprove { background: #10b981; color: white; border: none; }
@@ -368,28 +375,43 @@ button {
 .input:focus { border-color: #10b981; }
 
 /* =========================================================
-   MEDIA QUERIES
+   MEDIA QUERIES (Responsive Scaling)
 ========================================================= */
 @media (max-width: 768px) {
   .container { padding: 16px; border-radius: 12px; }
-  .btn-shrink { padding: 0 12px !important; height: 36px !important; font-size: 12px !important; }
+  .btn-shrink { padding: 0 10px !important; height: 32px !important; font-size: 11px !important; }
+  button, input, select, textarea {
+    font-size: clamp(10px, 2.5vw, 13px) !important;
+  }
+  .btnApprove, .btnReject, .btnSecondary {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+    border-radius: 8px !important;
+  }
   .toolbar { flex-direction: column; align-items: stretch; padding: 12px; gap: 12px; }
   .toolbarLeft { flex-direction: column; align-items: stretch; gap: 8px; width: 100%; }
-  .searchBox { width: 100%; height: 40px; }
-  .filterGroup { width: 100%; height: 40px; overflow-x: auto; scrollbar-width: none; }
-  .filterBtn { font-size: 12px; padding: 0 10px; flex: 1; }
+  .searchBox { width: 100%; height: 36px; }
+  .filterGroup { width: 100%; height: 36px; overflow-x: auto; scrollbar-width: none; }
+  .filterBtn { font-size: 11px; padding: 0 8px; flex: 1; }
   .actions { width: 100%; display: flex; justify-content: flex-end; gap: 8px; }
-  .viewToggle { height: 40px; width: 100%; }
+  .viewToggle { height: 36px; width: 100%; }
   .viewBtn { flex: 1; }
   .grid { grid-template-columns: 1fr; gap: 12px; }
-  .card { padding: 16px; }
-  .avatar { width: 56px; height: 56px; font-size: 20px; }
-  .name { font-size: 14px; }
-  .contact { font-size: 12px; padding: 8px; }
+  .card { padding: 14px; }
+  .avatar { width: 48px; height: 48px; font-size: 18px; }
+  .avatarSmall { width: 32px; height: 32px; font-size: 12px; }
+  .name { font-size: 13px; }
+  .contact { font-size: 11px; padding: 6px 8px; }
 }
 
 @media (max-width: 480px) {
   .hide-mobile { display: none !important; }
   .hide-mobile-text { display: none !important; }
-  .tab { font-size: 12px; padding: 8px 0; }
+  .tab { font-size: 11px; padding: 6px 0; }
+  .btnApprove, .btnReject, .btnSecondary {
+    padding: 5px 8px !important;
+    font-size: 10px !important;
+  }
+  .title { font-size: 16px; }
+  .subtitle { font-size: 11px; }
 }
